@@ -1,0 +1,38 @@
+<style>
+    .index-repositories  {
+      margin-top: 20px;
+      margin-bottom: 40px;
+      margin-left: 20px;
+    }
+    .index-repositories .repo {
+      margin-top: 10px;
+      margin-bottom: 25px;
+    }
+    .index-repositories .menutitle {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+    .index-repositories .description {
+      margin-bottom: 5px;
+      margin-left: 20px;
+    }
+    .index-repositories a:visited {
+      color: #111
+    }
+    .button-xsmall {
+      font-size: 90%;
+    }
+
+</style>
+
+<div class='index-repositories'>
+    {% for repository in site.github.public_repositories %}
+    <div class='repo'>
+      <div class='menutitle'>{{ repository.name }}</div>
+      <div class='description'>
+        {{repository.description}}<br>
+        <a class="pure-button button-xsmall" href="{{ repository.html_url }}" target="_blank" >Open <i class="fab fa-github"></i></a>
+      </div>
+    </div>
+    {% endfor %}
+</div>

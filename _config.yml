@@ -1,1 +1,64 @@
-theme: jekyll-theme-minimal
+title: dfmdmx.store.io
+author: dfmd
+email: io@dfmd.mx
+description: > # this means to ignore newlines until "show_excerpts:"
+  Store for CNC machining, 3D printed services and products.
+
+#Used for sitemap plugin
+url: https://store.dfmd.mx/
+# google_analytics: UA-144671485-1
+#Used for local development
+repository: dfmdmx/dfmdmx.store.io
+#Used for post like structures
+collections:
+  products:
+    output: true
+
+  services:
+    output: true
+
+disqus:
+  shortname: dfmd
+  comments: false
+
+# social links
+# twitter_username: utitanka
+github_username:  dfmdmx
+rss: rss
+# flickr_username: jekyll
+# instagram_username: jekyll
+# linkedin_username: jekyll
+# pinterest_username: jekyll
+# youtube_username: jekyll
+# googleplus_username: +jekyll
+
+# Mastodon instances
+# mastodon:
+# - username: jekyll
+#   instance: example.com
+# - username: jekyll2
+#   instance: example.com
+
+# show_excerpts: true # set to true to show excerpts on the homepage
+
+# Minima date format
+# refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
+minima:
+  date_format: "%b %-d, %Y"
+
+# If you want to link only specific pages in your header, uncomment
+# this and add the path to the pages in order as they should show up
+header_pages:
+  - checkout.md
+#  - software.md
+#  - gallery.md
+#  - about.md
+
+# Build settings
+theme: minima
+
+plugins:
+ - jekyll-feed
+ - jekyll-seo-tag
+ - jekyll-sitemap
+ - jekyll-github-metadata

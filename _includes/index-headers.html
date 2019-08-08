@@ -1,0 +1,31 @@
+<style>
+.custom-restricted-width {
+    /* To limit the menu width to the content of the menu: */
+    display: inline-block;
+    margin-bottom: 30px;
+}
+</style>
+
+<div class="index-headers">
+  <div class="pure-menu custom-restricted-width" id="index-headers"></div>
+</div>
+
+<script>
+function create_index() {
+	var ToC = '<ul class="pure-menu-list">';
+    var first = false;
+    document.querySelectorAll('h2').forEach(function(el,index) {
+  		var title = el.textContent;
+  		var link = "#" + el.id;
+      if (['dfmdmx', 'About', 'Table of contents'].indexOf(title) == -1)  {
+          ToC += '<li class="pure-menu-item"><a class="pure-menu-link" href="' + link + '">' + title + '</a></li>';
+        };
+    });
+		ToC += '</ul>'
+    var tocDiv = document.getElementById('index-headers');
+    tocDiv.innerHTML = ToC;
+  }
+$(document).ready(function(){
+  create_index();
+});
+</script>

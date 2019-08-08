@@ -1,0 +1,13 @@
+
+<div class='dialogs'>
+<div id="dialog"><p id="pdialog"></p></div>
+</div>
+
+<script>
+function showDialog(title,message){
+	$('#pdialog').text(message);
+	$("#dialog").dialog({
+				title: title,
+		});
+}
+</script>

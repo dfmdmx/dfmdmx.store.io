@@ -1,0 +1,73 @@
+<!-- ---------includes--------- -->
+{% include remote-calls.html %}
+{% include dialogs.html %}
+<!-- ---------includes--------- -->
+
+<style>
+.contact-form {
+  margin-bottom: 20px;
+}
+</style>
+
+<div class='contact-form'>
+<form class="pure-form contact">
+    <fieldset class="pure-group pure-form-stacked">
+      <label for="project">Project:</label>
+      <select name="project" id="project" required>
+        <option>Production Cloud Server</option>
+        <option>Mx Industries</option>
+        <option>Dfmd Industries</option>
+        <option>Architecture</option>
+        <option>Parametric design</option>
+        <option>Software</option>
+        <option>Other</option>
+      </select>
+    </fieldset>
+
+    <fieldset class="pure-group">
+        <input name="name" type="text" class="pure-input-1-2" placeholder="Name" >
+        <input name="email" type="email" class="pure-input-1-2" placeholder="Email" >
+    </fieldset>
+
+    <fieldset class="pure-group">
+        <input name="subject" type="text" class="pure-input-1-2" placeholder="Subject" >
+        <textarea name="message" class="pure-input-1-2" placeholder="Message" ></textarea>
+    </fieldset>
+    <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Send <i class="fas fa-paper-plane"></i></button>
+</form>
+<br>
+<a class="u-email" href="mailto:{{ site.email }}"><i class="far fa-envelope"></i> {{ site.email }}</a><br>
+<small><b>Note:</b> Apart from this query nothing else will be email to you.</small>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
+<script>
+
+$( ".contact" ).on('submit', function( event ) {
+  event.preventDefault();
+  showDialog('Sending email','This make take a couple of seconds.');
+  {%- if jekyll.environment == 'production' -%}
+  grecaptcha.ready(function() {
+      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'contact_form'}).then(function(token) {
+  {%- else -%}
+  var token = 'dummy';
+  {%- endif -%}
+
+         var method = 'contact_form';
+         var args = $( ".contact" ).serializeFormJSON();
+         args['token'] = token;
+         console.log(args);
+         remoteCall(method,args).done(function(response){
+           console.log(response);
+           $( ".contact" ).trigger('reset');
+           showDialog(response.dialogtitle,response.dialogmessage);
+         });
+
+  {%- if jekyll.environment == 'production' -%}
+      });
+  });
+  {%- endif -%}
+
+});
+
+</script>

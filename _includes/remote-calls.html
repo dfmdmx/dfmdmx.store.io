@@ -1,0 +1,55 @@
+<script>
+
+function decodePayload(payload){
+	var decodedData = JSON.parse(payload);
+	return decodedData
+}
+
+function encodePayload(payload){
+	var encodedData = JSON.stringify(payload);
+	return encodedData
+}
+
+function remoteCall(method,args){
+	return $.post('{{site.data.callback.url}}',  // url
+	       {'method':method,'payload': encodePayload(args)}).then( // data to be submit
+	       function(data, status, xhr,) {
+					 return $.Deferred().resolve(decodePayload(data.payload)).promise();
+	       });
+}
+
+function handshake(name) {
+	  var method = 'handshake'
+		console.log('Sending greetings...');
+	  remoteCall('handshake',{'name':name}).done(function(data){
+	  		console.log(data.greetings);
+	    }).fail(function(){
+	      console.log('handshake Error');
+	    }).always(function(){
+				console.log('bye');
+	    });
+}
+
+{% if site.data.callback.handshake %}
+handshake('Jekyll Williams Turot');
+{% endif %}
+
+(function ($) {
+    $.fn.serializeFormJSON = function () {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function () {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+})(jQuery);
+
+</script>

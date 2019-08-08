@@ -1,0 +1,49 @@
+<style>
+.checkout-button {
+    float: right;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 2px;
+    padding-left: 12px;
+}
+.custom-menu {
+    white-space: normal;
+}
+</style>
+
+<header class="site-header" role="banner">
+
+  <div class="wrapper">
+    {%- assign default_paths = site.pages | map: "path" -%}
+    {%- assign page_paths = site.header_pages | default: default_paths -%}
+    <!-- <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a> -->
+    <div class='checkout-button'">
+      <a class="pure-button pure-button-primary" href="/"><i class="fas fa-glasses"></i> Checkout</a>
+    </div>
+    <div class="pure-menu pure-menu-horizontal custom-menu">
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="#" class="pure-menu-link">{{ site.title | escape }}</a></li>
+            <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                <a href="#" id="menuLink1" class="pure-menu-link">Services</a>
+                <ul class="pure-menu-children">
+                  {% for service in site.services %}
+                    <li class="pure-menu-item"><a href="{{ service.url }}" class="pure-menu-link">{{ service.title }}</a></li>
+                  {% endfor %}
+                </ul>
+            </li>
+            <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                <a href="#" id="menuLink1" class="pure-menu-link">Products</a>
+                <ul class="pure-menu-children">
+                  {% for product in site.products %}
+                    <li class="pure-menu-item"><a href="{{ service.url }}" class="pure-menu-link">{{ product.title }}</a></li>
+                  {% endfor %}
+                </ul>
+            </li>
+        </ul>
+
+
+    </div>
+
+
+  </div>
+</header>

@@ -1,0 +1,52 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+$base-font-family: 'Montserrat', sans-serif;
+$base-font-size:   14px !default;
+$background-color: #fff !default;
+$brand-color:      #2a7ae2 !default;
+
+@import "minima";
+@import url('https://fonts.googleapis.com/css?family=Inconsolata|Montserrat&display=swap');
+@import url("https://unpkg.com/purecss@1.0.1/build/pure-min.css");
+@import url("https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css");
+
+// Generral settings
+h1, h2, h3, h4 {
+  font-family: 'Inconsolata', monospace;
+}
+blockquote {
+  color: #828282;
+  font-family: 'Inconsolata', monospace;
+  font-size: 16px;
+  letter-spacing: normal;
+  font-style: normal;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+// Main content inside page
+.page-content a:hover {
+  text-decoration: none;
+}
+// Site menu header
+.site-header {
+  min-height: unset;
+}
+.site-header a {
+    color: #282828;
+    text-decoration: none;
+}
+// Footer
+.footer-col-wrapper {
+  font-size: 14px;
+  font-family: 'Inconsolata', monospace;
+}
+// Comments
+#disqus_thread {
+  filter: grayscale(1) opacity(.66);
+  margin-top: 100px;
+  margin-bottom: 20px;
+}
+#disqus_thread:hover {
+  filter: grayscale(1) opacity(1);
+}

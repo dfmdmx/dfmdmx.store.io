@@ -1,0 +1,34 @@
+<style>
+    .file-binder  {
+      margin-top: 20px;
+      margin-bottom: 40px;
+      margin-left: 40px;
+    }
+    .file-binder .caption {
+      color: #828282;
+      font-size: 14px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .file-binder .files {
+      line-height: 1.3;
+    }
+    .file-binder .footer {
+      font-size: 11px;
+    }
+</style>
+
+{% capture downloadQuery %}{{ page.date | date: "%Y-%m-%d" }}-{{ page.title | slugify }}/{{ include.name }}{% endcapture %}
+<div class='file-binder'>
+  {% if include.caption %}<div class='caption'>{{ include.caption }}</div>{% endif %}
+  <div class ='files'>
+  {% for file in site.static_files %}
+    {% if file.path contains downloadQuery %}
+      {% assign filenameparts = file.path | split: "/" %}
+      {% assign filename = filenameparts | last %}
+        <a class="pure-button" href="{{ file.path}}" download><i class="fas fa-download"></i> GitHub download</a> - {{ filename }} <br><br>
+    {% endif %}
+  {% endfor %}
+  </div>
+  <div class='footer'><b>Note:</b>{% if include.note %}{{include.note}}{% else %}This files are shared as they are. With no specific intent.{% endif %}</div>
+</div>
