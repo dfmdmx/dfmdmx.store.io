@@ -3,46 +3,48 @@
 <!-- ---------includes--------- -->
 
 <style>
-.form-login {
+.form-signin {
   margin-bottom: 20px;
 }
 </style>
 
-<div class='form-login'>
-<form class="pure-form login">
+<div class='form-signin'>
+<form class="pure-form signin">
 
     <fieldset class="pure-group">
+        <input name="name" type="text" class="pure-input-1-2" placeholder="Name" >
         <input name="email" type="email" class="pure-input-1-2" placeholder="Email" >
         <input name="password" type="password" class="pure-input-1-2" placeholder="password" >
     </fieldset>
+    <fieldset class="pure-group">
+        <textarea name="message" class="pure-input-1-2" placeholder="Delivery address" ></textarea>
+    </fieldset>
 
-    <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Login <i class="fas fa-sign-in-alt"></i></button>
+    <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Signin <i class="fas fa-users"></i></button>
 </form>
 <br>
-<a class="u-email" href="#"><i class="far fa-envelope"></i> Change my password</a><br>
-<small><b>Note:</b> We do not store payment information.</small><br>
+<a class="u-email" href="mailto:{{ site.email }}"><i class="far fa-envelope"></i> {{ site.email }}</a><br>
+<small><b>Note: </b>Termns and conditions may apply.</small><br>
 </div>
-
-<a href="/signin" class="pure-button pure-button-primary">Signin <i class="fas fa-users"></i></a>
 
 <script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
 <script>
 
-$( ".login" ).on('submit', function( event ) {
+$( ".signin" ).on('submit', function( event ) {
   event.preventDefault();
   {%- if jekyll.environment == 'production' -%}
   grecaptcha.ready(function() {
-      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_login'}).then(function(token) {
+      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_signin'}).then(function(token) {
   {%- else -%}
   var token = 'dummy';
   {%- endif -%}
-         var method = 'form_login';
-         var args = $( ".login" ).serializeFormJSON();
+         var method = 'form_signin';
+         var args = $( ".signin" ).serializeFormJSON();
          args['token'] = token;
          console.log(args);
          remoteCall(method,args).done(function(response){
            console.log(response);
-           $( ".login" ).trigger('reset');
+           $( ".signin" ).trigger('reset');
            showDialog(response.dialogtitle,response.dialogmessage);
          });
 
