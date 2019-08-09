@@ -3,6 +3,6 @@ layout: page
 title: Contact
 permalink: /contact/
 ---
-{% include contact-form.html %}
+{% include form-contact.html %}
 
 {%- include social.html -%}
