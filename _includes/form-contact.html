@@ -59,7 +59,9 @@ $( ".contact" ).on('submit', function( event ) {
          remoteCall(method,args).done(function(response){
            console.log(response);
            $( ".contact" ).trigger('reset');
-           showDialog(response.dialogtitle,response.dialogmessage);
+           showDialog('Success','Nos pondremos en conctacto contigo por correo');
+         }).fail(function(){
+           showDialog('Error','No se pudo enviar la forma');
          });
 
   {%- if jekyll.environment == 'production' -%}

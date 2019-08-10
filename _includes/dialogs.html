@@ -10,4 +10,39 @@ function showDialog(title,message){
 				title: title,
 		});
 }
+
+function showOkCancelDialog(title,message){
+	$('#pdialog').text(message);
+	var ok = $.Deferred();
+	$("#dialog").dialog({
+				title: title,
+				buttons: {
+					"Ok": function() {
+						$( this ).dialog( "close" );
+						ok.resolve();
+					},
+					Cancel: function() {
+						$( this ).dialog( "close" );
+          	ok.reject();
+        	}
+      	}
+		});
+	return ok.promise();
+}
+
+function showOkDialog(title,message){
+	$('#pdialog').text(message);
+	var ok = $.Deferred();
+	$("#dialog").dialog({
+				title: title,
+				buttons: {
+					Ok: function() {
+						$( this ).dialog( "close" );
+						ok.resolve();
+					}
+      	}
+		});
+	return ok.promise();
+}
+
 </script>

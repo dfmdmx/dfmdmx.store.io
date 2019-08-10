@@ -6,25 +6,40 @@
 .form-signin {
   margin-bottom: 20px;
 }
+.message {
+  color: #df4d0b;
+  font-family: 'Inconsolata', monospace;
+  font-size: 18px;
+}
 </style>
 
+
+
 <div class='form-signin'>
-<form class="pure-form signin">
+  <div class="message"><p id="mdialog"></p></div>
+  <form class="pure-form signin">
+      <fieldset class="pure-group">
+          <legend class="pure-input-1-2" >User data</legend>
+          <input name="name" type="text" class="pure-input-1-2" placeholder="Name" >
+          <input name="email" type="email" class="pure-input-1-2" placeholder="Email" >
+          <input name="password" type="password" class="pure-input-1-2" placeholder="password" >
+      </fieldset>
+      <fieldset class="pure-group">
+          <legend class="pure-input-1-2" >Delivery address</legend>
+          <input name="calle" class="pure-input-1-2" placeholder="Calle" >
+          <input name="numero_ext" class="pure-input-1-2" placeholder="No. Exterior" >
+          <input name="numero_int" class="pure-input-1-2" placeholder="No. Interior" >
+          <input name="colonia" class="pure-input-1-2" placeholder="Colonia" >
+          <input name="municipio" class="pure-input-1-2" placeholder="Alcaldia/Municipio" >
+          <input name="estado" class="pure-input-1-2" placeholder="Estado" >
+          <input name="cp" class="pure-input-1-2" placeholder="CP" >
+      </fieldset>
 
-    <fieldset class="pure-group">
-        <input name="name" type="text" class="pure-input-1-2" placeholder="Name" >
-        <input name="email" type="email" class="pure-input-1-2" placeholder="Email" >
-        <input name="password" type="password" class="pure-input-1-2" placeholder="password" >
-    </fieldset>
-    <fieldset class="pure-group">
-        <textarea name="message" class="pure-input-1-2" placeholder="Delivery address" ></textarea>
-    </fieldset>
-
-    <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Signin <i class="fas fa-users"></i></button>
-</form>
-<br>
-<a class="u-email" href="mailto:{{ site.email }}"><i class="far fa-envelope"></i> {{ site.email }}</a><br>
-<small><b>Note: </b>Termns and conditions may apply.</small><br>
+      <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Signin <i class="fas fa-users"></i></button>
+  </form>
+  <br>
+  <a class="u-email" href="mailto:{{ site.email }}"><i class="far fa-envelope"></i> {{ site.email }}</a><br>
+  <small><b>Note: </b>Termns and conditions may apply.</small><br>
 </div>
 
 <script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
@@ -43,11 +58,10 @@ $( ".signin" ).on('submit', function( event ) {
          args['token'] = token;
          console.log(args);
          remoteCall(method,args).done(function(response){
-           console.log(response);
-           $( ".signin" ).trigger('reset');
-           showDialog(response.dialogtitle,response.dialogmessage);
+           window.location.replace("/signin");
+         }).fail(function(){
+           $('#mdialog').text('Error: Puede que el correo ya este registrado.');
          });
-
 
   {%- if jekyll.environment == 'production' -%}
       });

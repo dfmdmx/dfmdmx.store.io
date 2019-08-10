@@ -1,0 +1,116 @@
+<!-- ---------includes--------- -->
+{% include dialogs.html %}
+<!-- ---------includes--------- -->
+
+<style>
+.form-edit-user {
+  margin-bottom: 20px;
+}
+.message {
+  color: #df4d0b;
+  font-family: 'Inconsolata', monospace;
+  font-size: 18px;
+}
+.button-warning {
+    background: rgb(223, 117, 20); /* this is an orange */
+    margin-top:30px;
+}
+</style>
+
+
+
+<div class='form-edit-user'>
+  <h3 id='email_title'></h3>
+  <div class="message"><p id="mdialog"></p></div>
+  <form class="pure-form edit-user">
+      <fieldset class="pure-group">
+          <legend class="pure-input-1-2" >User data</legend>
+          <input name="name" type="text" class="pure-input-1-2" placeholder="Name" >
+      </fieldset>
+      <fieldset class="pure-group">
+          <legend class="pure-input-1-2" >Delivery address</legend>
+          <input name="calle" class="pure-input-1-2" placeholder="Calle" >
+          <input name="numero_ext" class="pure-input-1-2" placeholder="No. Exterior" >
+          <input name="numero_int" class="pure-input-1-2" placeholder="No. Interior" >
+          <input name="colonia" class="pure-input-1-2" placeholder="Colonia" >
+          <input name="municipio" class="pure-input-1-2" placeholder="Alcaldia/Municipio" >
+          <input name="estado" class="pure-input-1-2" placeholder="Estado" >
+          <input name="cp" class="pure-input-1-2" placeholder="CP" >
+      </fieldset>
+
+      <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Guardar <i class="fas fa-save"></i></button>
+  </form>
+  <br>
+  <a class="u-email" href="mailto:{{ site.email }}"><i class="far fa-envelope"></i> {{ site.email }}</a><br>
+  <small><b>Note: </b>Termns and conditions may apply.</small><br>
+  <button id='delete_button' class="pure-button pure-input-1-2 button-warning">Borrar <i class="fas fa-user-times"></i></button>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
+<script>
+
+$( ".edit-user" ).on('submit', function( event ) {
+  event.preventDefault();
+  {%- if jekyll.environment == 'production' -%}
+  grecaptcha.ready(function() {
+      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_edit_user'}).then(function(token) {
+  {%- else -%}
+  var token = 'dummy';
+  {%- endif -%}
+         var method = 'form_edit_user';
+         var args = $( ".edit-user" ).serializeFormJSON();
+         args['token'] = token;
+         args['session_token'] = getCookie('session_token');
+         remoteCall(method,args).done(function(response){
+           window.location.replace("/signin");
+         }).fail(function(){
+           $('#mdialog').text('Error: Puede que el correo ya este registrado.');
+         });
+
+  {%- if jekyll.environment == 'production' -%}
+      });
+  });
+  {%- endif -%}
+
+});
+
+function deleteUser() {
+  {%- if jekyll.environment == 'production' -%}
+  grecaptcha.ready(function() {
+      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_edit_user'}).then(function(token) {
+  {%- else -%}
+  var token = 'dummy';
+  {%- endif -%}
+         var method = 'form_user_delete';
+         var args = {'session_token':getCookie('session_token')}
+         args['token'] = token;
+         remoteCall(method,args).done(function(response){
+           showOkDialog('Usuario borrado','Hasta la vista baby.').done(function(){
+             setCookie('session_token','',-1000);
+             window.location.replace("/");
+           });
+         });
+  {%- if jekyll.environment == 'production' -%}
+      });
+  });
+  {%- endif -%}
+
+};
+
+$(document).ready(function () {
+  getUser().done(function(user){
+    $('#email_title').text(user.email)
+    $('input[name=name]').val(user.name);
+    Object.keys(user.address).forEach(function(key) {
+      $('input[name='+key+']').val(user.address[key]);
+    });
+  });
+  $('#delete_button').click(function () {
+    event.preventDefault();
+    showOkCancelDialog('Borrar usuario','El usuario se elimiará de forma permanente.').done(function(){
+      deleteUser();
+    });
+  });
+});
+
+</script>

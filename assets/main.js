@@ -79,3 +79,32 @@ function checkCookie() {
     }
   }
 }
+
+function getUser() {
+	var session_token = getCookie('session_token')
+	if (session_token != '') {
+	 return remoteCall('user_by_session',{'session_token':session_token}).then(function(response){
+			var user = response.user;
+			return user;
+		}).fail(function(){
+			return false;
+		});
+	} else {
+		return false;
+	};
+}
+
+function logout() {
+	var session_token = getCookie('session_token')
+	if (session_token != '') {
+	 return remoteCall('user_logout',{'session_token':session_token}).then(function(response){
+		  setCookie('session_token','',-1000);
+			location.reload();
+		}).fail(function(){
+			setCookie('session_token','',-1000);
+			location.reload();
+		});
+	} else {
+		return false;
+	};
+}

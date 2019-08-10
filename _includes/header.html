@@ -16,6 +16,14 @@
 .title-header a {
   color: #e4e4e4;
 }
+.apiuser {
+  float: right;
+  font-size: 14px;
+  color: #9c9c9c;
+  padding-right: 2px;
+  padding-top: 8px;
+}
+
 .custom-menu {
     white-space: normal;
 }
@@ -30,11 +38,12 @@
 
     <div class="title-header">
     <a href="#">{{ site.title | escape }}</a>
+    <a class='apiuser' href="/edit_user" id='apiuser'></a>
     </div>
 
     <div class='checkout-button'">
       <a class="pure-button" href="/"><i class="fas fa-shopping-cart"></i></a>
-      <a class="pure-button" href="/login"><i class="fas fa-user-plus"></i></a>  <!-- <i class="fas fa-user-minus"></i> -->
+      <a class="pure-button" id="login_button" href="/login"><i class="fas fa-user-plus"></i></a>  <!-- <i class="fas fa-user-minus"></i> -->
     </div>
     <div class="pure-menu pure-menu-horizontal custom-menu">
         <ul class="pure-menu-list">
@@ -62,3 +71,25 @@
 
   </div>
 </header>
+
+
+<script>
+  var current_user;
+  $(document).ready(function () {
+    getUser().done(function(user){
+      if (user) {
+        current_user = user;
+        var username = $('#apiuser');
+        username.text(user.name);
+        username.attr("href","/edit-user");
+        login_button = $('#login_button');
+        login_button.html('<i class="fas fa-user-minus"></i>');
+        login_button.attr("href","#");
+        login_button.click(function () {
+          logout();
+        });
+
+      };
+    })
+  });
+</script>
