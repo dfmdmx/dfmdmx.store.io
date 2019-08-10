@@ -13,8 +13,6 @@
 }
 </style>
 
-
-
 <div class='form-signin'>
   <div class="message"><p id="mdialog"></p></div>
   <form class="pure-form signin">
@@ -58,7 +56,7 @@ $( ".signin" ).on('submit', function( event ) {
          args['token'] = token;
          console.log(args);
          remoteCall(method,args).done(function(response){
-           window.location.replace("/signin");
+           window.location.replace("/login");
          }).fail(function(){
            $('#mdialog').text('Error: Puede que el correo ya este registrado.');
          });

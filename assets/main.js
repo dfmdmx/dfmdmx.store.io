@@ -88,6 +88,8 @@ function getUser() {
 			return user;
 		}).fail(function(){
 			return false;
+		}).always(function(){
+			return false;
 		});
 	} else {
 		return false;

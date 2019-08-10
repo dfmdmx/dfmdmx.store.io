@@ -74,8 +74,9 @@
 
 
 <script>
-  var current_user;
   $(document).ready(function () {
+    var session_token = getCookie('session_token')
+    if (session_token == '') { return false };
     getUser().done(function(user){
       if (user) {
         current_user = user;
