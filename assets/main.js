@@ -124,7 +124,7 @@ function logout() {
 	};
 }
 
-var loaded_gapi = $.Defferred();
+var loaded_gapi = $.Deferred();
 function init_gapi() {
   loaded_gapi.resolve(true).promise();
 }
