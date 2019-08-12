@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Change password
+title: Cambiar constraseña
 permalink: /change-password/
 ---
 

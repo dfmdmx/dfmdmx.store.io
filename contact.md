@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Contact
+title: Contacto
 permalink: /contact/
 ---
 {% include form-contact.html %}

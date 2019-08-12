@@ -9,6 +9,7 @@
 .title-header {
   padding:4px;
   padding-left: 12px;
+  padding-bottom: 8px;
   font-family: 'Inconsolata', monospace;
   font-size: 18px;
   background: #424242;
@@ -21,12 +22,32 @@
   font-size: 14px;
   color: #9c9c9c;
   padding-right: 2px;
-  padding-top: 8px;
+  padding-top: 12px;
 }
-
 .custom-menu {
     white-space: normal;
 }
+
+
+
+/* Needed for the loading css jquery animation */
+.loading-image {
+  width: 25px;
+  height: 25px;
+  -webkit-animation:spin 4s linear infinite;
+  -moz-animation:spin 4s linear infinite;
+  animation:spin 4s linear infinite;
+}
+.stop {
+  -webkit-animation-play-state:paused;
+  -moz-animation-play-state:paused;
+  animation-play-state: paused;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+/* -------------------------------------------- */
+
 </style>
 
 <header class="site-header" role="banner">
@@ -38,6 +59,7 @@
 
     <div class="title-header">
     <a href="#">{{ site.title | escape }}</a>
+    <img class="loading-image stop" src="/assets/images/noun_carbon.svg" alt="006 Carbon C by Joel Wisneski from the Noun Project">
     <a class='apiuser' href="/edit_user" id='apiuser'></a>
     </div>
 
@@ -45,6 +67,7 @@
       <a class="pure-button" href="/"><i class="fas fa-shopping-cart"></i></a>
       <a class="pure-button" id="login_button" href="/login"><i class="fas fa-user-plus"></i></a>  <!-- <i class="fas fa-user-minus"></i> -->
     </div>
+
     <div class="pure-menu pure-menu-horizontal custom-menu">
         <ul class="pure-menu-list">
             <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
@@ -64,22 +87,21 @@
                 </ul>
             </li>
         </ul>
-
-
     </div>
-
-
   </div>
 </header>
 
-
 <script>
+
+  current_user = $.Deferred();
+
   $(document).ready(function () {
     var session_token = getCookie('session_token')
     if (session_token == '') { return false };
+
     getUser().done(function(user){
       if (user) {
-        current_user = user;
+        current_user.resolve(user);
         var username = $('#apiuser');
         username.text(user.name);
         username.attr("href","/edit-user");
@@ -90,7 +112,10 @@
           logout();
         });
 
+      }else{
+        current_user.reject();
       };
+
     })
   });
 </script>

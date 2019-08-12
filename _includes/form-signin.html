@@ -1,29 +1,30 @@
 <!-- ---------includes--------- -->
-{% include dialogs.html %}
+{% include messages.html %}
 <!-- ---------includes--------- -->
 
 <style>
 .form-signin {
   margin-bottom: 20px;
 }
-.message {
-  color: #df4d0b;
+.overdoingthings {
   font-family: 'Inconsolata', monospace;
-  font-size: 18px;
+  font-size: 16px;
 }
 </style>
 
 <div class='form-signin'>
-  <div class="message"><p id="mdialog"></p></div>
+  <p id="message-text"></p>
   <form class="pure-form signin">
       <fieldset class="pure-group">
-          <legend class="pure-input-1-2" >User data</legend>
-          <input name="name" type="text" class="pure-input-1-2" placeholder="Name" >
-          <input name="email" type="email" class="pure-input-1-2" placeholder="Email" >
-          <input name="password" type="password" class="pure-input-1-2" placeholder="password" >
+          <legend class="pure-input-1-2" >Usuario</legend>
+          <input name="name" type="text" class="pure-input-1-2" placeholder="Nombre" >
+          <input name="email" type="email" class="pure-input-1-2" placeholder="Correo electrónico" >
+          <input name="password" type="password" class="pure-input-1-2" placeholder="Contraseña" >
+          <small><b class="overdoingthings">*</b>  Mínimo ocho caracteres.</small><br>
+          <small><b class="overdoingthings">*</b>  No uses la misma contraseña que en el banco o correo.</small><br>
       </fieldset>
       <fieldset class="pure-group">
-          <legend class="pure-input-1-2" >Delivery address</legend>
+          <legend class="pure-input-1-2" >Dirección de entrega</legend>
           <input name="calle" class="pure-input-1-2" placeholder="Calle" >
           <input name="numero_ext" class="pure-input-1-2" placeholder="No. Exterior" >
           <input name="numero_int" class="pure-input-1-2" placeholder="No. Interior" >
@@ -32,12 +33,15 @@
           <input name="estado" class="pure-input-1-2" placeholder="Estado" >
           <input name="cp" class="pure-input-1-2" placeholder="CP" >
       </fieldset>
-
-      <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Signin <i class="fas fa-users"></i></button>
+  <small><b>Atención: </b><br>Al registrarte estarás aceptando los <a href='#'>Términos y Condiciones.</a></small><br>
+      <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Registrar <i class="fas fa-users"></i></button>
   </form>
+<br>
+  <small><b class="overdoingthings">No</b>  almacenamos datos bancarios.</small><br>
+  <small><b class="overdoingthings">No</b>  enviamos correos con anuncios.</small><br>
+  <small><b class="overdoingthings">Si</b>  contestamos correos con dudas.</small><br>
   <br>
   <a class="u-email" href="mailto:{{ site.email }}"><i class="far fa-envelope"></i> {{ site.email }}</a><br>
-  <small><b>Note: </b>Termns and conditions may apply.</small><br>
 </div>
 
 <script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
@@ -58,7 +62,7 @@ $( ".signin" ).on('submit', function( event ) {
          remoteCall(method,args).done(function(response){
            window.location.replace("/login");
          }).fail(function(){
-           $('#mdialog').text('Error: Puede que el correo ya este registrado.');
+           messageAlert('Error: Puede que el correo ya este registrado.');
          });
 
   {%- if jekyll.environment == 'production' -%}

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Edit user
+title: Usuario
 permalink: /edit-user/
 ---
 

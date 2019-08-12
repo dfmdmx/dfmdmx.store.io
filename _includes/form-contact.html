@@ -1,5 +1,5 @@
 <!-- ---------includes--------- -->
-{% include dialogs.html %}
+{% include messages.html %}
 <!-- ---------includes--------- -->
 
 <style>
@@ -9,61 +9,57 @@
 </style>
 
 <div class='form-contact'>
-<form class="pure-form contact">
-    <fieldset class="pure-group pure-form-stacked">
-      <label for="project">Project:</label>
-      <select name="project" id="project" required>
-        <option>Production Cloud Server</option>
-        <option>Mx Industries</option>
-        <option>Dfmd Industries</option>
-        <option>Architecture</option>
-        <option>Parametric design</option>
-        <option>Software</option>
-        <option>Other</option>
-      </select>
-    </fieldset>
+  <p id="message-text"></p>
+  <form class="pure-form contact">
+      <fieldset class="pure-group pure-form-stacked">
+        <label for="about">Tema</label>
+        <select name="about" id="about" required>
+          <option>Corte CNC</option>
+          <option>Impresión 3D</option>
+          <option>Compras</option>
+          <option>Proyectos</option>
+          <option>Otros</option>
+        </select>
+      </fieldset>
 
-    <fieldset class="pure-group">
-        <input name="name" type="text" class="pure-input-1-2" placeholder="Name" >
-        <input name="email" type="email" class="pure-input-1-2" placeholder="Email" >
-    </fieldset>
+      <fieldset class="pure-group">
+          <input name="name" type="text" class="pure-input-1-2" placeholder="Nombre" >
+          <input name="email" type="email" class="pure-input-1-2" placeholder="Correo electrónico" >
+      </fieldset>
 
-    <fieldset class="pure-group">
-        <input name="subject" type="text" class="pure-input-1-2" placeholder="Subject" >
-        <textarea name="message" class="pure-input-1-2" placeholder="Message" ></textarea>
-    </fieldset>
-    <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Send <i class="fas fa-paper-plane"></i></button>
-</form>
-<br>
-<a class="u-email" href="mailto:{{ site.email }}"><i class="far fa-envelope"></i> {{ site.email }}</a><br>
-<small><b>Note:</b> Apart from this query nothing else will be email to you.</small>
-</div>
+      <fieldset class="pure-group">
+          <input name="subject" type="text" class="pure-input-1-2" placeholder="Asunto" >
+          <textarea name="message" class="pure-input-1-2" placeholder="Mensaje" ></textarea>
+      </fieldset>
+      <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Enviar <i class="fas fa-paper-plane"></i></button>
+  </form>
+  <br>
+    <small><b class="overdoingthings">No</b>  almacenamos tus datos.</small><br>
+    <small><b class="overdoingthings">No</b>  enviamos correos con anuncios.</small><br>
+    <small><b class="overdoingthings">Si</b>  prefieres contáctanos desde tu servidor de correos.</small><br>
+    <a class="u-email" href="mailto:{{ site.email }}"><i class="far fa-envelope"></i> {{ site.email }}</a><br>
+  </div>
 
 <script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
 <script>
 
 $( ".contact" ).on('submit', function( event ) {
   event.preventDefault();
-  showDialog('Sending email','This make take a couple of seconds.');
   {%- if jekyll.environment == 'production' -%}
   grecaptcha.ready(function() {
       grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_contact'}).then(function(token) {
   {%- else -%}
   var token = 'dummy';
   {%- endif -%}
-
          var method = 'form_contact';
          var args = $( ".contact" ).serializeFormJSON();
          args['token'] = token;
-         console.log(args);
          remoteCall(method,args).done(function(response){
-           console.log(response);
            $( ".contact" ).trigger('reset');
-           showDialog('Success','Nos pondremos en conctacto contigo por correo');
+           messageInfo('¡Gracias! Nos pondremos en conctacto contigo por correo a la brevedad.');
          }).fail(function(){
-           showDialog('Error','No se pudo enviar la forma');
+           messageAlert('No se pudo enviar el correo.');
          });
-
   {%- if jekyll.environment == 'production' -%}
       });
   });

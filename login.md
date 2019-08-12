@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Login
+title: Iniciar sesión
 permalink: /login/
 ---
 

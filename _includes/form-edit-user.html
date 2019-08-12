@@ -1,15 +1,11 @@
 <!-- ---------includes--------- -->
 {% include dialogs.html %}
+{% include messages.html %}
 <!-- ---------includes--------- -->
 
 <style>
 .form-edit-user {
   margin-bottom: 20px;
-}
-.message {
-  color: #df4d0b;
-  font-family: 'Inconsolata', monospace;
-  font-size: 18px;
 }
 .button-warning {
     background: rgb(223, 117, 20); /* this is an orange */
@@ -20,15 +16,18 @@
 
 
 <div class='form-edit-user'>
+
+  <p id="message-text"></p>
+
   <h3 id='email_title'></h3>
   <div class="message"><p id="mdialog"></p></div>
   <form class="pure-form edit-user">
       <fieldset class="pure-group">
-          <legend class="pure-input-1-2" >User data</legend>
-          <input name="name" type="text" class="pure-input-1-2" placeholder="Name" >
+          <legend class="pure-input-1-2" >Nombre</legend>
+          <input name="name" type="text" class="pure-input-1-2" placeholder="Nombre" >
       </fieldset>
       <fieldset class="pure-group">
-          <legend class="pure-input-1-2" >Delivery address</legend>
+          <legend class="pure-input-1-2" >Dirección de entrega</legend>
           <input name="calle" class="pure-input-1-2" placeholder="Calle" >
           <input name="numero_ext" class="pure-input-1-2" placeholder="No. Exterior" >
           <input name="numero_int" class="pure-input-1-2" placeholder="No. Interior" >
@@ -37,13 +36,24 @@
           <input name="estado" class="pure-input-1-2" placeholder="Estado" >
           <input name="cp" class="pure-input-1-2" placeholder="CP" >
       </fieldset>
+      <fieldset class="pure-group">
+        <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Guardar <i class="fas fa-save"></i></button>
+      </fieldset>
 
-      <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Guardar <i class="fas fa-save"></i></button>
   </form>
-  <br>
-  <a class="u-email" href="mailto:{{ site.email }}"><i class="far fa-envelope"></i> {{ site.email }}</a><br>
-  <small><b>Note: </b>Termns and conditions may apply.</small><br>
-  <button id='delete_button' class="pure-button pure-input-1-2 button-warning">Borrar <i class="fas fa-user-times"></i></button>
+  <div class='pure-u-1-2 pure-form'>
+
+    <fieldset class="pure-group">
+      <legend class="pure-u-1-2" >Constraseña</legend>
+      <a class="pure-button pure-input-1-2 pure-button-primary" href="/change-password">Cambiar <i class="fas fa-lock"></i></a>
+    </fieldset>
+
+    <fieldset class="pure-group">
+      <legend class="pure-u-1-2" >Peligro</legend>
+      <button id='delete_button' class="pure-button pure-input-1-2 button-warning">Borrar <i class="fas fa-user-times"></i></button>
+    </fieldset>
+
+  </div>
 </div>
 
 <script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
@@ -62,9 +72,9 @@ $( ".edit-user" ).on('submit', function( event ) {
          args['token'] = token;
          args['session_token'] = getCookie('session_token');
          remoteCall(method,args).done(function(response){
-           window.location.replace("/signin");
+           messageInfo('Cambios guardados.');
          }).fail(function(){
-           $('#mdialog').text('Error: Puede que el correo ya este registrado.');
+           messageAlert('No se guardaron los cambios.');
          });
 
   {%- if jekyll.environment == 'production' -%}
@@ -98,19 +108,21 @@ function deleteUser() {
 };
 
 $(document).ready(function () {
-  getUser().done(function(user){
-    $('#email_title').text(user.email)
-    $('input[name=name]').val(user.name);
-    Object.keys(user.address).forEach(function(key) {
-      $('input[name='+key+']').val(user.address[key]);
-    });
-  });
-  $('#delete_button').click(function () {
-    event.preventDefault();
-    showOkCancelDialog('Borrar usuario','El usuario se elimiará de forma permanente.').done(function(){
-      deleteUser();
+  $.when(current_user).done(function(current_user){
+    $('#email_title').text(current_user.email)
+    $('input[name=name]').val(current_user.name);
+    Object.keys(current_user.address).forEach(function(key) {
+      $('input[name='+key+']').val(current_user.address[key]);
     });
   });
 });
+
+$('#delete_button').click(function () {
+  event.preventDefault();
+  showOkCancelDialog('Borrar usuario','El usuario se elimiará de forma permanente.').done(function(){
+    deleteUser();
+  });
+});
+
 
 </script>

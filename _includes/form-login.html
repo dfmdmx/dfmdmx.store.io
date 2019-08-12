@@ -1,37 +1,32 @@
 <!-- ---------includes--------- -->
-{% include dialogs.html %}
+{% include messages.html %}
 <!-- ---------includes--------- -->
 
 <style>
 .form-login {
   margin-bottom: 20px;
 }
-.message {
-  color: #df4d0b;
-  font-family: 'Inconsolata', monospace;
-  font-size: 18px;
-}
 </style>
 
-
 <div class='form-login'>
-  <div class="message"><p id="mdialog"></p></div>
+
+  <p id="message-text"></p>
 
   <form class="pure-form login">
 
       <fieldset class="pure-group">
-          <input name="email" type="email" class="pure-input-1-2" placeholder="Email" >
-          <input name="password" type="password" class="pure-input-1-2" placeholder="password" >
+          <input name="email" type="email" class="pure-input-1-2" placeholder="Correo electrónico" >
+          <input name="password" type="password" class="pure-input-1-2" placeholder="Contraseña" >
       </fieldset>
 
-      <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Login <i class="fas fa-sign-in-alt"></i></button>
+      <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Entrar <i class="fas fa-sign-in-alt"></i></button>
   </form>
   <br>
-  <a class="u-email" href="/change-password"><i class="far fa-envelope"></i> Change my password</a><br>
-  <small><b>Note:</b> We do not store payment information.</small><br>
+  <a class="u-email" href="/change-password"><i class="far fa-envelope"></i> Cambiar constraseña</a><br>
+
 </div>
 
-<a href="/signin" class="pure-button pure-button-primary">Signin <i class="fas fa-users"></i></a>
+<a href="/signin" class="pure-button pure-button-primary">Abrir cuenta <i class="fas fa-users"></i></a>
 
 <script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
 <script>
@@ -47,13 +42,12 @@ $( ".login" ).on('submit', function( event ) {
          var method = 'form_login';
          var args = $( ".login" ).serializeFormJSON();
          args['token'] = token;
-         console.log(args);
          remoteCall(method,args).done(function(response){
            var session_token = response.session_token;
            setCookie('session_token', session_token, 2);
            window.location.replace("/");
          }).fail(function(){
-           $('#mdialog').text('Credenciales invalidas');
+           messageAlert('Las credenciales son inválidas.');
          });
 
   {%- if jekyll.environment == 'production' -%}

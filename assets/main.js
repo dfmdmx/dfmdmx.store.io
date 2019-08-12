@@ -9,11 +9,14 @@ function encodePayload(payload){
 }
 
 function remoteCall(method,args){
+	loader.runLoader()
 	return $.post(callback_url,  // url
 	       {'method':method,'payload': encodePayload(args)}).then( // data to be submit
 	       function(data, status, xhr,) {
 					 return $.Deferred().resolve(decodePayload(data.payload)).promise();
-	       });
+	       }).always(function(){
+					 loader.stopLoader();
+				 });
 }
 
 function handshake(name) {
@@ -109,4 +112,14 @@ function logout() {
 	} else {
 		return false;
 	};
+}
+
+// Se necesita colocar css y html en header para que esto funcione
+var loader = {
+	runLoader : function () {
+		jQuery( '.loading-image' ).toggleClass("stop");
+	},
+	stopLoader : function () {
+		jQuery( '.loading-image' ).toggleClass("stop");
+	}
 }

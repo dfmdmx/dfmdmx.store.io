@@ -1,0 +1,30 @@
+<style>
+
+.message-info {
+  color: #489900;
+  font-family: 'Inconsolata', monospace;
+  font-size: 18px;
+}
+.message-alert {
+  color: #df4d0b;
+  font-family: 'Inconsolata', monospace;
+  font-size: 18px;
+}
+
+</style>
+
+<script>
+
+function messageAlert(txt){
+  $('#message-text').removeClass();
+  $('#message-text').addClass('message-alert')
+  $('#message-text').text(txt);
+}
+
+function messageInfo(txt){
+  $('#message-text').removeClass();
+  $('#message-text').addClass('message-info')
+  $('#message-text').text(txt);
+}
+
+</script>
