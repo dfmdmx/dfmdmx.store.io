@@ -127,7 +127,6 @@ function logout() {
 var loaded_gapi = $.Defferred();
 function init_gapi() {
   loaded_gapi.resolve(true).promise();
-  });
 }
 
 // Se necesita colocar css y html en header para que esto funcione
