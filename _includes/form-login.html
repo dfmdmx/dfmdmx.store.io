@@ -59,9 +59,6 @@ $( ".login" ).on('submit', function( event ) {
 
 });
 
-var google_user = $.Deferred()
-var google_id_token = $.Deferred()
-
 function onSignIn(googleUser) {
   var id_token = googleUser.getAuthResponse().id_token;
   var profile = googleUser.getBasicProfile();
