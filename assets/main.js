@@ -126,6 +126,7 @@ function logout() {
 
 var loaded_gapi = $.Deferred();
 function init_gapi() {
+	gapi.auth2.init();
   loaded_gapi.resolve(true);
 }
 
