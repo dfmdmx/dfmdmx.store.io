@@ -104,7 +104,8 @@ function logout() {
 	if (session_token != '') {
 	 return remoteCall('user_logout',{'session_token':session_token}).then(function(response){
 		  setCookie('session_token','',-1000);
-			location.reload();
+			GoogleSignOut();
+			//location.reload();
 		}).fail(function(){
 			setCookie('session_token','',-1000);
 			location.reload();
@@ -112,6 +113,17 @@ function logout() {
 	} else {
 		return false;
 	};
+}
+
+function GoogleSignOut(){
+	if (location.protocol == 'https:'){
+		var auth2 = gapi.auth2.getAuthInstance();
+		if(auth2.isSignedIn.get()){
+			auth2.signOut().then(function(){window.google_signin_checked=true})
+		}
+		else{window.google_signin_checked=true}
+
+	}
 }
 
 // Se necesita colocar css y html en header para que esto funcione
