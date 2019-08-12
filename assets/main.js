@@ -104,6 +104,9 @@ function logout() {
 	if (session_token != '') {
 	 return remoteCall('user_logout',{'session_token':session_token}).then(function(response){
 		  setCookie('session_token','',-1000);
+			auth2.signOut().then(function () {
+				console.log('Google user signed out.');
+			});
 			location.reload();
 		}).fail(function(){
 			setCookie('session_token','',-1000);

@@ -20,6 +20,7 @@
       </fieldset>
 
       <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Entrar <i class="fas fa-sign-in-alt"></i></button>
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
   </form>
   <br>
   <a class="u-email" href="/change-password"><i class="far fa-envelope"></i> Cambiar constraseña</a><br>
@@ -29,6 +30,9 @@
 <a href="/signin" class="pure-button pure-button-primary">Abrir cuenta <i class="fas fa-users"></i></a>
 
 <script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="19912403518-umth3iha0k0qltfeul122n08u49q9pjs.apps.googleusercontent.com">
+
 <script>
 
 $( ".login" ).on('submit', function( event ) {
@@ -56,5 +60,13 @@ $( ".login" ).on('submit', function( event ) {
   {%- endif -%}
 
 });
+
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
 
 </script>

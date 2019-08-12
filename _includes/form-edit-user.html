@@ -87,7 +87,7 @@ $( ".edit-user" ).on('submit', function( event ) {
 function deleteUser() {
   {%- if jekyll.environment == 'production' -%}
   grecaptcha.ready(function() {
-      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_edit_user'}).then(function(token) {
+      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_user_delete'}).then(function(token) {
   {%- else -%}
   var token = 'dummy';
   {%- endif -%}
