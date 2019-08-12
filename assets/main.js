@@ -99,14 +99,21 @@ function getUser() {
 	};
 }
 
+function signOutGoogle() {
+	$(document).ready(function () {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+	});
+}
+
 function logout() {
 	var session_token = getCookie('session_token')
 	if (session_token != '') {
 	 return remoteCall('user_logout',{'session_token':session_token}).then(function(response){
 		  setCookie('session_token','',-1000);
-			var auth2 = gapi.auth2.getAuthInstance();
-			auth2.signOut().then(function () {
-				console.log('Google user signed out.');
+			signOutGoogle();
 			});
 			location.reload();
 		}).fail(function(){
