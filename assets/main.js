@@ -100,9 +100,11 @@ function getUser() {
 }
 
 function signOut() {
-	var auth2 = gapi.auth2.getAuthInstance();
-	auth2.signOut().then(function () {
-		console.log('User signed out.');
+	loaded_gapi.done(function(){
+		var auth2 = gapi.auth2.getAuthInstance();
+		auth2.signOut().then(function () {
+			console.log('User signed out.');
+		});
 	});
 }
 
@@ -120,6 +122,12 @@ function logout() {
 	} else {
 		return false;
 	};
+}
+
+var loaded_gapi = $.Defferred();
+function init_gapi() {
+  loaded_gapi.resolve(true).promise();
+  });
 }
 
 // Se necesita colocar css y html en header para que esto funcione
