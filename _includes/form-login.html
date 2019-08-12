@@ -30,8 +30,6 @@
 <a href="/signin" class="pure-button pure-button-primary">Abrir cuenta <i class="fas fa-users"></i></a>
 
 <script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<meta name="google-signin-client_id" content="19912403518-umth3iha0k0qltfeul122n08u49q9pjs.apps.googleusercontent.com">
 
 <script>
 
@@ -61,8 +59,11 @@ $( ".login" ).on('submit', function( event ) {
 
 });
 
+google_user = $.Deferred()
+google_id_token = $.Deferred()
+
 function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
+  var id_token = googleUser.getAuthResponse().id_token;
   console.log(profile);
   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
   console.log('Name: ' + profile.getName());
