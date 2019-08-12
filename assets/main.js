@@ -99,21 +99,11 @@ function getUser() {
 	};
 }
 
-function signOut() {
-	loaded_gapi.done(function(){
-		var auth2 = gapi.auth2.getAuthInstance();
-		auth2.signOut().then(function () {
-			console.log('User signed out.');
-		});
-	});
-}
-
 function logout() {
 	var session_token = getCookie('session_token')
 	if (session_token != '') {
 	 return remoteCall('user_logout',{'session_token':session_token}).then(function(response){
 		  setCookie('session_token','',-1000);
-			signOut();
 			location.reload();
 		}).fail(function(){
 			setCookie('session_token','',-1000);
@@ -122,12 +112,6 @@ function logout() {
 	} else {
 		return false;
 	};
-}
-
-var loaded_gapi = $.Deferred();
-function init_gapi() {
-	gapi.auth2.init();
-  loaded_gapi.resolve(true);
 }
 
 // Se necesita colocar css y html en header para que esto funcione
