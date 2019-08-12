@@ -115,17 +115,12 @@ function logout() {
 	};
 }
 
-function GoogleSignOut(){
-	if (location.protocol == 'https:'){
-		var auth2 = gapi.auth2.getAuthInstance();
-		if(auth2.isSignedIn.get()){
-			auth2.signOut().then(function(){window.google_signin_checked=true})
-		}
-		else{window.google_signin_checked=true}
-
-	}
+function GoogleSignOut() {
+	var auth2 = gapi.auth2.getAuthInstance();
+	auth2.signOut().then(function () {
+		console.log('User signed out.');
+	});
 }
-
 
 // Se necesita colocar css y html en header para que esto funcione
 var loader = {
