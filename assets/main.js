@@ -126,6 +126,10 @@ function GoogleSignOut(){
 	}
 }
 
+gapi.load('auth2', function() {
+	gapi.auth2.init();
+}
+
 // Se necesita colocar css y html en header para que esto funcione
 var loader = {
 	runLoader : function () {
