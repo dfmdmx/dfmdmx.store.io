@@ -101,6 +101,10 @@
 
   current_user = $.Deferred();
 
+  gapi.load('auth2', function() {
+  	gapi.auth2.init();
+  });
+
   $(document).ready(function () {
     var session_token = getCookie('session_token')
     if (session_token == '') { return false };
