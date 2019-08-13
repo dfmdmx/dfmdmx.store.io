@@ -6,6 +6,9 @@
 .form-login {
   margin-bottom: 20px;
 }
+.move-right {
+  float:right;
+}
 </style>
 
 <div class='form-login'>
@@ -20,14 +23,27 @@
       </fieldset>
 
       <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Entrar <i class="fas fa-sign-in-alt"></i></button>
-      <div class="g-signin2" data-onsuccess="onSignIn"></div>
   </form>
   <br>
-  <a class="u-email" href="/change-password"><i class="far fa-envelope"></i> Cambiar constraseña</a><br>
+  <div class='pure-g'>
+    <div class='pure-u-1-4'>
+      <a href="/signin" class="pure-button pure-button-primary">Abrir cuenta <i class="fas fa-users"></i></a>
+    </div>
+    <div class='pure-u-1-4'>
+      <a class="move-right" href="/change-password">Cambiar constraseña <i class="far fa-envelope"></i></a>
+    </div>
+  </div>
+  <br>
+  <div class='pure-g pure-form'>
+    <div class='pure-u-1-2'>
+      <fieldset class="pure-group">
+        <legend class="pure-u-1-2" >Métodos alternos</legend>
+        <div class="g-signin2"></div>
+      </fieldset>
+    </div>
+  </div>
 
 </div>
-
-<a href="/signin" class="pure-button pure-button-primary">Abrir cuenta <i class="fas fa-users"></i></a>
 
 <script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
 
