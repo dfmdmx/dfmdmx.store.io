@@ -113,7 +113,7 @@
       if (user) {
         current_user.resolve(user);
         var username = $('#apiuser');
-        username.text(user.name);
+        username.text(user.name.split(' ')[0]);
         username.attr("href","/edit-user");
         login_button = $('#login_button');
         login_button.html('<i class="fas fa-user-minus"></i>');

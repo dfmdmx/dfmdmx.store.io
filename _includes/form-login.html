@@ -9,6 +9,10 @@
 .move-right {
   float:right;
 }
+
+.button-transparent {
+    background: transparent; /* this is an orange */
+}
 </style>
 
 <div class='form-login'>
@@ -26,11 +30,10 @@
   </form>
   <br>
   <div class='pure-g'>
-    <div class='pure-u-1-4'>
+    <div class='pure-u-1-2'>
+      <span class='move-right'><a class="pure-button button-transparent" href="/change-password">Cambiar constraseña <i class="far fa-envelope"></i></a></span>
       <a href="/signin" class="pure-button pure-button-primary">Abrir cuenta <i class="fas fa-users"></i></a>
-    </div>
-    <div class='pure-u-1-4'>
-      <a class="move-right" href="/change-password">Cambiar constraseña <i class="far fa-envelope"></i></a>
+
     </div>
   </div>
   <br>
@@ -48,11 +51,7 @@
 <script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
 
 <script>
-
-  gapi.load('auth2', function() {
-    gapi.auth2.init({"client_id":"19912403518-umth3iha0k0qltfeul122n08u49q9pjs.apps.googleusercontent.com"});
-  });
-
+  
   $( ".login" ).on('submit', function( event ) {
     event.preventDefault();
     {%- if jekyll.environment == 'production' -%}
