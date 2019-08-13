@@ -46,59 +46,63 @@
 <script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
 <script>
 
-$( ".signin" ).on('submit', function( event ) {
-  event.preventDefault();
-  {%- if jekyll.environment == 'production' -%}
-  grecaptcha.ready(function() {
-      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_signin'}).then(function(token) {
-  {%- else -%}
-  var token = 'dummy';
-  {%- endif -%}
-         var method = 'form_signin';
-         var args = $( ".signin" ).serializeFormJSON();
-         args['token'] = token;
-         console.log(args);
-         remoteCall(method,args).done(function(response){
-           window.location.replace("/login");
-         }).fail(function(){
-           messageAlert('Error: Puede que el correo ya este registrado.');
-         });
-
-  {%- if jekyll.environment == 'production' -%}
-      });
-  });
-  {%- endif -%}
-
-});
-
-function onSignIn(googleUser) {
-
-  {%- if jekyll.environment == 'production' -%}
-  grecaptcha.ready(function() {
-      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'google_login'}).then(function(token) {
-  {%- else -%}
-  var token = 'dummy';
-  {%- endif -%}
-
-  var id_token = googleUser.getAuthResponse().id_token;
-  var profile = googleUser.getBasicProfile();
-  console.log(profile);
-  var method = 'google_login';
-  var args = {'token':token,'id_token':id_token};
-  remoteCall(method,args).done(function(response){
-    var session_token = response.session_token;
-    console.log('session_token');
-    setCookie('session_token', session_token, 2);
-    window.location.replace("/");
-  }).fail(function(){
-    messageAlert('Las credenciales son inválidas.');
+  gapi.load('auth2', function() {
+    gapi.auth2.init({"client_id":"19912403518-umth3iha0k0qltfeul122n08u49q9pjs.apps.googleusercontent.com"});
   });
 
-  {%- if jekyll.environment == 'production' -%}
-      });
-  });
-  {%- endif -%}
+  $( ".signin" ).on('submit', function( event ) {
+    event.preventDefault();
+    {%- if jekyll.environment == 'production' -%}
+    grecaptcha.ready(function() {
+        grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_signin'}).then(function(token) {
+    {%- else -%}
+    var token = 'dummy';
+    {%- endif -%}
+           var method = 'form_signin';
+           var args = $( ".signin" ).serializeFormJSON();
+           args['token'] = token;
+           console.log(args);
+           remoteCall(method,args).done(function(response){
+             window.location.replace("/login");
+           }).fail(function(){
+             messageAlert('Error: Puede que el correo ya este registrado.');
+           });
 
-}
+    {%- if jekyll.environment == 'production' -%}
+        });
+    });
+    {%- endif -%}
+
+  });
+
+  function onSignIn(googleUser) {
+
+    {%- if jekyll.environment == 'production' -%}
+    grecaptcha.ready(function() {
+        grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'google_login'}).then(function(token) {
+    {%- else -%}
+    var token = 'dummy';
+    {%- endif -%}
+
+    var id_token = googleUser.getAuthResponse().id_token;
+    var profile = googleUser.getBasicProfile();
+    console.log(profile);
+    var method = 'google_login';
+    var args = {'token':token,'id_token':id_token};
+    remoteCall(method,args).done(function(response){
+      var session_token = response.session_token;
+      console.log('session_token');
+      setCookie('session_token', session_token, 2);
+      window.location.replace("/");
+    }).fail(function(){
+      messageAlert('Las credenciales son inválidas.');
+    });
+
+    {%- if jekyll.environment == 'production' -%}
+        });
+    });
+    {%- endif -%}
+
+  }
 
 </script>
