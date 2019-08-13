@@ -117,7 +117,7 @@ function logout() {
 		console.log('serverapp signout error')
 	}).always(function(){
 		setCookie('session_token','',-1000);
-		window.location.replace("/");"
+		window.location.replace("/");
 	});
 }
 
