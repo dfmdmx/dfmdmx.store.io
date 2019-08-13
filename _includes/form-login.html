@@ -48,11 +48,7 @@
 <script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
 
 <script>
-
-  gapi.load('auth2', function() {
-  	gapi.auth2.init({"client_id":"19912403518-umth3iha0k0qltfeul122n08u49q9pjs.apps.googleusercontent.com"});
-  });
-
+  
   $( ".login" ).on('submit', function( event ) {
     event.preventDefault();
     {%- if jekyll.environment == 'production' -%}
