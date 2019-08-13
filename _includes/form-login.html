@@ -52,10 +52,6 @@
 
 <script>
 
-  gapi.load('auth2', function() {
-    gapi.auth2.init({client_id:"{{site.data.google.client_id}}"});
-  });
-
   $( ".login" ).on('submit', function( event ) {
     event.preventDefault();
     {%- if jekyll.environment == 'production' -%}
