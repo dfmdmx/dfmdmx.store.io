@@ -38,7 +38,7 @@
     <div class='pure-u-1-2'>
       <fieldset class="pure-group">
         <legend class="pure-u-1-2" >Métodos alternos</legend>
-        <div class="g-signin2"></div>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
       </fieldset>
     </div>
   </div>
@@ -48,7 +48,7 @@
 <script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
 
 <script>
-  
+
   $( ".login" ).on('submit', function( event ) {
     event.preventDefault();
     {%- if jekyll.environment == 'production' -%}
