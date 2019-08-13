@@ -109,10 +109,6 @@ function logout() {
 	    gapi.auth2.init({client_id:data_google_client_id}).then(function(){
 				gapi.auth2.getAuthInstance().signOut().then(function () {
 					console.log('google signout ok')
-
-				}).fail(function(){
-					console.log('google signout error')
-
 				});
 			});
 	  });
