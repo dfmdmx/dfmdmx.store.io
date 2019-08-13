@@ -101,10 +101,6 @@
 
   current_user = $.Deferred();
 
-  gapi.load('auth2', function() {
-  	gapi.auth2.init({"client_id":"19912403518-umth3iha0k0qltfeul122n08u49q9pjs.apps.googleusercontent.com"});
-  });
-
   $(document).ready(function () {
     var session_token = getCookie('session_token')
     if (session_token == '') { return false };
