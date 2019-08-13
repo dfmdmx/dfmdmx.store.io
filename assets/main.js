@@ -101,28 +101,25 @@ function getUser() {
 
 function logout() {
 	var session_token = getCookie('session_token')
-	if (session_token != '') {
-	 return remoteCall('user_logout',{'session_token':session_token}).then(function(response){
-		  setCookie('session_token','',-1000);
+	if (session_token == '') { return };
+	remoteCall('user_logout',{'session_token':session_token}).then(function(response){
+		console.log('serverapp signout ok')
 
-			gapi.load('auth2', function() {
-		    gapi.auth2.init({client_id:"{{site.data.google.client_id}}");
-		  }).then(function(){
-				var auth2 = gapi.auth2.getAuthInstance();
-				auth2.signOut().then(function () {
-					window.location.replace("/");
+		gapi.load('auth2', function() {
+	    gapi.auth2.init({client_id:"{{site.data.google.client_id}}"}).then(function(){
+				gapi.auth2.getAuthInstance().signOut().then(function () {
+					console.log('google signout ok')
+
 				}).fail(function(){
-					window.location.replace("/");
+					console.log('google signout error')
+					
 				});
 			});
+	  });
+	}).fail(function(){
+		console.log('serverapp signout error')
 
-		}).fail(function(){
-			setCookie('session_token','',-1000);
-			window.location.replace("/");
-		});
-	} else {
-		return false;
-	};
+	});
 }
 
 // Se necesita colocar css y html en header para que esto funcione
