@@ -41,7 +41,7 @@
     <div class='pure-u-1-2'>
       <fieldset class="pure-group">
         <legend class="pure-u-1-2" >Métodos alternos</legend>
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <div id="google-login" data-onsuccess="onSignIn"></div>
       </fieldset>
     </div>
   </div>
@@ -53,7 +53,9 @@
 <script>
 
   gapi.load('auth2', function() {
-    gapi.auth2.init({client_id:data_google_client_id});
+    gapi.auth2.init({client_id:data_google_client_id}).then(function(){
+      $("#google-login").addClass("g-signin2");
+    });
   });
 
   $( ".login" ).on('submit', function( event ) {

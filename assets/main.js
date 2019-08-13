@@ -103,8 +103,8 @@ function logout() {
 	var session_token = getCookie('session_token')
 	if (session_token == '') { return };
 	remoteCall('user_logout',{'session_token':session_token}).then(function(response){
-		console.log('serverapp signout ok')
 
+		console.log('serverapp signout ok')
 		gapi.load('auth2', function() {
 	    gapi.auth2.init({client_id:data_google_client_id}).then(function(){
 				gapi.auth2.getAuthInstance().signOut().then(function () {
@@ -112,9 +112,12 @@ function logout() {
 				});
 			});
 	  });
+
 	}).fail(function(){
 		console.log('serverapp signout error')
-
+	}).always(function(){
+		setCookie('session_token','',-1000);
+		window.location.replace("/");"
 	});
 }
 
