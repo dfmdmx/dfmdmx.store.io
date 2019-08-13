@@ -2,52 +2,6 @@
 {% include messages.html %}
 <!-- ---------includes--------- -->
 
-<style>
-.form-login {
-  margin-bottom: 20px;
-}
-.move-right {
-  float:right;
-}
-
-.button-transparent {
-    background: transparent; /* this is an orange */
-}
-</style>
-
-<div class='form-login'>
-
-  <p id="message-text"></p>
-
-  <form class="pure-form login">
-
-      <fieldset class="pure-group">
-          <input name="email" type="email" class="pure-input-1-2" placeholder="Correo electrónico" >
-          <input name="password" type="password" class="pure-input-1-2" placeholder="Contraseña" >
-      </fieldset>
-
-      <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Entrar <i class="fas fa-sign-in-alt"></i></button>
-  </form>
-  <br>
-  <div class='pure-g'>
-    <div class='pure-u-1-2'>
-      <span class='move-right'><a class="pure-button button-transparent" href="/change-password">Cambiar constraseña <i class="far fa-envelope"></i></a></span>
-      <a href="/signin" class="pure-button pure-button-primary">Abrir cuenta <i class="fas fa-users"></i></a>
-
-    </div>
-  </div>
-  <br>
-  <div class='pure-g pure-form'>
-    <div class='pure-u-1-2'>
-      <fieldset class="pure-group">
-        <legend class="pure-u-1-2" >Métodos alternos</legend>
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
-      </fieldset>
-    </div>
-  </div>
-
-</div>
-
 <script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
 
 <script>
@@ -112,3 +66,49 @@
   }
 
 </script>
+
+<style>
+.form-login {
+  margin-bottom: 20px;
+}
+.move-right {
+  float:right;
+}
+
+.button-transparent {
+    background: transparent; /* this is an orange */
+}
+</style>
+
+<div class='form-login'>
+
+  <p id="message-text"></p>
+
+  <form class="pure-form login">
+
+      <fieldset class="pure-group">
+          <input name="email" type="email" class="pure-input-1-2" placeholder="Correo electrónico" >
+          <input name="password" type="password" class="pure-input-1-2" placeholder="Contraseña" >
+      </fieldset>
+
+      <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Entrar <i class="fas fa-sign-in-alt"></i></button>
+  </form>
+  <br>
+  <div class='pure-g'>
+    <div class='pure-u-1-2'>
+      <span class='move-right'><a class="pure-button button-transparent" href="/change-password">Cambiar constraseña <i class="far fa-envelope"></i></a></span>
+      <a href="/signin" class="pure-button pure-button-primary">Abrir cuenta <i class="fas fa-users"></i></a>
+
+    </div>
+  </div>
+  <br>
+  <div class='pure-g pure-form'>
+    <div class='pure-u-1-2'>
+      <fieldset class="pure-group">
+        <legend class="pure-u-1-2" >Métodos alternos</legend>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      </fieldset>
+    </div>
+  </div>
+
+</div>
