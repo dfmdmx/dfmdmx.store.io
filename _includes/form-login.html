@@ -91,7 +91,6 @@
     var args = {'token':token,'id_token':id_token};
     remoteCall(method,args).done(function(response){
       var session_token = response.session_token;
-      console.log('session_token');
       setCookie('session_token', session_token, 2);
       window.location.replace("/");
     }).fail(function(){
