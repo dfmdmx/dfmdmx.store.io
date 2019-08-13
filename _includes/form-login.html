@@ -60,13 +60,32 @@ $( ".login" ).on('submit', function( event ) {
 });
 
 function onSignIn(googleUser) {
+
+  {%- if jekyll.environment == 'production' -%}
+  grecaptcha.ready(function() {
+      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_login'}).then(function(token) {
+  {%- else -%}
+  var token = 'dummy';
+  {%- endif -%}
+
   var id_token = googleUser.getAuthResponse().id_token;
   var profile = googleUser.getBasicProfile();
   console.log(profile);
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  var method = 'google_login';
+  var args = {'token':token,'id_token':id_token};
+  remoteCall(method,args).done(function(response){
+    var session_token = response.session_token;
+    setCookie('session_token', session_token, 2);
+    window.location.replace("/");
+  }).fail(function(){
+    messageAlert('Las credenciales son inválidas.');
+  });
+
+  {%- if jekyll.environment == 'production' -%}
+      });
+  });
+  {%- endif -%}
+
 }
 
 </script>
