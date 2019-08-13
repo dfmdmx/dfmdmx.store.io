@@ -10,7 +10,7 @@ function encodePayload(payload){
 
 function remoteCall(method,args){
 	loader.runLoader()
-	return $.post(callback_url,  // url
+	return $.post(data_callback_url,  // url
 	       {'method':method,'payload': encodePayload(args)}).then( // data to be submit
 	       function(data, status, xhr,) {
 					 return $.Deferred().resolve(decodePayload(data.payload)).promise();
@@ -106,13 +106,13 @@ function logout() {
 		console.log('serverapp signout ok')
 
 		gapi.load('auth2', function() {
-	    gapi.auth2.init({client_id:"{{site.data.google.client_id}}"}).then(function(){
+	    gapi.auth2.init({client_id:data_google_client_id}).then(function(){
 				gapi.auth2.getAuthInstance().signOut().then(function () {
 					console.log('google signout ok')
 
 				}).fail(function(){
 					console.log('google signout error')
-					
+
 				});
 			});
 	  });
