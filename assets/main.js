@@ -104,7 +104,7 @@ function logout() {
 	if (session_token == '') { return };
 	remoteCall('user_logout',{'session_token':session_token}).then(function(response){
 
-		console.log('serverapp signout ok')
+		console.log('serverapp signout ok');
 		// gapi.load('auth2', function() {
 	  //   gapi.auth2.init().then(function(){
 				gapi.auth2.getAuthInstance().signOut().then(function () {
