@@ -2,6 +2,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-signin-client_id" content="{{site.data.google.client_id}}">
   {%- seo -%}
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
   <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
@@ -9,9 +10,7 @@
   <script>
     function googleinit() {
       gapi.load('auth2', function() {
-        gapi.auth2.init({
-          client_id: '19912403518-umth3iha0k0qltfeul122n08u49q9pjs.apps.googleusercontent.com'
-        });
+        gapi.auth2.init();
       });
     }
   </script>
