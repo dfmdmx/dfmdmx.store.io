@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
 
   <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
-  <script src="https://apis.google.com/js/client:platform.js?onload=startgapi" async defer></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
   <script  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script  src="https://kit.fontawesome.com/1556327ac3.js"></script>
   <script  src="{{ '/assets/main.js' | relative_url }}"></script>
@@ -22,18 +22,17 @@
     <script>
       $(document).ready(function () {handshake('Alberto Cebolla');})
 
-      function startgapi() {
-        console.log('gapi first loaded');
-        gapi.load('auth2', function() {
-          auth2 = gapi.auth2.init({
-            client_id: data_google_client_id,
-            // Scopes to request in addition to 'profile' and 'email'
-            //scope: 'additional_scope'
-          }).then(function(){
-            console.log('gapi loaded');
-          });
+      console.log('gapi first loaded');
+      gapi.load('auth2', function() {
+        auth2 = gapi.auth2.init({
+          client_id: data_google_client_id,
+          // Scopes to request in addition to 'profile' and 'email'
+          //scope: 'additional_scope'
+        }).then(function(){
+          console.log('gapi init');
         });
-      }
+      });
+
 
     </script>
 
