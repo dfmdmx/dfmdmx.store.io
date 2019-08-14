@@ -91,10 +91,14 @@ function logout() {
 	var session_token = getCookie('session_token')
 	if (session_token == '') { return };
 	remoteCall('user_logout',{'session_token':session_token}).then(function(response){
-		gapi.auth2.getAuthInstance().signOut();
-		console.log('sign out google');
 
-	}).fail(function(){
+		gapi.load('auth2', function() {
+				gapi.auth2.getAuthInstance().signOut().then(function () {
+					console.log('google signout ok');
+				});
+			});
+
+	  }).fail(function(){
 		console.log('serverapp signout error')
 	}).always(function(){
 		setCookie('session_token','',-1000);
