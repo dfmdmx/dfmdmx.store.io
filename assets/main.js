@@ -93,13 +93,13 @@ function logout() {
 	remoteCall('user_logout',{'session_token':session_token}).then(function(response){
 
 		console.log('serverapp signout ok');
-		// gapi.load('auth2', function() {
-	  //   gapi.auth2.init().then(function(){
+		gapi.load('auth2', function() {
+	    gapi.auth2.init().then(function(){
 				gapi.auth2.getAuthInstance().signOut().then(function () {
 					console.log('google signout ok')
 				});
-		// 	});
-	  // });
+			});
+	  });
 
 	}).fail(function(){
 		console.log('serverapp signout error')
