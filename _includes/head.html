@@ -23,6 +23,7 @@
       $(document).ready(function () {handshake('Alberto Cebolla');})
 
       function startgapi() {
+        console.log('gapi first loaded');
         gapi.load('auth2', function() {
           auth2 = gapi.auth2.init({
             client_id: data_google_client_id,
