@@ -8,15 +8,37 @@ function encodePayload(payload){
 	return encodedData
 }
 
-function remoteCall(method,args){
-	loader.runLoader()
-	return $.post(data_callback_url,  // url
-	       {'method':method,'payload': encodePayload(args)}).then( // data to be submit
-	       function(data, status, xhr,) {
-					 return $.Deferred().resolve(decodePayload(data.payload)).promise();
-	       }).always(function(){
-					 loader.stopLoader();
-				 });
+
+function remoteCall(method,args,uploadfiles){
+	loader.runLoader();
+	var form_data = new FormData();
+	form_data.append('method',method);
+	form_data.append('payload',encodePayload(args));
+	if (uploadfiles) {
+		console.log(uploadfiles);
+		var uploadfile;
+		for (var i = 0; i < uploadfiles.length; i++) {
+			uploadfile = uploadfiles[i];
+			console.log(uploadfile);
+			form_data.append('file[]',uploadfile,uploadfile.name);
+		}
+	}
+	return $.ajax({
+			type: 'POST',
+			url: data_callback_url,
+			data: form_data,
+			contentType: false,
+			cache: false,
+			processData: false,
+			dataFilter: function(data){
+				data = JSON.parse(data);
+				// Aqui se puede hacer la evaluaci;on de otras cosas que se manda en el json aparte de payload
+				// La funcion solo regresa el payload
+				return JSON.stringify(decodePayload(data.payload))
+				},
+			},
+	).always(function(){loader.stopLoader();});
+
 }
 
 function handshake(name) {
@@ -95,12 +117,12 @@ function logout() {
 		gapi.load('auth2', function() {
 			var auth2 = gapi.auth2.getAuthInstance();
 			auth2.signOut().then(function () {
-	      console.log('User signed out.');
+	      //console.log('User signed out.');
 	    });
 		});
 
 	  }).fail(function(){
-		console.log('serverapp signout error')
+		//console.log('serverapp signout error')
 	}).always(function(){
 		setCookie('session_token','',-1000);
 		window.location.replace("/");
