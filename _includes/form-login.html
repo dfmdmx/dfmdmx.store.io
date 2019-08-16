@@ -79,17 +79,15 @@
   function onSignIn(googleUser) {
 
     {%- if jekyll.environment == 'production' -%}
+
     grecaptcha.ready(function() {
-        grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'google_login'}).then(function(token) {
-    {%- else -%}
-    var token = 'dummy';
-    {%- endif -%}
+        grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'google_login'}).then(function(captcha) {
+    {%- else -%} var captcha = 'dummy'; {%- endif -%}
 
     var id_token = googleUser.getAuthResponse().id_token;
-    var profile = googleUser.getBasicProfile();
     var method = 'google_login';
-    var args = {'token':token,'id_token':id_token};
-    remoteCall(method,args).done(function(response){
+    var payload = {'token':token,'id_token':id_token};
+    remoteCall(method,payload,false,captcha,false).done(function(response){
       var session_token = response.session_token;
       setCookie('session_token', session_token, 2);
       window.location.replace("/");
