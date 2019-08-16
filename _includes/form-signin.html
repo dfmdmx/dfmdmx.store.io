@@ -79,7 +79,7 @@
 
     var id_token = googleUser.getAuthResponse().id_token;
     var method = 'google_login';
-    var payload = {'token':token,'id_token':id_token};
+    var payload = {'id_token':id_token};
     remoteCall(method,payload,false,captcha,false).done(function(response){
       var session_token = response.session_token;
       setCookie('session_token', session_token, 2);
