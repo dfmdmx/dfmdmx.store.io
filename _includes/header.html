@@ -103,12 +103,10 @@
 
   $(document).ready(function () {
     var session_token = getCookie('session_token')
-    if (session_token == '') { return false };
-    getUser().done(function(user){
-      if (user) {
-        current_user.resolve(user);
+    if (session_token != '') {
+      remoteCall('get_current_user',false,false,false,session_token).done(function(data){
         var username = $('#apiuser');
-        username.text(user.name.split(' ')[0]);
+        username.text(data.user.name.split(' ')[0]);
         username.attr("href","/edit-user");
         login_button = $('#login_button');
         login_button.html('<i class="fas fa-user-minus"></i>');
@@ -116,11 +114,13 @@
         login_button.click(function () {
           logout();
         });
-
-      }else{
+        current_user.resolve(data.user);
+      }).fail(function(data){
         current_user.reject();
-      };
-
-    })
+        setCookie('session_token','',-1000);
+      });
+    }
   });
+
+
 </script>

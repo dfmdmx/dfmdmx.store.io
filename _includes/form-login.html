@@ -56,14 +56,13 @@
     event.preventDefault();
     {%- if jekyll.environment == 'production' -%}
     grecaptcha.ready(function() {
-        grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_login'}).then(function(token) {
+        grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_login'}).then(function(captcha) {
     {%- else -%}
-    var token = 'dummy';
+    var captcha = 'dummy';
     {%- endif -%}
            var method = 'form_login';
-           var args = $( ".login" ).serializeFormJSON();
-           args['token'] = token;
-           remoteCall(method,args).done(function(data){
+           var payload = $( ".login" ).serializeFormJSON();
+           remoteCall(method,payload,false,captcha,false).done(function(data){
              var session_token = data.session_token;
              setCookie('session_token', session_token, 2);
              window.location.replace("/");

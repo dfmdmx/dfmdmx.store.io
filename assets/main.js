@@ -9,18 +9,20 @@ function encodePayload(payload){
 }
 
 
-function remoteCall(method,args,uploadfiles){
+function remoteCall(method,payload,files,captcha,session){
 	loader.runLoader();
 	var form_data = new FormData();
 	form_data.append('method',method);
-	form_data.append('payload',encodePayload(args));
-	if (uploadfiles) {
-		console.log(uploadfiles);
-		var uploadfile;
-		for (var i = 0; i < uploadfiles.length; i++) {
-			uploadfile = uploadfiles[i];
-			console.log(uploadfile);
-			form_data.append('file[]',uploadfile,uploadfile.name);
+	form_data.append('captcha',captcha);
+	form_data.append('session',session);
+	form_data.append('payload',encodePayload(payload));
+	if (files) {
+		console.log(files);
+		var upload_file;
+		for (var i = 0; i < files.length; i++) {
+			upload_file = files[i];
+			console.log(upload_file);
+			form_data.append('file[]',upload_file,upload_file.name);
 		}
 	}
 	return $.ajax({
@@ -93,26 +95,11 @@ function getCookie(cname) {
   return "";
 }
 
-function getUser() {
-	var session_token = getCookie('session_token')
-	if (session_token != '') {
-	 return remoteCall('user_by_session',{'session_token':session_token}).then(function(response){
-			var user = response.user;
-			return user;
-		}).fail(function(){
-			return false;
-		}).always(function(){
-			return false;
-		});
-	} else {
-		return false;
-	};
-}
 
 function logout() {
 	var session_token = getCookie('session_token')
 	if (session_token == '') { return };
-	remoteCall('user_logout',{'session_token':session_token}).then(function(response){
+	remoteCall('user_logout',{'session_token':session_token},false,false,session_token).then(function(response){
 
 		gapi.load('auth2', function() {
 			var auth2 = gapi.auth2.getAuthInstance();
