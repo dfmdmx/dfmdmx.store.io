@@ -99,7 +99,7 @@ function getCookie(cname) {
 function logout() {
 	var session_token = getCookie('session_token')
 	if (session_token == '') { return };
-	remoteCall('user_logout',{'session_token':session_token},false,false,session_token).then(function(response){
+	remoteCall('form_logout',{'session_token':session_token},false,false,session_token).then(function(response){
 
 		gapi.load('auth2', function() {
 			var auth2 = gapi.auth2.getAuthInstance();

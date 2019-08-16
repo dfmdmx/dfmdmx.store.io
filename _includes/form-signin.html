@@ -48,21 +48,19 @@
 
   $( ".signin" ).on('submit', function( event ) {
     event.preventDefault();
+
     {%- if jekyll.environment == 'production' -%}
     grecaptcha.ready(function() {
-        grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_signin'}).then(function(token) {
-    {%- else -%}
-    var token = 'dummy';
-    {%- endif -%}
-           var method = 'form_signin';
-           var args = $( ".signin" ).serializeFormJSON();
-           args['token'] = token;
-           console.log(args);
-           remoteCall(method,args).done(function(response){
-             window.location.replace("/login");
-           }).fail(function(){
-             messageAlert('Error: Puede que el correo ya este registrado.');
-           });
+        grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_signin'}).then(function(captcha) {
+    {%- else -%} var captcha = 'dummy'; {%- endif -%}
+
+       var method = 'form_signin';
+       var payload = $( ".signin" ).serializeFormJSON();
+       remoteCall(method,payload,false,captcha,false).done(function(response){
+         window.location.replace("/login");
+       }).fail(function(){
+         messageAlert('Error: Puede que el correo ya este registrado.');
+       });
 
     {%- if jekyll.environment == 'production' -%}
         });

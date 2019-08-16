@@ -105,6 +105,8 @@
     var session_token = getCookie('session_token')
     if (session_token != '') {
       remoteCall('get_current_user',false,false,false,session_token).done(function(data){
+        
+        current_user.resolve(data.user);
         var username = $('#apiuser');
         username.text(data.user.name.split(' ')[0]);
         username.attr("href","/edit-user");
@@ -114,7 +116,7 @@
         login_button.click(function () {
           logout();
         });
-        current_user.resolve(data.user);
+
       }).fail(function(data){
         current_user.reject();
         setCookie('session_token','',-1000);

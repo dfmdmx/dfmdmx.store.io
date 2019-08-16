@@ -54,12 +54,12 @@
 
   $( ".login" ).on('submit', function( event ) {
     event.preventDefault();
+
     {%- if jekyll.environment == 'production' -%}
     grecaptcha.ready(function() {
         grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_login'}).then(function(captcha) {
-    {%- else -%}
-    var captcha = 'dummy';
-    {%- endif -%}
+    {%- else -%} var captcha = 'dummy'; {%- endif -%}
+
            var method = 'form_login';
            var payload = $( ".login" ).serializeFormJSON();
            remoteCall(method,payload,false,captcha,false).done(function(data){
@@ -72,8 +72,7 @@
 
     {%- if jekyll.environment == 'production' -%}
         });
-    });
-    {%- endif -%}
+    });{%- endif -%}
 
   });
 

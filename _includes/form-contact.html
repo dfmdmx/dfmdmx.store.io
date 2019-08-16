@@ -47,14 +47,12 @@ $( ".contact" ).on('submit', function( event ) {
   event.preventDefault();
   {%- if jekyll.environment == 'production' -%}
   grecaptcha.ready(function() {
-      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_contact'}).then(function(token) {
-  {%- else -%}
-  var token = 'dummy';
-  {%- endif -%}
+      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_contact'}).then(function(captcha) {
+  {%- else -%} var captcha = 'dummy'; {%- endif -%}
+
          var method = 'form_contact';
-         var args = $( ".contact" ).serializeFormJSON();
-         args['token'] = token;
-         remoteCall(method,args).done(function(response){
+         var payload = $( ".contact" ).serializeFormJSON();
+         remoteCall(method,payload,false,captcha,false).done(function(response){
            $( ".contact" ).trigger('reset');
            messageInfo('¡Gracias! Nos pondremos en conctacto contigo por correo a la brevedad.');
          }).fail(function(){

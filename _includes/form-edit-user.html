@@ -61,59 +61,36 @@
 
 $( ".edit-user" ).on('submit', function( event ) {
   event.preventDefault();
-  {%- if jekyll.environment == 'production' -%}
-  grecaptcha.ready(function() {
-      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_edit_user'}).then(function(token) {
-  {%- else -%}
-  var token = 'dummy';
-  {%- endif -%}
-         var method = 'form_edit_user';
-         var args = $( ".edit-user" ).serializeFormJSON();
-         args['token'] = token;
-         args['session_token'] = getCookie('session_token');
-         remoteCall(method,args).done(function(response){
-           messageInfo('Cambios guardados.');
-         }).fail(function(){
-           messageAlert('No se guardaron los cambios.');
-         });
-
-  {%- if jekyll.environment == 'production' -%}
-      });
+  var method = 'form_user_edit';
+  var payload = $( ".edit-user" ).serializeFormJSON();
+  var session_token = getCookie('session_token');
+  remoteCall(method,payload,false,false,session_token).done(function(response){
+   messageInfo('Cambios guardados.');
+  }).fail(function(){
+   messageAlert('No se guardaron los cambios.');
   });
-  {%- endif -%}
-
 });
 
 function deleteUser() {
-  {%- if jekyll.environment == 'production' -%}
-  grecaptcha.ready(function() {
-      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_user_delete'}).then(function(token) {
-  {%- else -%}
-  var token = 'dummy';
-  {%- endif -%}
-         var method = 'form_user_delete';
-         var args = {'session_token':getCookie('session_token')}
-         args['token'] = token;
-         remoteCall(method,args).done(function(response){
-           showOkDialog('Usuario borrado','Hasta la vista baby.').done(function(){
-             setCookie('session_token','',-1000);
-             window.location.replace("/");
-           });
-         });
-  {%- if jekyll.environment == 'production' -%}
-      });
-  });
-  {%- endif -%}
-
-};
+   var method = 'form_user_delete';
+   var session_token = getCookie('session_token');
+   remoteCall(method,false,false,false,session_token).done(function(response){
+     showOkDialog('Usuario borrado','Hasta la vista baby.').done(function(){
+       setCookie('session_token','',-1000);
+       window.location.replace("/");
+     });
+   });
+}
 
 $(document).ready(function () {
-  $.when(current_user).done(function(current_user){
+  current_user.done(function(current_user){
     $('#email_title').text(current_user.email)
     $('input[name=name]').val(current_user.name);
-    Object.keys(current_user.address).forEach(function(key) {
-      $('input[name='+key+']').val(current_user.address[key]);
-    });
+    if (current_user.address) {
+      Object.keys(current_user.address).forEach(function(key) {
+        $('input[name='+key+']').val(current_user.address[key]);
+      });
+    }
   });
 });
 
