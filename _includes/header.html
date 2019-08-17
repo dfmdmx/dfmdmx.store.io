@@ -99,14 +99,14 @@
 
 <script>
 
-  current_user = $.Deferred();
+  current_user = $.Deferred()
 
   $(document).ready(function () {
     var session_token = getCookie('session_token')
     if (session_token != '') {
       remoteCall('get_current_user',false,false,false,session_token).done(function(data){
-        
-        current_user.resolve(data.user);
+
+        current_user.resolve(data.user).promise();
         var username = $('#apiuser');
         username.text(data.user.name.split(' ')[0]);
         username.attr("href","/edit-user");
@@ -118,9 +118,11 @@
         });
 
       }).fail(function(data){
-        current_user.reject();
+        current_user.reject(false).promise();
         setCookie('session_token','',-1000);
       });
+    }else{
+      current_user.reject(false).promise();
     }
   });
 

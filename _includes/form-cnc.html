@@ -25,15 +25,21 @@
       background: rgb(66, 184, 221); /* this is a light blue */
   }
 
+  #guest-group {
+      display: none;
+  }
+
 </style>
 
 <div class='form-contact'>
   <p id="message-text"></p>
   <form class="pure-form cnc">
-    <fieldset class="pure-group">
+
+    <fieldset id='guest-group' class="pure-group">
         <input name="name" type="text" class="pure-input-1-2" placeholder="Nombre" >
         <input name="email" type="email" class="pure-input-1-2" placeholder="Correo electrónico" >
     </fieldset>
+
     <fieldset>
     <div class="fileUpload pure-button button-upload">
         <span>Seleccionar archivos <i class="fas fa-file-upload"></i></span>
@@ -47,30 +53,47 @@
 </div>
 
 <script>
+
+  var user = false;
+
+  $(document).ready(function () {
+    current_user.done(function(){
+    }).fail(function(){
+      console.log('nouser');
+      $('#guest-group').css("display","block");
+    });
+  })
+
   var form_cnc = $( ".cnc" );
   form_cnc.on('submit', function( event ) {
     event.preventDefault();
-    {%- if jekyll.environment == 'production' -%}
-    grecaptcha.ready(function() {
-        grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_login'}).then(function(captcha) {
-    {%- else -%} var captcha = 'dummy'; {%- endif -%}
-
-         var method = 'form_cnc';
-         var payload = form_cnc.serializeFormJSON();
-         var uploadfiles = $('#upload-file').prop('files');
-         remoteCall(method,payload,uploadfiles,captcha,false).done(function(response){
-           $( ".cnc" ).trigger('reset');
-           messageInfo('¡Excelente!');
-         }).fail(function(){
-           messageAlert('Nop.');
-         });
-
-    {%- if jekyll.environment == 'production' -%}
-        });
+    current_user.done(function(){
+      send_call(false);
+    }).fail(function(){
+      {%- if jekyll.environment == 'production' -%}
+      grecaptcha.ready(function() {
+          grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_cnc'}).then(function(captcha) {
+      {%- else -%} var captcha = 'dummy'; {%- endif -%}
+      send_call(captcha);
+      {%- if jekyll.environment == 'production' -%}
+          });
+      });
+      {%- endif -%}
     });
-    {%- endif -%}
-
   });
+
+  function send_call(captcha){
+    var method = 'form_cnc';
+    var payload = form_cnc.serializeFormJSON();
+    var uploadfiles = $('#upload-file').prop('files');
+    var session_token = getCookie('session_token');
+    remoteCall(method,payload,uploadfiles,captcha,session_token).done(function(response){
+      $( ".cnc" ).trigger('reset');
+      messageInfo('¡Excelente!');
+    }).fail(function(){
+      messageAlert('Nop.');
+    });
+  }
 
   $('#upload-file').on('change', function( event ) {
     var files = $('#upload-file').prop('files');
@@ -87,5 +110,7 @@
   	}
 
   });
+
+
 
 </script>
