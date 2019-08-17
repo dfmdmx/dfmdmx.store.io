@@ -1,21 +1,46 @@
-
 <!-- ---------includes--------- -->
 {% include messages.html %}
 <!-- ---------includes--------- -->
 
+<style>
+
+  .fileUpload {
+      position: relative;
+      overflow: hidden;
+      margin-bottom:.3em;
+  }
+  .fileUpload input.upload {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 0;
+      padding: 0;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 0;
+      filter: alpha(opacity=0);
+  }
+
+  .button-upload {
+      background: rgb(66, 184, 221); /* this is a light blue */
+  }
+
+</style>
+
 <div class='form-contact'>
   <p id="message-text"></p>
-
   <form class="pure-form cnc">
     <fieldset class="pure-group">
         <input name="name" type="text" class="pure-input-1-2" placeholder="Nombre" >
         <input name="email" type="email" class="pure-input-1-2" placeholder="Correo electrónico" >
     </fieldset>
     <fieldset>
-        <label for="file">Select a file</label>
-        <input id='upload-file' name="file" type="file">
+    <div class="fileUpload pure-button button-upload">
+        <span>Seleccionar archivos <i class="fas fa-file-upload"></i></span>
+        <input class='upload' id='upload-file' name="file" type="file" multiple />
+    </div>
+    <p id='fileNames'></p>
     </fieldset>
-
       <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Enviar <i class="fas fa-paper-plane"></i></button>
   </form>
 
@@ -27,25 +52,39 @@
     event.preventDefault();
     {%- if jekyll.environment == 'production' -%}
     grecaptcha.ready(function() {
-        grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_cnc'}).then(function(token) {
-    {%- else -%}
-    var token = 'dummy';
-    {%- endif -%}
-           var method = 'form_cnc';
-           var args = form_cnc.serializeFormJSON();
-           args['token'] = token;
-           var uploadfiles = $('#upload-file').prop('files');
-           remoteCall(method,args,uploadfiles).done(function(response){
-             $( ".cnc" ).trigger('reset');
-             messageInfo('¡Excelente!');
-           }).fail(function(){
-             messageAlert('Nop.');
-           });
+        grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_login'}).then(function(captcha) {
+    {%- else -%} var captcha = 'dummy'; {%- endif -%}
+
+         var method = 'form_cnc';
+         var payload = form_cnc.serializeFormJSON();
+         var uploadfiles = $('#upload-file').prop('files');
+         remoteCall(method,payload,uploadfiles,captcha,false).done(function(response){
+           $( ".cnc" ).trigger('reset');
+           messageInfo('¡Excelente!');
+         }).fail(function(){
+           messageAlert('Nop.');
+         });
 
     {%- if jekyll.environment == 'production' -%}
         });
     });
     {%- endif -%}
+
+  });
+
+  $('#upload-file').on('change', function( event ) {
+    var files = $('#upload-file').prop('files');
+    var filename_string = '';
+    if (files) {
+  		var upload_file;
+  		for (var i = 0; i < files.length; i++) {
+  			upload_file = files[i];
+  			console.log(upload_file.name);
+        var filename = upload_file.name + '<br>';
+        filename_string += filename;
+  		}
+      $('#fileNames').html(filename_string);
+  	}
 
   });
 

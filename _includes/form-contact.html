@@ -54,7 +54,7 @@ $( ".contact" ).on('submit', function( event ) {
          var payload = $( ".contact" ).serializeFormJSON();
          remoteCall(method,payload,false,captcha,false).done(function(response){
            $( ".contact" ).trigger('reset');
-           messageInfo('¡Gracias! Nos pondremos en conctacto contigo por correo a la brevedad.');
+           messageInfo('¡Gracias! Nos pondremos en contacto por correo a la brevedad.');
          }).fail(function(){
            messageAlert('No se pudo enviar el correo.');
          });

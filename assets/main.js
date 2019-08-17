@@ -17,12 +17,10 @@ function remoteCall(method,payload,files,captcha,session){
 	form_data.append('session',session);
 	form_data.append('payload',encodePayload(payload));
 	if (files) {
-		console.log(files);
 		var upload_file;
 		for (var i = 0; i < files.length; i++) {
 			upload_file = files[i];
-			console.log(upload_file);
-			form_data.append('file[]',upload_file,upload_file.name);
+			form_data.append('file',upload_file,upload_file.name);
 		}
 	}
 	return $.ajax({
@@ -94,6 +92,7 @@ function getCookie(cname) {
   }
   return "";
 }
+
 
 
 function logout() {
