@@ -3,7 +3,6 @@
 <!-- ---------includes--------- -->
 
 <style>
-
   .fileUpload {
       position: relative;
       overflow: hidden;
@@ -13,22 +12,29 @@
       position: absolute;
       top: 0;
       right: 0;
-      margin: 0;
-      padding: 0;
-      font-size: 20px;
       cursor: pointer;
       opacity: 0;
       filter: alpha(opacity=0);
   }
-
   .button-upload {
       background: rgb(66, 184, 221); /* this is a light blue */
   }
-
+  .button-transparent {
+      background: transparent; /* this is an orange */
+  }
   #guest-group {
       display: none;
   }
-
+  .delete-button {
+    float:right;
+    margin-bottom:.3em;
+  }
+  .delete-button a {
+    color: #111;
+  }
+  .delete-button a:visited {
+    color: #111;
+  }
 </style>
 
 <div class='form-contact'>
@@ -40,14 +46,19 @@
         <input name="email" type="email" class="pure-input-1-2" placeholder="Correo electrónico" >
     </fieldset>
 
-    <fieldset>
-    <div class="fileUpload pure-button button-upload">
-        <span>Seleccionar archivos <i class="fas fa-file-upload"></i></span>
-        <input class='upload' id='upload-file' name="file" type="file" multiple />
+    <div class='pure-u-1-2'>
+      <fieldset>
+      <div class="fileUpload pure-button button-upload">
+          <span>Agregar archivos <i class="fas fa-file-upload"></i></span>
+          <input class='upload' id='upload-file' name="file" type="file" multiple />
+      </div>
+      <span class='delete-button'><a id='delete-files' class="pure-button button-transparent" href="#">Borrar <i class="fas fa-trash"></i></a></span>
+      <p id='fileNames'></p>
+      </fieldset>
     </div>
-    <p id='fileNames'></p>
-    </fieldset>
-      <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Enviar <i class="fas fa-paper-plane"></i></button>
+
+    <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Enviar <i class="fas fa-paper-plane"></i></button>
+
   </form>
 
 </div>
@@ -55,6 +66,8 @@
 <script>
 
   var user = false;
+  var upload_files = [];
+  var upload_files_string = '';
 
   $(document).ready(function () {
     current_user.done(function(){
@@ -85,10 +98,10 @@
   function send_call(captcha){
     var method = 'form_cnc';
     var payload = form_cnc.serializeFormJSON();
-    var uploadfiles = $('#upload-file').prop('files');
     var session_token = getCookie('session_token');
-    remoteCall(method,payload,uploadfiles,captcha,session_token).done(function(response){
-      $( ".cnc" ).trigger('reset');
+    remoteCall(method,payload,upload_files,captcha,session_token).done(function(response){
+      form_cnc.trigger('reset');
+      reset_files();
       messageInfo('¡Excelente!');
     }).fail(function(){
       messageAlert('Nop.');
@@ -97,20 +110,28 @@
 
   $('#upload-file').on('change', function( event ) {
     var files = $('#upload-file').prop('files');
-    var filename_string = '';
     if (files) {
   		var upload_file;
   		for (var i = 0; i < files.length; i++) {
   			upload_file = files[i];
-  			console.log(upload_file.name);
+        upload_files.push(upload_file)
         var filename = upload_file.name + '<br>';
-        filename_string += filename;
+        upload_files_string += filename;
   		}
-      $('#fileNames').html(filename_string);
+      $('#fileNames').html(upload_files_string);
   	}
 
   });
 
+  function reset_files(){
+    upload_files_string = '';
+    upload_files = [];
+    $('#fileNames').html('');
+  }
 
+  $('#delete-files').click(function(){
+    event.preventDefault();
+    reset_files();
+  });
 
 </script>

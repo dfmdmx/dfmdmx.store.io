@@ -58,6 +58,7 @@ $( ".contact" ).on('submit', function( event ) {
          }).fail(function(){
            messageAlert('No se pudo enviar el correo.');
          });
+
   {%- if jekyll.environment == 'production' -%}
       });
   });
