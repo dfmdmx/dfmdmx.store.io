@@ -1,0 +1,87 @@
+<!-- ---------includes--------- -->
+{% include messages.html %}
+<!-- ---------includes--------- -->
+
+<style>
+  .fileUpload {
+      position: relative;
+      overflow: hidden;
+      margin-bottom:.3em;
+  }
+  .fileUpload input.upload {
+      position: absolute;
+      top: 0;
+      right: 0;
+      cursor: pointer;
+      opacity: 0;
+      filter: alpha(opacity=0);
+  }
+  .button-upload {
+      background: rgb(66, 184, 221); /* this is a light blue */
+  }
+  .button-transparent {
+      background: transparent; /* this is an orange */
+  }
+  .delete-button {
+    float:right;
+    margin-bottom:.3em;
+  }
+  .delete-button a {
+    color: #111;
+  }
+  .delete-button a:visited {
+    color: #111;
+  }
+</style>
+
+<div class='form-upload-files'>
+  <form class="pure-form">
+    <div class='pure-u-1-2'>
+      <fieldset>
+      <div class="fileUpload pure-button button-upload">
+          <span>Agregar archivos <i class="fas fa-file-upload"></i></span>
+          <input class='upload' id='upload-file' name="file" type="file" multiple />
+      </div>
+      <span class='delete-button'><a id='delete-files' class="pure-button button-transparent" href="#">Borrar <i class="fas fa-trash"></i></a></span>
+      <p id='fileNames'></p>
+      </fieldset>
+    </div>
+  </form>
+</div>
+
+<script>
+
+  var upload_files = [];
+  var upload_files_string = '';
+
+  $('#upload-file').on('change', function( event ) {
+    var files = $('#upload-file').prop('files');
+    console.log(files);
+    if (files) {
+  		var upload_file;
+  		for (var i = 0; i < files.length; i++) {
+  			upload_file = files[i];
+        upload_files.push(upload_file)
+        var filename = upload_file.name + '<br>';
+        upload_files_string += filename;
+  		}
+      $('#fileNames').html(upload_files_string);
+  	}
+  });
+
+  function reset_files(){
+    var form_files = $('#upload-file');
+    for (var i = 0; i < form_files.length; i++) {
+      $(form_files[i]).val('');
+    }
+    upload_files = [];
+    upload_files_string = '';
+    $('#fileNames').html('');
+  }
+
+  $('#delete-files').click(function(){
+    event.preventDefault();
+    reset_files();
+  });
+
+</script>

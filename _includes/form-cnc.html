@@ -3,81 +3,45 @@
 <!-- ---------includes--------- -->
 
 <style>
-  .fileUpload {
-      position: relative;
-      overflow: hidden;
-      margin-bottom:.3em;
-  }
-  .fileUpload input.upload {
-      position: absolute;
-      top: 0;
-      right: 0;
-      cursor: pointer;
-      opacity: 0;
-      filter: alpha(opacity=0);
-  }
-  .button-upload {
-      background: rgb(66, 184, 221); /* this is a light blue */
-  }
-  .button-transparent {
-      background: transparent; /* this is an orange */
-  }
   #guest-group {
       display: none;
   }
-  .delete-button {
-    float:right;
-    margin-bottom:.3em;
+  .send-button {
+    width : 100% ;
   }
-  .delete-button a {
-    color: #111;
-  }
-  .delete-button a:visited {
-    color: #111;
-  }
+
 </style>
 
 <div class='form-contact'>
-  <p id="message-text"></p>
-  <form class="pure-form cnc">
 
+  <p id="message-text"></p>
+
+  <form id='cnc' class="pure-form cnc">
     <fieldset id='guest-group' class="pure-group">
         <input name="name" type="text" class="pure-input-1-2" placeholder="Nombre" >
         <input name="email" type="email" class="pure-input-1-2" placeholder="Correo electrónico" >
     </fieldset>
-
-    <div class='pure-u-1-2'>
-      <fieldset>
-      <div class="fileUpload pure-button button-upload">
-          <span>Agregar archivos <i class="fas fa-file-upload"></i></span>
-          <input class='upload' id='upload-file' name="file" type="file" multiple />
-      </div>
-      <span class='delete-button'><a id='delete-files' class="pure-button button-transparent" href="#">Borrar <i class="fas fa-trash"></i></a></span>
-      <p id='fileNames'></p>
-      </fieldset>
-    </div>
-
-    <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Enviar <i class="fas fa-paper-plane"></i></button>
-
   </form>
+
+  {% include form-upload-files.html %}
+
+  <div class='pure-u-1-2'>
+    <button form='cnc' type="submit" class="pure-button send-button pure-button-primary">Enviar <i class="fas fa-paper-plane"></i></button>
+  </div>
 
 </div>
 
 <script>
 
-  var user = false;
-  var upload_files = [];
-  var upload_files_string = '';
-
   $(document).ready(function () {
     current_user.done(function(){
     }).fail(function(){
-      console.log('nouser');
       $('#guest-group').css("display","block");
     });
   })
 
   var form_cnc = $( ".cnc" );
+
   form_cnc.on('submit', function( event ) {
     event.preventDefault();
     current_user.done(function(){
@@ -107,31 +71,5 @@
       messageAlert('Nop.');
     });
   }
-
-  $('#upload-file').on('change', function( event ) {
-    var files = $('#upload-file').prop('files');
-    if (files) {
-  		var upload_file;
-  		for (var i = 0; i < files.length; i++) {
-  			upload_file = files[i];
-        upload_files.push(upload_file)
-        var filename = upload_file.name + '<br>';
-        upload_files_string += filename;
-  		}
-      $('#fileNames').html(upload_files_string);
-  	}
-
-  });
-
-  function reset_files(){
-    upload_files_string = '';
-    upload_files = [];
-    $('#fileNames').html('');
-  }
-
-  $('#delete-files').click(function(){
-    event.preventDefault();
-    reset_files();
-  });
 
 </script>
