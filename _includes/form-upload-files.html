@@ -3,12 +3,12 @@
 <!-- ---------includes--------- -->
 
 <style>
-  .fileUpload {
+  .upload-container {
       position: relative;
       overflow: hidden;
       margin-bottom:.3em;
   }
-  .fileUpload input.upload {
+  .upload-container input.upload {
       position: absolute;
       top: 0;
       right: 0;
@@ -34,19 +34,17 @@
   }
 </style>
 
-<div class='form-upload-files'>
-  <form class="pure-form">
+<div class='pure-form form-upload-files'>
     <div class='pure-u-1-2'>
-      <fieldset>
-      <div class="fileUpload pure-button button-upload">
-          <span>Agregar archivos <i class="fas fa-file-upload"></i></span>
-          <input class='upload' id='upload-file' name="file" type="file" multiple />
-      </div>
-      <span class='delete-button'><a id='delete-files' class="pure-button button-transparent" href="#">Borrar <i class="fas fa-trash"></i></a></span>
-      <p id='fileNames'></p>
+      <fieldset class="pure-group">
+        <div class="upload-container pure-button button-upload">
+            <span>Agregar archivos <i class="fas fa-file-upload"></i></span>
+            <input class='upload' id='upload-file' name="file" type="file" multiple />
+        </div>
+        <span class='delete-button'><a id='delete-files' class="pure-button button-transparent" href="#">Borrar <i class="fas fa-trash"></i></a></span>
+        <p id='file-name-container'></p>
       </fieldset>
     </div>
-  </form>
 </div>
 
 <script>
@@ -65,7 +63,7 @@
         var filename = upload_file.name + '<br>';
         upload_files_string += filename;
   		}
-      $('#fileNames').html(upload_files_string);
+      $('#file-name-container').html(upload_files_string);
   	}
   });
 
@@ -76,7 +74,7 @@
     }
     upload_files = [];
     upload_files_string = '';
-    $('#fileNames').html('');
+    $('#file-name-container').html('');
   }
 
   $('#delete-files').click(function(){

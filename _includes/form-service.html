@@ -12,37 +12,40 @@
 
 </style>
 
-<div class='form-contact'>
+<div class='form-service'>
 
   <p id="message-text"></p>
 
-  <form id='cnc' class="pure-form cnc">
-    <fieldset id='guest-group' class="pure-group">
-        <input name="name" type="text" class="pure-input-1-2" placeholder="Nombre" >
-        <input name="email" type="email" class="pure-input-1-2" placeholder="Correo electrónico" >
-    </fieldset>
+  <form id='service' class="pure-form ">
+    <input name="service-type" type="hidden" value="{{include.type}}" >
   </form>
 
   {% include form-upload-files.html %}
 
+  <div class="pure-form">
+    <fieldset id='guest-group' class="pure-group">
+        <input form='service' name="name" type="text" class="pure-input-1-2" placeholder="Nombre" >
+        <input form='service' name="email" type="email" class="pure-input-1-2" placeholder="Correo electrónico" >
+    </fieldset>
+  </div>
+
   <div class='pure-u-1-2'>
-    <button form='cnc' type="submit" class="pure-button send-button pure-button-primary">Enviar <i class="fas fa-paper-plane"></i></button>
+    <button form='service' type="submit" class="pure-button send-button pure-button-primary">Enviar <i class="fas fa-paper-plane"></i></button>
   </div>
 
 </div>
-
-<script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
 
 <script>
 
   $(document).ready(function () {
     current_user.done(function(){
     }).fail(function(){
+      src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"
       $('#guest-group').css("display","block");
     });
   })
 
-  var form_cnc = $( ".cnc" );
+  var form_cnc = $( "#service" );
 
   form_cnc.on('submit', function( event ) {
     event.preventDefault();
@@ -51,7 +54,7 @@
     }).fail(function(){
       {%- if jekyll.environment == 'production' -%}
       grecaptcha.ready(function() {
-          grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_cnc'}).then(function(captcha) {
+          grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_service'}).then(function(captcha) {
       {%- else -%} var captcha = 'dummy'; {%- endif -%}
       send_call(captcha);
       {%- if jekyll.environment == 'production' -%}
@@ -62,7 +65,7 @@
   });
 
   function send_call(captcha){
-    var method = 'form_cnc';
+    var method = 'form_service';
     var payload = form_cnc.serializeFormJSON();
     var session_token = getCookie('session_token');
     remoteCall(method,payload,upload_files,captcha,session_token).done(function(response){
