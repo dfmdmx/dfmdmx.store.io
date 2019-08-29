@@ -42,28 +42,26 @@
 
 <script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
 <script>
+  $( ".contact" ).on('submit', function( event ) {
+    event.preventDefault();
+    {%- if jekyll.environment == 'production' -%}
+    grecaptcha.ready(function() {
+        grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_contact'}).then(function(captcha) {
+    {%- else -%} var captcha = 'dummy'; {%- endif -%}
 
-$( ".contact" ).on('submit', function( event ) {
-  event.preventDefault();
-  {%- if jekyll.environment == 'production' -%}
-  grecaptcha.ready(function() {
-      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_contact'}).then(function(captcha) {
-  {%- else -%} var captcha = 'dummy'; {%- endif -%}
+           var method = 'form_contact';
+           var payload = $( ".contact" ).serializeFormJSON();
+           remoteCall(method,payload,false,captcha,false).done(function(response){
+             $( ".contact" ).trigger('reset');
+             messageInfo('¡Gracias! Nos pondremos en contacto por correo a la brevedad.');
+           }).fail(function(){
+             messageAlert('No se pudo enviar el correo.');
+           });
 
-         var method = 'form_contact';
-         var payload = $( ".contact" ).serializeFormJSON();
-         remoteCall(method,payload,false,captcha,false).done(function(response){
-           $( ".contact" ).trigger('reset');
-           messageInfo('¡Gracias! Nos pondremos en contacto por correo a la brevedad.');
-         }).fail(function(){
-           messageAlert('No se pudo enviar el correo.');
-         });
+    {%- if jekyll.environment == 'production' -%}
+        });
+    });
+    {%- endif -%}
 
-  {%- if jekyll.environment == 'production' -%}
-      });
   });
-  {%- endif -%}
-
-});
-
 </script>
