@@ -40,7 +40,7 @@
   $(document).ready(function () {
     current_user.done(function(){
     }).fail(function(){
-      src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"
+      src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}";
       $('#guest-group').css("display","block");
     });
   })
