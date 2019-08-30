@@ -9,28 +9,38 @@
   .send-button {
     width : 100% ;
   }
-
 </style>
 
 <div class='form-service'>
 
-  <p id="message-text"></p>
-
-  <form id='service' class="pure-form ">
-    <input name="service-type" type="hidden" value="{{include.type}}" >
-  </form>
-
-  {% include form-upload-files.html %}
+  <form id='service'></form>
 
   <div class="pure-form">
-    <fieldset id='guest-group' class="pure-group">
-        <input form='service' name="name" type="text" class="pure-input-1-2" placeholder="Nombre" >
-        <input form='service' name="email" type="email" class="pure-input-1-2" placeholder="Correo electrónico" >
-    </fieldset>
+    <legend>Informacion del pedido</legend>
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <!-- <label>Informacion</label> -->
+        <fieldset class="pure-group">
+          <input form='service' name="nombre-pedido" class="pure-input-1" placeholder="Nombre del pedido" >
+          <textarea form='service' name="descripcion-pedido" class="pure-input-1" placeholder="Descripción / Notas"></textarea>
+        </fieldset>
+      </div>
+    </div>
   </div>
 
-  <div class='pure-u-1-2'>
-    <button form='service' type="submit" class="pure-button send-button pure-button-primary">Enviar <i class="fas fa-paper-plane"></i></button>
+  {% include form-upload-files.html %}
+  {% include form-user-info.html %}
+
+  <div class="pure-form">
+    <legend>Todo listo</legend>
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <p id="message-text"></p>
+      </div>
+      <div class="pure-u-1-2">
+        <button form='service' type="submit" class="pure-button send-button pure-button-primary">Enviar <i class="fas fa-upload"></i></button>
+      </div>
+    </div>
   </div>
 
 </div>

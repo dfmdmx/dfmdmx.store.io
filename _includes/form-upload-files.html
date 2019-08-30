@@ -33,20 +33,17 @@
     color: #111;
   }
 </style>
-
-<div class='pure-form form-upload-files'>
-    <div class='pure-u-1-2'>
-      <fieldset class="pure-group">
-        <div class="upload-container pure-button button-upload">
-            <span>Agregar archivos <i class="fas fa-file-upload"></i></span>
-            <input class='upload' id='upload-file' name="file" type="file" multiple />
-        </div>
-        <span class='delete-button'><a id='delete-files' class="pure-button button-transparent" href="#">Borrar <i class="fas fa-trash"></i></a></span>
-        <p id='file-name-container'></p>
-      </fieldset>
-    </div>
+<div class='pure-form'>
+  <fieldset class="pure-group">
+    <legend>Archivos para corte</legend>
+      <div class="upload-container pure-button button-upload">
+          <span>Agregar archivos <i class="fas fa-file-upload"></i></span>
+          <input class='upload' id='upload-file' name="file" type="file" multiple />
+      </div>
+      <span class='delete-button'><a id='delete-files' class="pure-button button-transparent" href="#">Borrar <i class="fas fa-trash"></i></a></span>
+      <p id='file-name-container'></p>
+  </fieldset>
 </div>
-
 <script>
 
   var upload_files = [];
@@ -60,7 +57,7 @@
   		for (var i = 0; i < files.length; i++) {
   			upload_file = files[i];
         upload_files.push(upload_file)
-        var filename = upload_file.name + '<br>';
+        var filename = '&nbsp; ~/' + upload_file.name + '<br>';
         upload_files_string += filename;
   		}
       $('#file-name-container').html(upload_files_string);

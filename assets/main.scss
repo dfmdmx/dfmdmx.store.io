@@ -41,7 +41,6 @@ blockquote {
   color: #fff;
 }
 
-
 // Footer
 .footer-col-wrapper {
   font-size: 14px;
@@ -55,4 +54,16 @@ blockquote {
 }
 #disqus_thread:hover {
   filter: grayscale(1) opacity(1);
+}
+// Services shadow
+.upload-shadow {
+  padding-left:10px;
+  padding-right: 10px;
+  padding-bottom: 30px;
+  padding-top:30px;
+  margin-bottom:40px;
+  border-radius: 5px;
+  -webkit-box-shadow: 2px 3px 16px -7px rgba(0,0,0,0.0);
+  -moz-box-shadow: 2px 3px 16px -7px rgba(0,0,0,0.0);
+  box-shadow: 2px 3px 16px -7px rgba(0,0,0,0.0);
 }
