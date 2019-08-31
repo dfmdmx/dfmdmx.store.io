@@ -37,7 +37,7 @@
   <fieldset class="pure-group">
     <legend>Archivos para corte</legend>
       <div class="upload-container pure-button button-upload">
-          <span>Agregar archivos <i class="fas fa-file-upload"></i></span>
+          <span>Seleccionar archivos <i class="fas fa-file-upload"></i></span>
           <input class='upload' id='upload-file' name="file" type="file" multiple />
       </div>
       <span class='delete-button'><a id='delete-files' class="pure-button button-transparent" href="#">Borrar <i class="fas fa-trash"></i></a></span>
@@ -51,7 +51,6 @@
 
   $('#upload-file').on('change', function( event ) {
     var files = $('#upload-file').prop('files');
-    console.log(files);
     if (files) {
   		var upload_file;
   		for (var i = 0; i < files.length; i++) {

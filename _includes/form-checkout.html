@@ -1,0 +1,105 @@
+
+<style>
+  .send-button {
+    width : 100% ;
+  }
+  .delete-button {
+    float:right;
+    font-size: 12px;
+  }
+  .delete-button a {
+    color: #111;
+    vertical-align: middle;
+  }
+  .delete-button a:visited {
+    color: #111;
+  }
+  .cart-item {
+    margin-bottom: 12px;
+    display: none;
+  }
+</style>
+
+<div class="pure-form">
+
+    <legend>Productos</legend>
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <fieldset>
+
+          <details id='pid-1' class='cart-item'>
+            <summary><pid><b>Servicio</b>Nombre del articulo</pid><a onclick="remove_cart_item(this);" class='delete-button'>Borrar <i class="fas fa-trash"></i></a></summary>
+            <pre>This is how you dropdown.</pre><br>
+          </details>
+
+        </fieldset>
+      </div>
+    </div>
+</div>
+
+{% include form-user-info.html %}
+
+<div class="pure-form">
+  <legend>Todo listo</legend>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <p id="message-text"></p>
+    </div>
+    <div class="pure-u-1-2">
+      <button form='service' type="submit" class="pure-button send-button pure-button-primary">Cotizar <i class="fas fa-receipt"></i></button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+
+  function remove_cart_item(element){
+    event.preventDefault();
+    element.closest('details').remove();
+  };
+
+
+  $(document).ready(function () {
+    current_user.done(function(){
+      send_call(false);
+    }).fail(function(){
+      {%- if jekyll.environment == 'production' -%}
+      grecaptcha.ready(function() {
+          grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'get_cart_items'}).then(function(captcha) {
+      {%- else -%} var captcha = 'dummy'; {%- endif -%}
+      send_call(captcha);
+      {%- if jekyll.environment == 'production' -%}
+          });
+      });
+      {%- endif -%}
+    });
+
+
+
+  });
+
+  function send_call(captcha){
+    var method = 'get_cart_items';
+    var payload = {'cart_token':cart_token}
+    var session_token = getCookie('session_token');
+    remoteCall(method,payload,false,captcha,session_token).done(function(response){
+      console.log(response)
+      cart_items = response.cart_items;
+      var cart_item;
+      var cart_item_container = $('#pid-1')
+      for (var i = 0; i < cart_items.length; i++) {
+        cart_item = cart_items[i]
+        cart_item_container.clone().attr('id',cart_item.pid).insertAfter($('#pid-1'));
+        new_cart_item = $('#'+ cart_item.pid );
+        new_cart_item.find('pid').html('<b>' + cart_item.service + '</b>    ' + cart_item.name);
+        new_cart_item.find('pre').text(cart_item.payload_json);
+        new_cart_item.css('display','block');
+      }
+
+    }).fail(function(){
+      console.log('mmmmm')
+    });
+  }
+
+</script>

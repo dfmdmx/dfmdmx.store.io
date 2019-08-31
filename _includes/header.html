@@ -70,7 +70,7 @@
     </div>
 
     <div class='checkout-button'">
-      <a class="pure-button" href="/"><i class="fas fa-shopping-cart"></i></a>
+      <a class="pure-button" href="/checkout"><i class="fas fa-shopping-cart"></i></a>
       <a class="pure-button" id="login_button" href="/login"><i class="fas fa-user-plus"></i></a>  <!-- <i class="fas fa-user-minus"></i> -->
     </div>
 
@@ -99,13 +99,17 @@
 
 <script>
 
-  current_user = $.Deferred()
+  var cart_token = getCookie('cart_token')
+  if (cart_token == '') {
+    cart_token = Math.random().toString(36);
+    setCookie('cart_token', cart_token, 2);
+  }
 
+  current_user = $.Deferred()
   $(document).ready(function () {
     var session_token = getCookie('session_token')
     if (session_token != '') {
       remoteCall('get_current_user',false,false,false,session_token).done(function(data){
-
         current_user.resolve(data.user).promise();
         var username = $('#apiuser');
         username.text(data.user.name.split(' ')[0]);
