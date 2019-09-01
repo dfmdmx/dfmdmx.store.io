@@ -3,4 +3,4 @@ layout: page
 title: Orders
 permalink: /orders
 ---
-{% include form-orders.html %}
+{% include store/form-orders.html %}

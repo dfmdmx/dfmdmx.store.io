@@ -3,5 +3,4 @@ layout: service
 comments: false
 ---
 
-{% include services/aglomerado-melamina.html %}
-{% include form-service.html %}
+{% include store_services/aglomerado-melamina.html %}

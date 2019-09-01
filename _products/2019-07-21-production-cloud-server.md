@@ -15,7 +15,7 @@ Some of the advantages for this approach are:
  - Community based production
 
 #### Contents
-{% include index-headers.html %}
+{% include utils/index-headers.html %}
 
  ![Production Cloud Server](/assets/images/production_cloud_server_concept.png)
 
@@ -40,9 +40,9 @@ The machine client installation file is available at the [Software Downloads](/o
 This is lightweight machine primarily design with [OpenBuilds](https://openbuildspartstore.com/) assembly parts and some custom CNC aluminum plates.  
 
 #### Gallery
-{% include image-gallery.html name='am-cnc-openbuilds' %}
+{% include utils/image-gallery.html name='am-cnc-openbuilds' %}
 #### Download files
-{% include file-binder.html name='AluminumMedium-OpenBuilds-CNC' %}
+{% include utils/file-binder.html name='AluminumMedium-OpenBuilds-CNC' %}
 
 ## Workshop deployment service
 <!-- TODO: No es lo mismo que MX industrias sino que talleres especializados y maquinas a la medida  -->

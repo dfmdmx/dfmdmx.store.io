@@ -1,0 +1,93 @@
+<!-- ---------includes--------- -->
+{% include utils/messages.html %}
+{% include store/form-store.html method='form_order' %}
+<!-- ---------includes--------- -->
+
+<style>
+  .delete-item {
+    float:right;
+    font-size: 12px;
+  }
+  .cart-item {
+    margin-bottom: 12px;
+    display: none;
+  }
+</style>
+
+<div class="pure-form">
+
+  <legend>Productos</legend>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <fieldset>
+
+        <details id='pid-1' class='cart-item'>
+          <summary><h><b>Servicio</b>Nombre del articulo</h><a onclick="remove_cart_item(this);" class='delete-item'><i class="fas fa-trash"></i></a></summary>
+          <input form='form-store' type='hidden' value='' name='items_id'>
+          <pre>Algo chulo para el usuario</pre>
+        </details>
+
+      </fieldset>
+    </div>
+  </div>
+</div>
+
+{% include store/input-user-info.html %}
+
+<div class="pure-form">
+  <legend>Todo listo</legend>
+  <div class="pure-g">
+    <div class="pure-u-1-2">
+      <button form='form-store' type="submit" class="pure-button send-button pure-button-primary">Cotizar <i class="fas fa-receipt"></i></button>
+    </div>
+    <div class="pure-u-1">
+      <p id="message-text"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  function remove_cart_item(element){
+    event.preventDefault();
+    element.closest('details').remove();
+  };
+
+  $(document).ready(function () {
+    current_user.done(function(){
+      get_cart_items(false);
+    }).fail(function(){
+      {%- if jekyll.environment == 'production' -%}
+      grecaptcha.ready(function() {
+          grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'get_cart_items'}).then(function(captcha) {
+      {%- else -%} var captcha = 'dummy'; {%- endif -%}
+      get_cart_items(captcha);
+      {%- if jekyll.environment == 'production' -%}
+          });
+      });
+      {%- endif -%}
+    });
+  });
+
+  function get_cart_items(captcha){
+    var method = 'get_cart_items';
+    var payload = {'cart_token':cart_token}
+    var session_token = getCookie('session_token');
+    remoteCall(method,payload,false,captcha,session_token).done(function(response){
+      console.log(response)
+      cart_items = response.cart_items;
+      var cart_item;
+      var cart_item_container = $('#pid-1')
+      for (var i = 0; i < cart_items.length; i++) {
+        cart_item = cart_items[i]
+        cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
+        new_cart_item = $('#'+ cart_item.id );
+        new_cart_item.find('h').html('<b>' + cart_item.payload_json.item_type + '</b>    ' + cart_item.payload_json.item_name);
+        new_cart_item.find('pre').text(json_dumps(cart_item));
+        new_cart_item.find('input').val(cart_item.id);
+        new_cart_item.css('display','block');
+      }
+    })
+  }
+
+</script>

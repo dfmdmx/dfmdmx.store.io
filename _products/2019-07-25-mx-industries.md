@@ -13,7 +13,7 @@ Mexico has long lost the ability to self maintain itself through localized produ
 ### Join
 
 ### Table of contents
-{% include index-headers.html %}
+{% include utils/index-headers.html %}
 
 ## Materials and services
 #### Materials:

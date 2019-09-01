@@ -3,4 +3,4 @@ layout: page
 title: Checkout
 permalink: /checkout/
 ---
-{% include form-checkout.html %}
+{% include store/form-checkout.html %}

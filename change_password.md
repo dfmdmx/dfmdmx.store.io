@@ -4,4 +4,4 @@ title: Cambiar constraseña
 permalink: /change-password/
 ---
 
-{% include form-change-password.html %}
+{% include user/form-change-password.html %}

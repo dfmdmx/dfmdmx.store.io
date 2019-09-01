@@ -1,5 +1,5 @@
 <!-- ---------includes--------- -->
-{% include messages.html %}
+{% include utils/messages.html %}
 <!-- ---------includes--------- -->
 <style>
 
@@ -25,7 +25,7 @@
       <fieldset>
 
         <details id='pid-1' class='cart-item'>
-          <summary><pid><b>Servicio</b>Nombre del articulo</pid><a onclick="remove_cart_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a></summary>
+          <summary><pid><b>Servicio</b>Nombre del articulo</pid><a onclick="remove_cart_item(this);" class='delete-item'>Cancelar <i class="fas fa-times"></i></a></summary>
           <input form='service' type='hidden' value='' name='cart_items'>
           <pre>Algo chulo para el usuario</pre>
         </details>
@@ -72,7 +72,7 @@
         cart_item_container.clone().attr('id',cart_item.order_id).insertAfter($('#pid-1'));
         new_cart_item = $('#'+ cart_item.order_id );
         new_cart_item.find('pid').html('<b>' + cart_item.order_id + '</b>    ' + cart_item.name);
-        new_cart_item.find('pre').text(JSON.stringify(cart_item, null, '\t'));
+        new_cart_item.find('pre').text(json_dumps(cart_item));
         new_cart_item.find('input').val(cart_item.order_id);
         new_cart_item.css('display','block');
       }

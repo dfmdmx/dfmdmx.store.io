@@ -1,0 +1,46 @@
+<div class="pure-form pure-form-stacked">
+
+    <legend>Entrega de material</legend>
+
+    <div class="pure-g">
+      <div class="pure-u-1-2">
+        <label><i class="fas fa-user"></i> Contacto</label>
+        <fieldset class="pure-group">
+          <input form='form-store' name="user_name" type="text" class="pure-input-1" placeholder="Nombre">
+          <input form='form-store' name="user_email" type="email" class="pure-input-1" placeholder="Correo electrónico">
+        </fieldset>
+      </div>
+      <div class="pure-u-1-2">
+        <label><i class="fas fa-map-marked-alt"></i> Dirección</label>
+        <fieldset class="pure-group">
+            <input form='form-store' name="calle" class="pure-input-1" placeholder="Calle" >
+            <input form='form-store' name="numero_ext" class="pure-input-1" placeholder="No. Exterior" >
+            <input form='form-store' name="numero_int" class="pure-input-1" placeholder="No. Interior" >
+            <input form='form-store' name="colonia" class="pure-input-1" placeholder="Colonia" >
+            <input form='form-store' name="municipio" class="pure-input-1" placeholder="Alcaldia/Municipio" >
+            <input form='form-store' name="estado" class="pure-input-1" placeholder="Estado" >
+            <input form='form-store' name="cp" class="pure-input-1" placeholder="CP" >
+        </fieldset>
+        <fieldset class="somespace">
+          <input form='form-store' type="radio" name="item_delivery" value="delivery" checked> <i class="fas fa-truck"></i> Envio a domicilio &nbsp;
+          <input form='form-store' type="radio" name="item_delivery" value="workshop"> <i class="fas fa-map-marker-alt"></i> Recojer en planta &nbsp;
+        </fieldset>
+      </div>
+    </div>
+
+</div>
+
+<script>
+  $(document).ready(function () {
+    current_user.done(function(current_user){
+      $('input[name=user_name]').val(current_user.name);
+      $('input[name=user_email]').val(current_user.email);
+      $('input[name=user_email]').prop('disabled', true);
+      if (current_user.address) {
+        Object.keys(current_user.address).forEach(function(key) {
+          $('input[name='+key+']').val(current_user.address[key]);
+        });
+      }
+    });
+  });
+</script>

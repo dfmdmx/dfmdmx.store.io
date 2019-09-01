@@ -1,3 +1,8 @@
+
+function json_dumps(json_data){
+	return JSON.stringify(json_data, null, '\t')
+}
+
 function decodePayload(payload){
 	var decodedData = JSON.parse(payload);
 	return decodedData
@@ -7,7 +12,6 @@ function encodePayload(payload){
 	var encodedData = JSON.stringify(payload);
 	return encodedData
 }
-
 
 function remoteCall(method,payload,files,captcha,session){
 	loader.runLoader();
@@ -23,6 +27,7 @@ function remoteCall(method,payload,files,captcha,session){
 			form_data.append('file',upload_file,upload_file.name);
 		}
 	}
+
 	return $.ajax({
 			type: 'POST',
 			url: data_callback_url,
@@ -38,7 +43,6 @@ function remoteCall(method,payload,files,captcha,session){
 				},
 			},
 	).always(function(){loader.stopLoader();});
-
 }
 
 function handshake(name) {
