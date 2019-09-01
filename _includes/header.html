@@ -46,7 +46,9 @@
   -moz-transform: rotate(0deg);
   transform: rotate(0deg);
 }
-
+#orders-button {
+  display: none;
+}
 
 
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
@@ -70,8 +72,9 @@
     </div>
 
     <div class='checkout-button'">
+      <a class="pure-button" id='orders-button' href="/orders"><i class="fas fa-receipt"></i></a>
       <a class="pure-button" href="/checkout"><i class="fas fa-shopping-cart"></i></a>
-      <a class="pure-button" id="login_button" href="/login"><i class="fas fa-user-plus"></i></a>  <!-- <i class="fas fa-user-minus"></i> -->
+      <a class="pure-button" id="login-button" href="/login"><i class="fas fa-user-plus"></i></a>  <!-- <i class="fas fa-user-minus"></i> -->
     </div>
 
     <div class="pure-menu pure-menu-horizontal custom-menu">
@@ -114,12 +117,14 @@
         var username = $('#apiuser');
         username.text(data.user.name.split(' ')[0]);
         username.attr("href","/edit-user");
-        login_button = $('#login_button');
+        login_button = $('#login-button');
         login_button.html('<i class="fas fa-user-minus"></i>');
         login_button.attr("href","#");
         login_button.click(function () {
           logout();
+          $('#orders-button').css('display','none');
         });
+        $('#orders-button').css('display','unset');
 
       }).fail(function(data){
         current_user.reject(false).promise();

@@ -32,11 +32,11 @@
   <div class="pure-form">
     <legend>Todo listo</legend>
     <div class="pure-g">
-      <div class="pure-u-1">
-        <p id="message-text"></p>
-      </div>
       <div class="pure-u-1-2">
         <button form='service' type="submit" class="pure-button send-button pure-button-primary">Agregar <i class="fas fa-shopping-cart"></i></button>
+      </div>
+      <div class="pure-u-1">
+        <p id="message-text"></p>
       </div>
     </div>
   </div>
@@ -47,9 +47,9 @@
 
 <script>
 
-  var form_cnc = $( "#service" );
+  var form_service = $( "#service" );
 
-  form_cnc.on('submit', function( event ) {
+  form_service.on('submit', function( event ) {
     event.preventDefault();
     current_user.done(function(){
       send_call(false);
@@ -68,15 +68,15 @@
 
   function send_call(captcha){
     var method = 'form_add_cart_item';
-    var payload = form_cnc.serializeFormJSON();
+    var payload = form_service.serializeFormJSON();
     payload['cart_token'] = cart_token;
     var session_token = getCookie('session_token');
     remoteCall(method,payload,upload_files,captcha,session_token).done(function(response){
-      form_cnc.trigger('reset');
+      form_service.trigger('reset');
       reset_files();
-      messageInfo('¡Excelente!');
+      messageInfo('¡Agregado a la lista de compras!');
     }).fail(function(){
-      messageAlert('Nop.');
+      messageAlert('Upps... algo no esta bien.');
     });
   }
 

@@ -1,12 +1,8 @@
 <!-- ---------includes--------- -->
 {% include messages.html %}
 <!-- ---------includes--------- -->
-
-
 <style>
-  .send-button {
-    width : 100% ;
-  }
+
   .delete-item {
     float:right;
     font-size: 12px;
@@ -23,7 +19,7 @@
     <input form='service' type="hidden" name="service" value="{{ page.title | slugify }}">
   </form>
 
-  <legend>Productos</legend>
+  <legend>Ordenes</legend>
   <div class="pure-g">
     <div class="pure-u-1">
       <fieldset>
@@ -39,20 +35,6 @@
   </div>
 </div>
 
-{% include form-user-info.html %}
-
-<div class="pure-form">
-  <legend>Todo listo</legend>
-  <div class="pure-g">
-    <div class="pure-u-1-2">
-      <button form='service' type="submit" class="pure-button send-button pure-button-primary">Cotizar <i class="fas fa-receipt"></i></button>
-    </div>
-    <div class="pure-u-1">
-      <p id="message-text"></p>
-    </div>
-  </div>
-</div>
-
 <script>
 
   function remove_cart_item(element){
@@ -62,13 +44,13 @@
 
   $(document).ready(function () {
     current_user.done(function(){
-      get_cart_items(false);
+      get_orders(false);
     }).fail(function(){
       {%- if jekyll.environment == 'production' -%}
       grecaptcha.ready(function() {
-          grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'get_cart_items'}).then(function(captcha) {
+          grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'get_orders'}).then(function(captcha) {
       {%- else -%} var captcha = 'dummy'; {%- endif -%}
-      get_cart_items(captcha);
+      get_orders(captcha);
       {%- if jekyll.environment == 'production' -%}
           });
       });
@@ -76,22 +58,22 @@
     });
   });
 
-  function get_cart_items(captcha){
-    var method = 'get_cart_items';
+  function get_orders(captcha){
+    var method = 'get_orders';
     var payload = {'cart_token':cart_token}
     var session_token = getCookie('session_token');
     remoteCall(method,payload,false,captcha,session_token).done(function(response){
       console.log(response)
-      cart_items = response.cart_items;
+      cart_items = response.orders;
       var cart_item;
       var cart_item_container = $('#pid-1')
       for (var i = 0; i < cart_items.length; i++) {
         cart_item = cart_items[i]
-        cart_item_container.clone().attr('id',cart_item.pid).insertAfter($('#pid-1'));
-        new_cart_item = $('#'+ cart_item.pid );
-        new_cart_item.find('pid').html('<b>' + cart_item.service + '</b>    ' + cart_item.name);
-        new_cart_item.find('pre').text(cart_item.payload_json);
-        new_cart_item.find('input').val(cart_item.pid);
+        cart_item_container.clone().attr('id',cart_item.order_id).insertAfter($('#pid-1'));
+        new_cart_item = $('#'+ cart_item.order_id );
+        new_cart_item.find('pid').html('<b>' + cart_item.order_id + '</b>    ' + cart_item.name);
+        new_cart_item.find('pre').text(JSON.stringify(cart_item, null, '\t'));
+        new_cart_item.find('input').val(cart_item.order_id);
         new_cart_item.css('display','block');
       }
     })
