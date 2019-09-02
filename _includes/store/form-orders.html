@@ -1,5 +1,6 @@
 <!-- ---------includes--------- -->
 {% include utils/messages.html %}
+{% include utils/dialogs.html %}
 <!-- ---------includes--------- -->
 <style>
 
@@ -62,20 +63,24 @@
     event.preventDefault();
     details = element.closest('details');
     id = $(details).prop('id');
-    current_user.done(function(){
-      delete_call(id,false);
-      details.remove();
-    }).fail(function(){
-      {%- if jekyll.environment == 'production' -%}
-      grecaptcha.ready(function() {
-          grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'remove_order_item'}).then(function(captcha) {
-      {%- else -%} var captcha = 'dummy'; {%- endif -%}
-      delete_call(id,captcha);
-      {%- if jekyll.environment == 'production' -%}
-          });
+    showOkCancelDialog('Borrar orden','La orden se elimiará de forma permanente.').done(function(){
+
+      current_user.done(function(){
+        delete_call(id,false);
+        details.remove();
+      }).fail(function(){
+        {%- if jekyll.environment == 'production' -%}
+        grecaptcha.ready(function() {
+            grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'remove_order_item'}).then(function(captcha) {
+        {%- else -%} var captcha = 'dummy'; {%- endif -%}
+        delete_call(id,captcha);
+        {%- if jekyll.environment == 'production' -%}
+            });
+        });
+        {%- endif -%}
       });
-      {%- endif -%}
-    });
+
+    })
   };
 
   function delete_call(id,captcha){

@@ -6,9 +6,7 @@
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 #
 layout: page
-title: Store
+title: Manufactura digital
 ---
 
-**dfmdmx** shares some of the tools derived from the solutions I had implemented in previous projects as standalone open-source programs. It also hosts my work as an Architect, current projects and some of my ideas on the way I approach design through coding.
-
-{% include utils/index-services.html %}
+Tienda en línea de productos maquinados en CNC, servicio de corte con router de control numérico e impresión 3D.

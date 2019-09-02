@@ -85,7 +85,7 @@
     <div class="pure-menu pure-menu-horizontal custom-menu">
         <ul class="pure-menu-list">
             <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
-                <a href="#" id="menuLink1" class="pure-menu-link">Services</a>
+                <a href="#" id="menuLink1" class="pure-menu-link">Servicios</a>
                 <ul class="pure-menu-children">
                   {% for service in site.services %}
                     <li class="pure-menu-item"><a href="{{ service.url }}" class="pure-menu-link">{{ service.title }}</a></li>
@@ -93,10 +93,10 @@
                 </ul>
             </li>
             <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
-                <a href="#" id="menuLink1" class="pure-menu-link">Products</a>
+                <a href="#" id="menuLink1" class="pure-menu-link">Productos</a>
                 <ul class="pure-menu-children">
                   {% for product in site.products %}
-                    <li class="pure-menu-item"><a href="{{ service.url }}" class="pure-menu-link">{{ product.title }}</a></li>
+                    <li class="pure-menu-item"><a href="{{ product.url }}" class="pure-menu-link">{{ product.title }}</a></li>
                   {% endfor %}
                 </ul>
             </li>
