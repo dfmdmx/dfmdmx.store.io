@@ -10,12 +10,17 @@
   padding:4px;
   padding-left: 12px;
   padding-bottom: 8px;
+  border-bottom-left-radius:3px;
+  border-bottom-right-radius:3px;
   font-family: 'Inconsolata', monospace;
   font-size: 18px;
   background: #424242;
 }
 .title-header a {
   color: #e4e4e4;
+}
+.button-transparent {
+    background: transparent; /* this is an orange */
 }
 .apiuser {
   float: right;
@@ -72,9 +77,9 @@
     </div>
 
     <div class='checkout-button'">
-      <a class="pure-button" id='orders-button' href="/orders"><i class="fas fa-receipt"></i></a>
-      <a class="pure-button" href="/checkout"><i class="fas fa-shopping-cart"></i></a>
-      <a class="pure-button" id="login-button" href="/login"><i class="fas fa-user-plus"></i></a>  <!-- <i class="fas fa-user-minus"></i> -->
+      <a class="pure-button button-transparent" id='orders-button' href="/orders"><i class="fas fa-receipt"></i></a>
+      <a class="pure-button button-transparent" href="/checkout"><i class="fas fa-shopping-cart"></i></a>
+      <a class="pure-button button-transparent" id="login-button" href="/login"><i class="fas fa-user-plus"></i></a>  <!-- <i class="fas fa-user-minus"></i> -->
     </div>
 
     <div class="pure-menu pure-menu-horizontal custom-menu">
