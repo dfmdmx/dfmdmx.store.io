@@ -25,7 +25,7 @@
       <fieldset>
 
         <details id='pid-1' class='cart-item'>
-          <summary><pid><b>Servicio</b>Nombre del articulo</pid><a onclick="remove_cart_item(this);" class='delete-item'>Cancelar <i class="fas fa-times"></i></a></summary>
+          <summary><pid><b>Servicio</b>Nombre del articulo</pid><a onclick="remove_order_item(this);" class='delete-item'>Cancelar <i class="fas fa-times"></i></a></summary>
           <input form='service' type='hidden' value='' name='cart_items'>
           <pre>Algo chulo para el usuario</pre>
         </details>
@@ -58,6 +58,34 @@
     });
   });
 
+  function remove_order_item(element){
+    event.preventDefault();
+    details = element.closest('details');
+    id = $(details).prop('id');
+    current_user.done(function(){
+      delete_call(id,false);
+      details.remove();
+    }).fail(function(){
+      {%- if jekyll.environment == 'production' -%}
+      grecaptcha.ready(function() {
+          grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'remove_order_item'}).then(function(captcha) {
+      {%- else -%} var captcha = 'dummy'; {%- endif -%}
+      delete_call(id,captcha);
+      {%- if jekyll.environment == 'production' -%}
+          });
+      });
+      {%- endif -%}
+    });
+  };
+
+  function delete_call(id,captcha){
+    var method = 'remove_order_item';
+    var payload = {'order_item':id};
+    var session_token = getCookie('session_token');
+    remoteCall(method,payload,false,captcha,session_token).done(function(response){
+      })
+  }
+
   function get_orders(captcha){
     var method = 'get_orders';
     var payload = {'cart_token':cart_token}
@@ -69,11 +97,11 @@
       var cart_item_container = $('#pid-1')
       for (var i = 0; i < cart_items.length; i++) {
         cart_item = cart_items[i]
-        cart_item_container.clone().attr('id',cart_item.order_id).insertAfter($('#pid-1'));
-        new_cart_item = $('#'+ cart_item.order_id );
-        new_cart_item.find('pid').html('<b>' + cart_item.order_id + '</b>    ' + cart_item.name);
+        cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
+        new_cart_item = $('#'+ cart_item.id );
+        new_cart_item.find('pid').html('<b>' + cart_item.order_id + '</b> - ' + cart_item.items_json.length + ' artículos');
         new_cart_item.find('pre').text(json_dumps(cart_item));
-        new_cart_item.find('input').val(cart_item.order_id);
+        new_cart_item.find('input').val(cart_item.id);
         new_cart_item.css('display','block');
       }
     })

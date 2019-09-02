@@ -22,7 +22,7 @@
       <fieldset>
 
         <details id='pid-1' class='cart-item'>
-          <summary><h><b>Servicio</b>Nombre del articulo</h><a onclick="remove_cart_item(this);" class='delete-item'><i class="fas fa-trash"></i></a></summary>
+          <summary><h><b>Servicio</b>Nombre del articulo</h><a onclick="remove_cart_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a></summary>
           <input form='form-store' type='hidden' value='' name='items_id'>
           <pre>Algo chulo para el usuario</pre>
         </details>
@@ -50,8 +50,31 @@
 
   function remove_cart_item(element){
     event.preventDefault();
-    element.closest('details').remove();
+    details = element.closest('details');
+    id = $(details).prop('id');
+    current_user.done(function(){
+      delete_call(id,false);
+      details.remove();
+    }).fail(function(){
+      {%- if jekyll.environment == 'production' -%}
+      grecaptcha.ready(function() {
+          grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'remove_cart_item'}).then(function(captcha) {
+      {%- else -%} var captcha = 'dummy'; {%- endif -%}
+      delete_call(id,captcha);
+      {%- if jekyll.environment == 'production' -%}
+          });
+      });
+      {%- endif -%}
+    });
   };
+
+  function delete_call(id,captcha){
+    var method = 'remove_cart_item';
+    var payload = {'cart_item':id};
+    var session_token = getCookie('session_token');
+    remoteCall(method,payload,false,captcha,session_token).done(function(response){
+      })
+  }
 
   $(document).ready(function () {
     current_user.done(function(){
