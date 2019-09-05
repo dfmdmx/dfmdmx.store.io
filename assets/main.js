@@ -27,17 +27,16 @@ function remoteCall(method,payload,files,captcha,session){
 	}
 	var call;
 	if (data_jekyll_env == 'production'){
-		call = grecaptcha.ready(function() {
-			var captcha_call = grecaptcha.execute(data_captcha_key, {action:method}).then(function(captcha) {
+		grecaptcha.ready(function() {
+			grecaptcha.execute(data_captcha_key, {action:method}).then(function(captcha) {
 				form_data.append('captcha',captcha);
 				call = makeCall(form_data);
 				console.log(call);
 			});
-			return captcha_call
 		});
 	}else{
 		form_data.append('captcha','dummy');
-		call = makeCall(form_data);
+		call =  makeCall(form_data);
 	}
 	return call
 }
