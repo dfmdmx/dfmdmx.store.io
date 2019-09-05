@@ -58,7 +58,7 @@
 
            var method = 'form_login';
            var payload = $( ".login" ).serializeFormJSON();
-           remoteCall(method,payload,false,captcha,false).done(function(data){
+           remoteCall(method,payload,false,false,false).done(function(data){
              var session_token = data.session_token;
              setCookie('session_token', session_token, 2);
              window.location.replace("/");
