@@ -14,10 +14,8 @@ function encodePayload(payload){
 }
 
 function remoteCall(method,payload,files,captcha,session){
-	loader.runLoader();
 	var form_data = new FormData();
 	form_data.append('method',method);
-	form_data.append('captcha',captcha);
 	form_data.append('session',session);
 	form_data.append('payload',encodePayload(payload));
 	if (files) {
@@ -27,7 +25,23 @@ function remoteCall(method,payload,files,captcha,session){
 			form_data.append('file',upload_file,upload_file.name);
 		}
 	}
+	var call;
+	if (jekyll_env == 'prpduction'){
+		grecaptcha.ready(function() {
+			grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: method}).then(function(captcha) {
+				form_data.append('captcha',captcha);
+				call = makeCall(form_data);
+			});
+		});
+	}else{
+		form_data.append('captcha','dummy');
+		call = makeCall(form_data);
+	}
+	return call
+}
 
+function makeCall(form_data) {
+	loader.runLoader();
 	return $.ajax({
 			type: 'POST',
 			url: data_callback_url,
@@ -96,8 +110,6 @@ function getCookie(cname) {
   }
   return "";
 }
-
-
 
 function logout() {
 	var session_token = getCookie('session_token')

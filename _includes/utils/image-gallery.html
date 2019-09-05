@@ -1,7 +1,9 @@
 <!-- ---------includes--------- -->
-{% include utils/data_liquid.html %}
 {% include utils/lightbox.html %}
 <!-- ---------includes--------- -->
+
+{% capture binderPath %}/assets/binder/{{ page.date | date: "%Y-%m-%d" }}-{{ page.title | slugify }}/{% endcapture %}
+
 
 <style>
     .image-gallery {overflow: auto; margin-left: -1%!important; margin-top:20px;margin-bottom:40px;}
