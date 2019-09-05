@@ -26,9 +26,9 @@ function remoteCall(method,payload,files,captcha,session){
 		}
 	}
 	var call;
-	if (jekyll_env == 'prpduction'){
+	if (jekyll_env == 'production'){
 		grecaptcha.ready(function() {
-			grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: method}).then(function(captcha) {
+			grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_login'}).then(function(captcha) {
 				form_data.append('captcha',captcha);
 				call = makeCall(form_data);
 			});
