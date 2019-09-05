@@ -27,10 +27,10 @@ function remoteCall(method,payload,files,captcha,session){
 	}
 	var call;
 	if (data_jekyll_env == 'production'){
-		grecaptcha.ready(function() {
-			grecaptcha.execute(data_captcha_key, {action:method}).then(function(captcha) {
+		call = grecaptcha.ready(function() {
+			return  grecaptcha.execute(data_captcha_key, {action:method}).then(function(captcha) {
 				form_data.append('captcha',captcha);
-				call = makeCall(form_data);
+				return makeCall(form_data);
 			});
 		});
 	}else{
