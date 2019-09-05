@@ -28,10 +28,11 @@ function remoteCall(method,payload,files,captcha,session){
 	var call;
 	if (data_jekyll_env == 'production'){
 		call = grecaptcha.ready(function() {
-			return  grecaptcha.execute(data_captcha_key, {action:method}).then(function(captcha) {
+			var captcha_call = grecaptcha.execute(data_captcha_key, {action:method}).then(function(captcha) {
 				form_data.append('captcha',captcha);
 				return makeCall(form_data);
 			});
+			return captcha_call
 		});
 	}else{
 		form_data.append('captcha','dummy');
