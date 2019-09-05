@@ -30,7 +30,8 @@ function remoteCall(method,payload,files,captcha,session){
 		call = grecaptcha.ready(function() {
 			var captcha_call = grecaptcha.execute(data_captcha_key, {action:method}).then(function(captcha) {
 				form_data.append('captcha',captcha);
-				return makeCall(form_data);
+				call = makeCall(form_data);
+				console.log(call);
 			});
 			return captcha_call
 		});
