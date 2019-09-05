@@ -1,4 +1,12 @@
 
+<script>
+
+var data_callback_url = '{{site.data.callback.url}}';
+var data_google_client_id = '{{site.data.google.client_id}}';
+var data_captcha_key = '{{ site.data.callback.captchakey }}';
+var data_jekyll_env = '{{ jekyll.environment }}';
+
+
 function json_dumps(json_data){
 	return JSON.stringify(json_data, null, '\t')
 }
@@ -14,8 +22,23 @@ function encodePayload(payload){
 }
 
 function remoteCall(method,payload,files,captcha,session){
+  {%- if jekyll.environment == 'production' -%}
+  grecaptcha.ready(function() {
+      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: method}).then(function(captcha) {
+  {%- else -%} var captcha = 'dummy'; {%- endif -%}
+  return makeCall(method,payload,files,captcha,session)
+  {%- if jekyll.environment == 'production' -%}
+      });
+  });
+  {%- endif -%}
+}
+
+function makeCall(method,payload,files,captcha,session){
+
+	loader.runLoader();
 	var form_data = new FormData();
 	form_data.append('method',method);
+	form_data.append('captcha',captcha);
 	form_data.append('session',session);
 	form_data.append('payload',encodePayload(payload));
 	if (files) {
@@ -25,25 +48,7 @@ function remoteCall(method,payload,files,captcha,session){
 			form_data.append('file',upload_file,upload_file.name);
 		}
 	}
-	var call;
-	if (data_jekyll_env == 'production'){
-		grecaptcha.ready(function() {
-			grecaptcha.execute(data_captcha_key, {action:method}).then(function(captcha) {
-				form_data.append('captcha',captcha);
-				call = makeCall(form_data);
-			});
-		});
-	}else{
-		form_data.append('captcha','dummy');
-		call =  makeCall(form_data);
 
-	}
-	console.log(call);
-	return call
-}
-
-function makeCall(form_data) {
-	loader.runLoader();
 	return $.ajax({
 			type: 'POST',
 			url: data_callback_url,
@@ -142,3 +147,5 @@ var loader = {
 		jQuery( '.loading-image' ).toggleClass("stop");
 	}
 }
+
+</script>

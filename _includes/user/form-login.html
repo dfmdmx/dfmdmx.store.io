@@ -53,27 +53,21 @@
 
   $( ".login" ).on('submit', function( event ) {
     event.preventDefault();
-
-
-
-           var method = 'form_login';
-           var payload = $( ".login" ).serializeFormJSON();
-           remoteCall(method,payload,false,false,false).done(function(data){
-             var session_token = data.session_token;
-             setCookie('session_token', session_token, 2);
-             window.location.replace("/");
-           }).fail(function(){
-             messageAlert('Las credenciales son inválidas.');
-           });
-
-
+    var method = 'form_login';
+    var payload = $( ".login" ).serializeFormJSON();
+    remoteCall(method,payload,false,'dummy',false).done(function(data){
+     var session_token = data.session_token;
+     setCookie('session_token', session_token, 2);
+     window.location.replace("/");
+    }).fail(function(){
+     messageAlert('Las credenciales son inválidas.');
+    });
 
   });
 
   function onSignIn(googleUser) {
 
     {%- if jekyll.environment == 'production' -%}
-
     grecaptcha.ready(function() {
         grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'google_login'}).then(function(captcha) {
     {%- else -%} var captcha = 'dummy'; {%- endif -%}
