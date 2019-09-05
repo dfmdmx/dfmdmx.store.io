@@ -31,13 +31,14 @@ function remoteCall(method,payload,files,captcha,session){
 			grecaptcha.execute(data_captcha_key, {action:method}).then(function(captcha) {
 				form_data.append('captcha',captcha);
 				call = makeCall(form_data);
-				console.log(call);
 			});
 		});
 	}else{
 		form_data.append('captcha','dummy');
 		call =  makeCall(form_data);
+
 	}
+	console.log(call);
 	return call
 }
 
