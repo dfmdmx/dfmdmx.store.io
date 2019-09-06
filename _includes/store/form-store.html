@@ -10,7 +10,7 @@
 <form id='form-store'>
   <input form='form-store' type="hidden" name="item_type" value="{{ page.title | slugify }}">
 </form>
-<script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
+
 <script>
 
   var upload_files = [];
@@ -19,37 +19,23 @@
   form_store.on('submit', function( event ) {
     event.preventDefault();
     current_user.done(function(){
-      send_call(false);
-    }).fail(function(){
-      {%- if jekyll.environment == 'production' -%}
-      grecaptcha.ready(function() {
-          grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: '{{include.method}}'}).then(function(captcha) {
-      {%- else -%} var captcha = 'dummy'; {%- endif -%}
-      send_call(captcha);
-      {%- if jekyll.environment == 'production' -%}
-          });
+      var method = '{{include.method}}';
+      var payload = form_store.serializeFormJSON();
+      payload['cart_token'] = cart_token;
+      remoteCall(method,payload,upload_files).done(function(response){
+        console.log(response);
+        if (method == 'form_order'){
+          window.location.replace("/orders");
+        }else{
+          reset_files();
+          form_store.trigger('reset');
+          messageInfo('¡Listo!');
+        }
+      }).fail(function(){
+        messageAlert('Upps... algo no esta bien.');
       });
-      {%- endif -%}
     });
   });
 
-  function send_call(captcha){
-    var method = '{{include.method}}';
-    var payload = form_store.serializeFormJSON();
-    payload['cart_token'] = cart_token;
-    var session_token = getCookie('session_token');
-    remoteCall(method,payload,upload_files,captcha,session_token).done(function(response){
-      console.log(response);
-      if (method == 'form_order'){
-        window.location.replace("/orders");
-      }else{
-        reset_files();
-        form_store.trigger('reset');
-        messageInfo('¡Listo!');
-      }
-    }).fail(function(){
-      messageAlert('Upps... algo no esta bien.');
-    });
-  }
 
 </script>

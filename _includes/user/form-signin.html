@@ -48,51 +48,28 @@
 
   $( ".signin" ).on('submit', function( event ) {
     event.preventDefault();
-
-    {%- if jekyll.environment == 'production' -%}
-    grecaptcha.ready(function() {
-        grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_signin'}).then(function(captcha) {
-    {%- else -%} var captcha = 'dummy'; {%- endif -%}
-
-       var method = 'form_signin';
-       var payload = $( ".signin" ).serializeFormJSON();
-       remoteCall(method,payload,false,captcha,false).done(function(response){
-         window.location.replace("/login");
-       }).fail(function(){
-         messageAlert('Error: Puede que el correo ya este registrado.');
-       });
-
-    {%- if jekyll.environment == 'production' -%}
-        });
+    var method = 'form_signin';
+    var payload = $( ".signin" ).serializeFormJSON();
+    remoteCall(method,payload,false).done(function(response){
+     window.location.replace("/login");
+    }).fail(function(){
+     messageAlert('Error: Puede que el correo ya este registrado.');
     });
-    {%- endif -%}
-
   });
 
   function onSignIn(googleUser) {
 
-    {%- if jekyll.environment == 'production' -%}
-
-    grecaptcha.ready(function() {
-        grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'google_login'}).then(function(captcha) {
-    {%- else -%} var captcha = 'dummy'; {%- endif -%}
-
     var id_token = googleUser.getAuthResponse().id_token;
     var method = 'google_login';
     var payload = {'id_token':id_token};
-    remoteCall(method,payload,false,captcha,false).done(function(response){
+    remoteCall(method,payload,false).done(function(response){
       var session_token = response.session_token;
       setCookie('session_token', session_token, 2);
       window.location.replace("/");
     }).fail(function(){
       messageAlert('Las credenciales son inválidas.');
     });
-
-    {%- if jekyll.environment == 'production' -%}
-        });
-    });
-    {%- endif -%}
-
+    
   }
 
 </script>
