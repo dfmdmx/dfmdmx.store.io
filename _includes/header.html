@@ -136,8 +136,8 @@
         current_user.reject(false).promise();
         setCookie('session_token','',-1000);
       });
-      
-      remoteCall('get_current_user',false,false,false,session_token,callback_function)
+
+      remoteCall('get_current_user',false,false,false,session_token,callback_function);
     }else{
       current_user.reject(false).promise();
     }
