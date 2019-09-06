@@ -27,32 +27,45 @@ function create_submit_form(method,payload,files,captcha,session){
 	return form_data
 }
 
-var callback = $.Deferred();
+
 function remoteCall(method,payload,files,captcha,session){
 
 	var form_data = create_submit_form(method,payload,files,captcha,session);
-	grecaptcha.ready(function() {
-		grecaptcha.execute(data_captcha_key, {action: method}).then(function(captcha) {
-			form_data.append('captcha',captcha);
-			return $.ajax({
-					type: 'POST',
-					url: data_callback_url,
-					data: form_data,
-					contentType: false,
-					cache: false,
-					processData: false,
-					success: function(data){
-						callback.resolve(data);
-					},
-					dataFilter: function(data){
-						data = JSON.parse(data);
-						// Aqui se puede hacer la evaluaci;on de otras cosas que se manda en el json aparte de payload
-						// La funcion solo regresa el payload
-						return JSON.stringify(decodePayload(data.payload))
-						},
-					})
-				})
+	if (data_jekyll_env == 'production') {
+		grecaptcha.ready(function() {
+			grecaptcha.execute(data_captcha_key, {action: method}).then(function(captcha) {
+				form_data.append('captcha',captcha);
+				makeCall(form_data);
 			})
+		})
+	}else{
+		form_data.append('captcha','dummy');
+		makeCall(form_data);
+	}
+}
+
+var callback = $.Deferred();
+function makeCall(form_data){
+	return $.ajax({
+			type: 'POST',
+			url: data_callback_url,
+			data: form_data,
+			contentType: false,
+			cache: false,
+			processData: false,
+			success: function(data){
+				callback.resolve(data);
+			},
+			error: function(){
+				callback.reject();
+			},
+			dataFilter: function(data){
+				data = JSON.parse(data);
+				// Aqui se puede hacer la evaluaci;on de otras cosas que se manda en el json aparte de payload
+				// La funcion solo regresa el payload
+				return JSON.stringify(decodePayload(data.payload))
+			},
+	})
 }
 
 function handshake(name) {
