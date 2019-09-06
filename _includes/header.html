@@ -117,8 +117,27 @@
   $(document).ready(function () {
     var session_token = getCookie('session_token')
     if (session_token != '') {
-      var callback_function = callback.then(function(data){console.log(data)});
-      remoteCall('get_current_user',false,false,false,session_token,callback_function);
+      var callback_function = callback.then(function(data){
+        console.log(data);
+        current_user.resolve(data.user).promise();
+        var username = $('#apiuser');
+        username.text(data.user.name.split(' ')[0]);
+        username.attr("href","/edit-user");
+        login_button = $('#login-button');
+        login_button.html('<i class="fas fa-user-minus"></i>');
+        login_button.attr("href","#");
+        login_button.click(function () {
+          logout();
+          $('#orders-button').css('display','none');
+        });
+        $('#orders-button').css('display','unset');
+
+      }).fail(function(data){
+        current_user.reject(false).promise();
+        setCookie('session_token','',-1000);
+      });
+      
+      remoteCall('get_current_user',false,false,false,session_token,callback_function)
     }else{
       current_user.reject(false).promise();
     }

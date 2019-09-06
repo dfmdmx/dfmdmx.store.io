@@ -55,18 +55,19 @@
     event.preventDefault();
     var method = 'form_login';
     var payload = $( ".login" ).serializeFormJSON();
+    
+    var callback_function = callback.then(function(data){
+      console.log(data);
+      var session_token = data.session_token;
+      setCookie('session_token', session_token, 2);
+      window.location.replace("/");
+     }).fail(function(){
+      messageAlert('Las credenciales son inválidas.');
+     });
+     remoteCall(method,payload,false,'dummy',false,callback).done(function(data)
 
-
-    var callback_function = callback.then(function(data){console.log(data)});
-    remoteCall(method,payload,false,'dummy',false,callback).done(function(data){
-     var session_token = data.session_token;
-     setCookie('session_token', session_token, 2);
-     window.location.replace("/");
-    }).fail(function(){
-     messageAlert('Las credenciales son inválidas.');
     });
 
-  });
 
   function onSignIn(googleUser) {
 
