@@ -12,10 +12,10 @@ function encodePayload(payload){
 	return encodedData
 }
 
-function create_submit_form(method,payload,files,captcha,session){
+function create_submit_form(method,payload,files){
 	var form_data = new FormData();
 	form_data.append('method',method);
-	form_data.append('session',session);
+	form_data.append('session',getCookie('session_token'));
 	form_data.append('payload',encodePayload(payload));
 	if (files) {
 		var upload_file;
@@ -27,25 +27,24 @@ function create_submit_form(method,payload,files,captcha,session){
 	return form_data
 }
 
-
-function remoteCall(method,payload,files,captcha,session){
-
-	var form_data = create_submit_form(method,payload,files,captcha,session);
+function remoteCall(method,payload,files){
+	var callback = $.Deferred();
+	var form_data = create_submit_form(method,payload,files);
 	if (data_jekyll_env == 'production') {
 		grecaptcha.ready(function() {
 			grecaptcha.execute(data_captcha_key, {action: method}).then(function(captcha) {
 				form_data.append('captcha',captcha);
-				makeCall(form_data);
+				makeCall(form_data,callback);
 			})
 		})
 	}else{
 		form_data.append('captcha','dummy');
-		makeCall(form_data);
+		makeCall(form_data,callback);
 	}
+	return callback
 }
 
-var callback = $.Deferred();
-function makeCall(form_data){
+function makeCall(form_data,callback){
 	return $.ajax({
 			type: 'POST',
 			url: data_callback_url,
@@ -121,18 +120,17 @@ function getCookie(cname) {
 }
 
 function logout() {
-	var session_token = getCookie('session_token')
-	if (session_token == '') { return };
-	remoteCall('form_logout',{'session_token':session_token},false,false,session_token).then(function(response){
-    if ( data_jekyll_env == 'production') {
-  		gapi.load('auth2', function() {
-  			var auth2 = gapi.auth2.getAuthInstance();
-  			auth2.signOut().then(function (){
-  	      //console.log('User signed out.');
-  	    })
-      });
+	if (getCookie('session_token') == '') { return };
+	remoteCall('form_logout',false,false).done(function(){
+		if ( data_jekyll_env == 'production') {
+			gapi.load('auth2', function() {
+				var auth2 = gapi.auth2.getAuthInstance();
+				auth2.signOut().then(function (){
+					//console.log('User signed out.');
+				})
+			});
 		};
-  }).always(function(){
+	}).always(function(){
   setCookie('session_token','',-1000);
   window.location.replace("/");
   });
