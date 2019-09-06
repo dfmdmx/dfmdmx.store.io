@@ -1,12 +1,3 @@
-
-<script>
-
-var data_callback_url = '{{site.data.callback.url}}';
-var data_google_client_id = '{{site.data.google.client_id}}';
-var data_captcha_key = '{{ site.data.callback.captchakey }}';
-var data_jekyll_env = '{{ jekyll.environment }}';
-
-
 function json_dumps(json_data){
 	return JSON.stringify(json_data, null, '\t')
 }
@@ -21,24 +12,9 @@ function encodePayload(payload){
 	return encodedData
 }
 
-function remoteCall(method,payload,files,captcha,session){
-  {%- if jekyll.environment == 'production' -%}
-  grecaptcha.ready(function() {
-      grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: method}).then(function(captcha) {
-  {%- else -%} var captcha = 'dummy'; {%- endif -%}
-  return makeCall(method,payload,files,captcha,session)
-  {%- if jekyll.environment == 'production' -%}
-      });
-  });
-  {%- endif -%}
-}
-
-function makeCall(method,payload,files,captcha,session){
-
-	loader.runLoader();
+function create_submit_form(method,payload,files,captcha,session){
 	var form_data = new FormData();
 	form_data.append('method',method);
-	form_data.append('captcha',captcha);
 	form_data.append('session',session);
 	form_data.append('payload',encodePayload(payload));
 	if (files) {
@@ -48,22 +24,35 @@ function makeCall(method,payload,files,captcha,session){
 			form_data.append('file',upload_file,upload_file.name);
 		}
 	}
+	return form_data
+}
 
-	return $.ajax({
-			type: 'POST',
-			url: data_callback_url,
-			data: form_data,
-			contentType: false,
-			cache: false,
-			processData: false,
-			dataFilter: function(data){
-				data = JSON.parse(data);
-				// Aqui se puede hacer la evaluaci;on de otras cosas que se manda en el json aparte de payload
-				// La funcion solo regresa el payload
-				return JSON.stringify(decodePayload(data.payload))
-				},
-			},
-	).always(function(){loader.stopLoader();});
+var callback = $.Deferred();
+function remoteCall(method,payload,files,captcha,session){
+
+	var form_data = create_submit_form(method,payload,files,captcha,session);
+	grecaptcha.ready(function() {
+		grecaptcha.execute(data_captcha_key, {action: method}).then(function(captcha) {
+			form_data.append('captcha',captcha);
+			return $.ajax({
+					type: 'POST',
+					url: data_callback_url,
+					data: form_data,
+					contentType: false,
+					cache: false,
+					processData: false,
+					success: function(data){
+						callback.resolve(data);
+					},
+					dataFilter: function(data){
+						data = JSON.parse(data);
+						// Aqui se puede hacer la evaluaci;on de otras cosas que se manda en el json aparte de payload
+						// La funcion solo regresa el payload
+						return JSON.stringify(decodePayload(data.payload))
+						},
+					})
+				})
+			})
 }
 
 function handshake(name) {
@@ -122,20 +111,18 @@ function logout() {
 	var session_token = getCookie('session_token')
 	if (session_token == '') { return };
 	remoteCall('form_logout',{'session_token':session_token},false,false,session_token).then(function(response){
-
-		gapi.load('auth2', function() {
-			var auth2 = gapi.auth2.getAuthInstance();
-			auth2.signOut().then(function () {
-	      //console.log('User signed out.');
-	    });
-		});
-
-	  }).fail(function(){
-		//console.log('serverapp signout error')
-	}).always(function(){
-		setCookie('session_token','',-1000);
-		window.location.replace("/");
-	});
+    if ( data_jekyll_env == 'production') {
+  		gapi.load('auth2', function() {
+  			var auth2 = gapi.auth2.getAuthInstance();
+  			auth2.signOut().then(function (){
+  	      //console.log('User signed out.');
+  	    })
+      });
+		};
+  }).always(function(){
+  setCookie('session_token','',-1000);
+  window.location.replace("/");
+  });
 }
 
 // Se necesita colocar css y html en header para que esto funcione
@@ -147,5 +134,3 @@ var loader = {
 		jQuery( '.loading-image' ).toggleClass("stop");
 	}
 }
-
-</script>
