@@ -107,7 +107,7 @@
 
 <script>
 
-  var cart_token = getCookie('cart_token')
+  var cart_token = getCookie('cart_token');
   if (cart_token == '') {
     cart_token = Math.random().toString(36);
     setCookie('cart_token', cart_token, 2);

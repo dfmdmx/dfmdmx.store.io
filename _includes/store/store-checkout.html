@@ -52,7 +52,7 @@
     event.preventDefault();
     details = element.closest('details');
     id = $(details).prop('id');
-    current_user.done(function(){
+    current_user.always(function(){
       var method = 'remove_cart_item';
       var payload = {'cart_item':id};
       remoteCall(method,payload,false).done(function(response){
@@ -62,7 +62,7 @@
   }
 
   $(document).ready(function () {
-    current_user.done(function(){
+    current_user.always(function(){
       var method = 'get_cart_items';
       var payload = {'cart_token':cart_token}
       remoteCall(method,payload,false).done(function(response){

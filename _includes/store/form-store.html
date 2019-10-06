@@ -18,7 +18,7 @@
 
   form_store.on('submit', function( event ) {
     event.preventDefault();
-    current_user.done(function(){
+    current_user.always(function(){
       var method = '{{include.method}}';
       var payload = form_store.serializeFormJSON();
       payload['cart_token'] = cart_token;
