@@ -44,19 +44,9 @@
   };
 
   $(document).ready(function () {
-    current_user.done(function(){
+    current_user.always(function(){
       get_orders(false);
-    }).fail(function(){
-      {%- if jekyll.environment == 'production' -%}
-      grecaptcha.ready(function() {
-          grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'get_orders'}).then(function(captcha) {
-      {%- else -%} var captcha = 'dummy'; {%- endif -%}
-      get_orders(captcha);
-      {%- if jekyll.environment == 'production' -%}
-          });
-      });
-      {%- endif -%}
-    });
+    })
   });
 
   function remove_order_item(element){
@@ -64,7 +54,6 @@
     details = element.closest('details');
     id = $(details).prop('id');
     showOkCancelDialog('Borrar orden','La orden se elimiará de forma permanente.').done(function(){
-
       current_user.done(function(){
         delete_call(id,false);
         details.remove();
