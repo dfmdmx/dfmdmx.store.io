@@ -27,9 +27,9 @@
         if (method == 'form_order'){
           window.location.replace("/orders");
         }else{
-          reset_files();
           form_store.trigger('reset');
           messageInfo('¡Listo!');
+          reset_files();
         }
       }).fail(function(){
         messageAlert('Upps... algo no esta bien.');

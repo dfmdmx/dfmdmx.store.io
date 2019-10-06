@@ -1,0 +1,50 @@
+<!-- ---------includes--------- -->
+{% include store/form-store.html method='form_add_cart_item' %}
+<!-- ---------includes--------- -->
+
+<div class="pure-form pure-form-stacked">
+  <fieldset>
+    <legend>Especificaciones del perfil</legend>
+    <div class="pure-g">
+
+      <div class="pure-u-1 pure-u-md-1-2">
+        <label>Ancho XY</label>
+        <select form='form-store' id="XY" name="XY" class="pure-input-2-3">
+          <option>20mm x 20mm</option>
+          <option>20mm x 40mm</option>
+          <option>40mm x 40mm</option>
+        </select>
+
+        <label>Largo Z</label>
+        <select form='form-store' id="largo" name="largo" class="pure-input-2-3">
+          <option>500mm</option>
+          <option>1000mm</option>
+          <option>1500mm</option>
+        </select>
+      </div>
+
+      <div class="pure-u-1 pure-u-md-1-2">
+        <label>Color anodizado</label>
+        <input form='form-store' type="radio" name="color" value="natural" checked> natural <br>
+        <input form='form-store' type="radio" name="color" value="black"> negro <br>
+      </div>
+
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Especificaciones del pedido</legend>
+    <div class="pure-g">
+      <div class="pure-u-1 pure-u-md-1-2">
+        <label>Cantidad de perfiles</label>
+        <input form='form-store' type='number' name='qty' value='1' min='1' max='99'>
+      </div>
+
+      <div class="pure-u-1 pure-u-md-1-2">
+        <label>Unidad</label>
+        Pieza
+      </div>
+
+    </div>
+  </fieldset>
+</div>
+{% include store/input-submit.html %}
