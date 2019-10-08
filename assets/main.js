@@ -1,5 +1,5 @@
 function json_dumps(json_data){
-	return JSON.stringify(json_data, null, '\t')
+	return JSON.stringify(json_data, null, '  ').replace(/"/g, '').replace(/,/g, '').replace(/,/g, '').replace(/{/g, '').replace(/}/g, '')
 }
 
 function decodePayload(payload){
