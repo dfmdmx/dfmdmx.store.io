@@ -1,8 +1,13 @@
 
+<style>
+    .image-gallery  {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+</style>
+
 
 {% capture binderPath %}/assets/binder/{{ page.date | date: "%Y-%m-%d" }}-{{ page.title | slugify }}/{% endcapture %}
-
-
 
 {% if include.folder %}
   {% assign folder = include.folder %}
@@ -10,36 +15,39 @@
   {% assign folder= binderPath | append: include.name %}
 {% endif %}
 
+<div class='image-gallery'>
 
-<div class='pure-g'>
-  {% assign img_count = 1 %}
-  {% assign row_count = 1 %}
-  {% for file in site.static_files %}{% if file.path contains folder %}
-  {% if file.extname == '.PNG' or file.extname == '.png' or file.extname == '.jpg' or file.extname == '.jpeg' or file.extname == '.JPG' or file.extname == '.JPEG' or file.extname == '.png'%}
-  {% assign filenameparts = file.path | split: "/" %}
-  {% assign filename = filenameparts | last | replace: file.extname,"" %}
-  {% assign img_count = img_count | plus: 1 %}
-  {% assign row_count = row_count | plus: 1 %}
-  <div class="pure-u-1-4">
-    <div class="perfundo">
-      <a class="perfundo__link" href="#perfundo-img{{ img_count }}">
-        <img class='pure-img' src="{{site.data.callback.th-url}}{{ file.path | replace: '/','_' }}" alt="{{ filename }}" title="{{ filename }}" />
-      </a>
-      <div id="perfundo-img{{ img_count }}" class="perfundo__overlay fadeIn">
-        <figure class="perfundo__content perfundo__figure">
-          <div class="perfundo__image" style="width: 800px; padding-top: 66.25%; background-image: url({{ file.path }});"></div>
-        </figure>
-        <a href="#perfundo-untarget" class="perfundo__close perfundo__control">Close</a>
-        <a class="perfundo__next perfundo__control" href="#perfundo-img{{ img_count | plus: 1 }}">Next</a>
+  <div class='pure-g'>
+    {% assign img_count = 1 %}
+    {% assign row_count = 1 %}
+    {% for file in site.static_files %}{% if file.path contains folder %}
+    {% if file.extname == '.PNG' or file.extname == '.png' or file.extname == '.jpg' or file.extname == '.jpeg' or file.extname == '.JPG' or file.extname == '.JPEG' or file.extname == '.png'%}
+    {% assign filenameparts = file.path | split: "/" %}
+    {% assign filename = filenameparts | last | replace: file.extname,"" %}
+    {% assign img_count = img_count | plus: 1 %}
+    {% assign row_count = row_count | plus: 1 %}
+    <div class="pure-u-1-4">
+      <div class="perfundo">
+        <a class="perfundo__link" href="#perfundo-img{{ img_count }}">
+          <img class='pure-img' src="{{site.data.callback.th-url}}{{ file.path | replace: '/','_' }}" alt="{{ filename }}" title="{{ filename }}" />
+        </a>
+        <div id="perfundo-img{{ img_count }}" class="perfundo__overlay fadeIn">
+          <div class='pure-u-1-2' style='margin:auto'>
+            <img class ='pure-img' src="{{ file.path }}" alt="Demo image">
+          </div>
+          <a href="#perfundo-untarget" class="perfundo__close perfundo__control">Cerrar</a>
+          <a class="perfundo__next perfundo__control" href="#perfundo-img{{ img_count | plus: 1 }}"> >>> </a>
+        </div>
       </div>
     </div>
+
+    {% if row_count == 5 %}
+    {% assign row_count = 1 %}
+      </div>
+      <div class='pure-g'>
+    {% endif %}
+
+    {% endif %}{% endif %}{% endfor %}
   </div>
 
-  {% if row_count == 5 %}
-  {% assign row_count = 1 %}
-</div>
-<div class='pure-g'>
-  {% endif %}
-
-  {% endif %}{% endif %}{% endfor %}
 </div>
