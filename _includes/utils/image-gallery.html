@@ -46,8 +46,8 @@
 {% endif %}
 
 <div class='image-gallery'>
-
   <div class='pure-g'>
+    
     {% assign img_count = 1 %}
     {% assign row_count = 1 %}
     {% for file in site.static_files %}
@@ -57,6 +57,7 @@
     {% assign filename = filenameparts | last | replace: file.extname,"" %}
     {% assign img_count = img_count | plus: 1 %}
     {% assign row_count = row_count | plus: 1 %}
+
     <div class="pure-u-1-4">
       <div class="perfundo">
         <a class="perfundo__link" href="#perfundo-img{{ folder }}{{ img_count }}">
@@ -79,6 +80,9 @@
     {% endif %}
 
     {% endif %}{% endif %}{% endfor %}
+    {% assign img_count =  1 %}
+    {% assign row_count =  1 %}
+
   </div>
 
 </div>
