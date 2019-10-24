@@ -48,7 +48,7 @@
 
   $( ".signin" ).on('submit', function( event ) {
     event.preventDefault();
-    var method = 'form_signin';
+    var method = 'user_signin';
     var payload = $( ".signin" ).serializeFormJSON();
     remoteCall(method,payload,false).done(function(response){
      window.location.replace("/login");
@@ -60,7 +60,7 @@
   function onSignIn(googleUser) {
 
     var id_token = googleUser.getAuthResponse().id_token;
-    var method = 'google_login';
+    var method = 'user_google_login';
     var payload = {'id_token':id_token};
     remoteCall(method,payload,false).done(function(response){
       var session_token = response.session_token;
@@ -69,7 +69,7 @@
     }).fail(function(){
       messageAlert('Las credenciales son inválidas.');
     });
-    
+
   }
 
 </script>

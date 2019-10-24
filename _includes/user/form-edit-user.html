@@ -62,7 +62,7 @@
 
 $( ".edit-user" ).on('submit', function( event ) {
   event.preventDefault();
-  var method = 'form_user_edit';
+  var method = 'user_edit';
   var payload = $( ".edit-user" ).serializeFormJSON();
   remoteCall(method,payload,false).done(function(response){
    messageInfo('Cambios guardados.');
@@ -72,7 +72,7 @@ $( ".edit-user" ).on('submit', function( event ) {
 });
 
 function deleteUser() {
-   var method = 'form_user_delete';
+   var method = 'user_delete';
    remoteCall(method,false,false).done(function(response){
      showOkDialog('Usuario borrado','Hasta la vista baby.').done(function(){
        setCookie('session_token','',-1000);

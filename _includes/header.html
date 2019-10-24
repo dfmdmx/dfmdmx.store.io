@@ -117,7 +117,7 @@
   $(document).ready(function () {
     var session_token = getCookie('session_token')
     if (session_token != '') {
-      remoteCall('get_current_user',false,false).done(function(data){
+      remoteCall('user_get_current',false,false).done(function(data){
         current_user.resolve(data.user).promise();
         var username = $('#apiuser');
         username.text(data.user.name.split(' ')[0]);
