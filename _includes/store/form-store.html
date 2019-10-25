@@ -1,5 +1,6 @@
 <!-- ---------includes--------- -->
 {% include utils/messages.html %}
+{% include utils/dialogs.html %}
 <!-- ---------includes--------- -->
 <style>
   .send-button {
@@ -18,18 +19,29 @@
 
   form_store.on('submit', function( event ) {
     event.preventDefault();
-    current_user.always(function(){
+    current_user.always(function(user){
       var method = '{{include.method}}';
       var payload = form_store.serializeFormJSON();
       payload['cart_token'] = cart_token;
       remoteCall(method,payload,upload_files).done(function(response){
         console.log(response);
-        if (method == 'form_order'){
-          window.location.replace("/orders");
+        console.log('user',user);
+        if (method == 'store_form_order')  {
+            if (user)  {
+              window.location.replace("/orders");
+            }else{
+              showOkDialog('¡Gracias!','Nos pondremos en contacto contigo por correo.').done(function(){
+                setCookie('session_token','',-1000);
+                window.location.replace("/");
+              });
+            }
         }else{
           form_store.trigger('reset');
           messageInfo('¡Listo!');
-          reset_files();
+          if (upload_files.length != 0){
+            reset_files();
+          }
+
         }
       }).fail(function(){
         messageAlert('Upps... algo no esta bien.');

@@ -52,39 +52,43 @@
   function remove_order_item(element){
     event.preventDefault();
     details = element.closest('details');
-    id = $(details).prop('id');
-    showOkCancelDialog('Borrar orden','La orden se elimiará de forma permanente.').done(function(){
-      current_user.done(function(){
-        delete_call(id,false);
-        details.remove();
-      }).fail(function(){
-        {%- if jekyll.environment == 'production' -%}
-        grecaptcha.ready(function() {
-            grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'remove_order_item'}).then(function(captcha) {
-        {%- else -%} var captcha = 'dummy'; {%- endif -%}
-        delete_call(id,captcha);
-        {%- if jekyll.environment == 'production' -%}
-            });
-        });
-        {%- endif -%}
-      });
-
-    })
-  };
-
-  function delete_call(id,captcha){
-    var method = 'remove_order_item';
+    var id = $(details).prop('id');
+    var method = 'store_remove_order_item';
     var payload = {'order_item':id};
-    var session_token = getCookie('session_token');
-    remoteCall(method,payload,false,captcha,session_token).done(function(response){
+    showOkCancelDialog('Borrar orden','La orden se elimiará de forma permanente.').done(function(){
+      remoteCall(method,payload,false).done(function(response){
+        details.remove();
       })
+    })
+  }
+
+
+
+  function parse_order_item(order){
+
+    var json_info = {};
+    json_info['Contacto'] = order.contact_json;
+    json_info['Articulos'] = [];
+    for (var w = 0; w < order.items_json.length; w++) {
+      var cart_item = order.items_json[w];
+      var item_info = {'Producto':cart_item.payload_json['item_type']};
+      delete cart_item.payload_json['item_type'];
+      delete cart_item.payload_json['cart_token'];
+      item_info['Información'] = cart_item.payload_json;
+      if (cart_item.file_name) {
+        item_info['Descarga'] = cart_item.file_name;
+      }
+      json_info['Articulos'].push(item_info);
+    }
+    json_info['Entrega'] = order.delivery;
+    json_info['Dirección'] = order.address_json;
+    return JSON.stringify(json_info, null, '  ').replace('[\n', '').replace(']', '').replace(/"/g, '').replace('_json', '').replace(/,/g, '').replace(/{/g, '').replace(/}/g, '');
   }
 
   function get_orders(captcha){
-    var method = 'get_orders';
+    var method = 'store_orders';
     var payload = {'cart_token':cart_token}
-    var session_token = getCookie('session_token');
-    remoteCall(method,payload,false,captcha,session_token).done(function(response){
+    remoteCall(method,payload,false).done(function(response){
       console.log(response)
       cart_items = response.orders;
       var cart_item;
@@ -94,43 +98,11 @@
         cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
         new_cart_item = $('#'+ cart_item.id );
         new_cart_item.find('pid').html('<b>' + cart_item.order_id + '</b> - ' + cart_item.items_json.length + ' artículos: ' + cart_item.stage);
-        new_cart_item.find('pre').text(json_dumps(cart_item));
+        new_cart_item.find('pre').text(parse_order_item(cart_item));
         new_cart_item.find('input').val(cart_item.id);
         new_cart_item.css('display','block');
       }
     })
-  }
-
-  var form_service = $( "#service" );
-
-  form_service.on('submit', function( event ) {
-    event.preventDefault();
-    current_user.done(function(){
-      send_call(false);
-    }).fail(function(){
-      {%- if jekyll.environment == 'production' -%}
-      grecaptcha.ready(function() {
-          grecaptcha.execute("{{ site.data.callback.captchakey }}", {action: 'form_order'}).then(function(captcha) {
-      {%- else -%} var captcha = 'dummy'; {%- endif -%}
-      send_call(captcha);
-      {%- if jekyll.environment == 'production' -%}
-          });
-      });
-      {%- endif -%}
-    });
-  });
-
-  function send_call(captcha){
-    var method = 'form_order';
-    var payload = form_service.serializeFormJSON();
-    payload['cart_token'] = cart_token;
-    var session_token = getCookie('session_token');
-    remoteCall(method,payload,false,captcha,session_token).done(function(response){
-      console.log(response);
-      messageInfo('¡Orden generada! Te avisaremos cuando tengamos lista tu cotización.');
-    }).fail(function(){
-      messageAlert('Upps... algo no esta bien.');
-    });
   }
 
 </script>

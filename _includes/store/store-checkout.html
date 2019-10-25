@@ -1,6 +1,6 @@
 <!-- ---------includes--------- -->
 {% include utils/messages.html %}
-{% include store/form-store.html method='form_order' %}
+{% include store/form-store.html method='store_form_order' %}
 <!-- ---------includes--------- -->
 
 <style>
@@ -53,7 +53,7 @@
     details = element.closest('details');
     id = $(details).prop('id');
     current_user.always(function(){
-      var method = 'remove_cart_item';
+      var method = 'store_remove_cart_item';
       var payload = {'cart_item':id};
       remoteCall(method,payload,false).done(function(response){
         details.remove();
@@ -61,9 +61,25 @@
     })
   }
 
+  function parse_cart_item(cart_item){
+    delete cart_item.payload_json['item_type'];
+    delete cart_item.payload_json['cart_token'];
+    var json_info = {'Información':cart_item.payload_json};
+    if (cart_item.files_json) {
+      var filenames = []
+      for (var e = 0; e < cart_item.files_json.length; e++) {
+        console.log(cart_item.files_json[e]['filename']);
+        filenames.push(cart_item.files_json[e]['filename']);
+      }
+      json_info['Archivos'] = filenames;
+
+    }
+    return JSON.stringify(json_info, null, '  ').replace('[', '').replace(']', '').replace(/"/g, '').replace('_json', '').replace(/,/g, '').replace(/,/g, '').replace(/{/g, '').replace(/}/g, '');
+  }
+
   $(document).ready(function () {
     current_user.always(function(){
-      var method = 'get_cart_items';
+      var method = 'store_cart_items';
       var payload = {'cart_token':cart_token}
       remoteCall(method,payload,false).done(function(response){
         console.log(response)
@@ -74,8 +90,8 @@
           cart_item = cart_items[i]
           cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
           new_cart_item = $('#'+ cart_item.id );
-          new_cart_item.find('h').html('<b>' + cart_item.payload_json.item_type + '</b>    ' + cart_item.payload_json.item_name);
-          new_cart_item.find('pre').text(json_dumps(cart_item));
+          new_cart_item.find('h').html('<b>' + cart_item.payload_json.item_type + '</b>');
+          new_cart_item.find('pre').text(parse_cart_item(cart_item));
           new_cart_item.find('input').val(cart_item.id);
           new_cart_item.css('display','block');
         }
