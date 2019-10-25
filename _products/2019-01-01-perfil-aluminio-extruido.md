@@ -1,6 +1,8 @@
 ---
 layout: product
 comments: false
+pid: perfil-aluminio-extruido
+pgn: product
 ---
 
 ### 6061 T6

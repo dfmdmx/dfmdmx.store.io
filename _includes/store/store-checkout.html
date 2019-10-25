@@ -90,7 +90,7 @@
           cart_item = cart_items[i]
           cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
           new_cart_item = $('#'+ cart_item.id );
-          new_cart_item.find('h').html('<b>' + cart_item.payload_json.item_type + '</b>');
+          new_cart_item.find('h').html('<b>' + cart_item.type + '</b>');
           new_cart_item.find('pre').text(json_dumps(cart_item));
           new_cart_item.find('input').val(cart_item.id);
           new_cart_item.css('display','block');

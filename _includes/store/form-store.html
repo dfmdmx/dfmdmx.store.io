@@ -9,7 +9,8 @@
 </style>
 
 <form id='form-store'>
-  <input form='form-store' type="hidden" name="item_type" value="{{ page.title | slugify }}">
+  <input form='form-store' type="hidden" name="item_type" value="{{ page.title || slugify }}">
+  <input form='form-store' type="hidden" name="item_layout" value="{{ page.layout }}">
 </form>
 
 <script>
