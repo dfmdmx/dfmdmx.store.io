@@ -1,65 +1,61 @@
 <style>
-.checkout-button {
-    float: right;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-right: 2px;
+
+  .checkout-button {
+      float: right;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      padding-right: 2px;
+      padding-left: 12px;
+  }
+  .title-header {
+    padding:4px;
     padding-left: 12px;
-}
-.title-header {
-  padding:4px;
-  padding-left: 12px;
-  padding-bottom: 8px;
-  border-bottom-left-radius:3px;
-  border-bottom-right-radius:3px;
-  font-family: 'Inconsolata', monospace;
-  font-size: 18px;
-  background: #424242;
-}
-.title-header a {
-  color: #e4e4e4;
-}
-.button-transparent {
-    background: transparent; /* this is an orange */
-}
-.apiuser {
-  float: right;
-  font-size: 14px;
-  color: #9c9c9c;
-  padding-right: 2px;
-  padding-top: 12px;
-}
-.custom-menu {
-    white-space: normal;
-}
-
-/* Needed for the loading css jquery animation */
-.loading-image {
-  width: 25px;
-  height: 25px;
-  -webkit-animation:spin 4s linear infinite;
-  -moz-animation:spin 4s linear infinite;
-  animation:spin 4s linear infinite;
-}
-.stop {
-  -webkit-animation-play-state:paused;
-  -moz-animation-play-state:paused;
-  animation-play-state: paused;
-}
-.init-rotation {
-  -webkit-transform: rotate(0deg);
-  -moz-transform: rotate(0deg);
-  transform: rotate(0deg);
-}
-#orders-button {
-  display: none;
-}
-
-
-@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
-/* -------------------------------------------- */
+    padding-bottom: 8px;
+    border-bottom-left-radius:3px;
+    border-bottom-right-radius:3px;
+    font-family: 'Inconsolata', monospace;
+    font-size: 18px;
+    background: #424242;
+  }
+  .title-header a {
+    color: #e4e4e4;
+  }
+  .button-transparent {
+      background: transparent;
+  }
+  .apiuser {
+    float: right;
+    font-size: 14px;
+    color: #9c9c9c;
+    padding-right: 2px;
+    padding-top: 12px;
+  }
+  .custom-menu {
+      white-space: normal;
+  }
+  .loading-image {
+    width: 25px;
+    height: 25px;
+    -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+  }
+  .stop {
+    -webkit-animation-play-state:paused;
+    -moz-animation-play-state:paused;
+    animation-play-state: paused;
+  }
+  .init-rotation {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  #orders-button {
+    display: none;
+  }
+  @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+  @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+  @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 </style>
 
@@ -68,12 +64,11 @@
   <div class="wrapper">
     {%- assign default_paths = site.pages | map: "path" -%}
     {%- assign page_paths = site.header_pages | default: default_paths -%}
-    <!-- <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a> -->
 
     <div class="title-header">
-    <a href="/">{{ site.title | escape }}</a>
-    <img id="loading-image" class="loading-image init-rotation stop" src="/assets/images/noun_carbon.svg" alt="006 Carbon C by Joel Wisneski from the Noun Project">
-    <a class='apiuser' href="/edit_user" id='apiuser'></a>
+      <a href="/">{{ site.title | escape }}</a>
+      <img id="loading-image" class="loading-image init-rotation stop" src="/assets/images/noun_carbon.svg" alt="006 Carbon C by Joel Wisneski from the Noun Project">
+      <a class='apiuser' href="/edit_user" id='apiuser'></a>
     </div>
 
     <div class='checkout-button'">

@@ -1,48 +1,51 @@
 
 <div class='dialogs'>
-<div id="dialog"><p id="pdialog"></p></div>
+	<div id="dialog">
+		<p id="pdialog"></p>
+	</div>
 </div>
 
 <script>
-function showDialog(title,message){
-	$('#pdialog').text(message);
-	$("#dialog").dialog({
-				title: title,
-		});
-}
+	
+	function showDialog(title,message){
+		$('#pdialog').text(message);
+		$("#dialog").dialog({
+					title: title,
+			});
+	}
 
-function showOkCancelDialog(title,message){
-	$('#pdialog').text(message);
-	var ok = $.Deferred();
-	$("#dialog").dialog({
-				title: title,
-				buttons: {
-					"Ok": function() {
-						$( this ).dialog( "close" );
-						ok.resolve();
-					},
-					Cancel: function() {
-						$( this ).dialog( "close" );
-          	ok.reject();
-        	}
-      	}
-		});
-	return ok.promise();
-}
+	function showOkCancelDialog(title,message){
+		$('#pdialog').text(message);
+		var ok = $.Deferred();
+		$("#dialog").dialog({
+					title: title,
+					buttons: {
+						"Ok": function() {
+							$( this ).dialog( "close" );
+							ok.resolve();
+						},
+						Cancel: function() {
+							$( this ).dialog( "close" );
+	          	ok.reject();
+	        	}
+	      	}
+			});
+		return ok.promise();
+	}
 
-function showOkDialog(title,message){
-	$('#pdialog').text(message);
-	var ok = $.Deferred();
-	$("#dialog").dialog({
-				title: title,
-				buttons: {
-					Ok: function() {
-						$( this ).dialog( "close" );
-						ok.resolve();
-					}
-      	}
-		});
-	return ok.promise();
-}
+	function showOkDialog(title,message){
+		$('#pdialog').text(message);
+		var ok = $.Deferred();
+		$("#dialog").dialog({
+					title: title,
+					buttons: {
+						Ok: function() {
+							$( this ).dialog( "close" );
+							ok.resolve();
+						}
+	      	}
+			});
+		return ok.promise();
+	}
 
 </script>
