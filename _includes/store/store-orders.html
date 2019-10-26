@@ -7,6 +7,7 @@
   .delete-item {
     float:right;
     font-size: 12px;
+    
   }
   .cart-item {
     margin-bottom: 12px;
@@ -95,7 +96,7 @@
         cart_item = cart_items[i]
         cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
         new_cart_item = $('#'+ cart_item.id );
-        new_cart_item.find('pid').html('<b>' + cart_item.order_id + '</b> - ' + cart_item.items_json.length + ' artículos: ' + cart_item.stage);
+        new_cart_item.find('pid').html('<b>' + cart_item.order_id + '</b> - ' + cart_item.items_json.length + ' artículos  - ' + cart_item.status + ' | ' + cart_item.timestamp_date  );
         new_cart_item.find('pre').text(json_dumps(cart_item));
         new_cart_item.find('input').val(cart_item.id);
         new_cart_item.css('display','block');

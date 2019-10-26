@@ -2,11 +2,6 @@
 {% include utils/messages.html %}
 {% include utils/dialogs.html %}
 <!-- ---------includes--------- -->
-<style>
-  .send-button {
-    width : 100% ;
-  }
-</style>
 
 <form id='form-store'>
   <input form='form-store' type="hidden" name="item_type" value="{{ page.title || slugify }}">
@@ -25,8 +20,6 @@
       var payload = form_store.serializeFormJSON();
       payload['cart_token'] = cart_token;
       remoteCall(method,payload,upload_files).done(function(response){
-        console.log(response);
-        console.log('user',user);
         if (method == 'store_form_order')  {
             if (user)  {
               window.location.replace("/orders");

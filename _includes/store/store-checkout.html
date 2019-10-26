@@ -5,12 +5,26 @@
 
 <style>
   .delete-item {
+    margin-top: .3em;
     float:right;
     font-size: 12px;
   }
   .cart-item {
     margin-bottom: 12px;
     display: none;
+  }
+  .send-button {
+    width : 100% ;
+    line-height: 1.3em;
+  }
+  .qty-input {
+    margin-left: 20px;
+    height: 1.8em;
+    float: right;
+  }
+  .sum {
+    height: 2em;
+
   }
 </style>
 
@@ -22,12 +36,13 @@
       <fieldset>
 
         <details id='pid-1' class='cart-item'>
-          <summary><h><b>Servicio</b>Nombre del articulo</h><a onclick="remove_cart_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a></summary>
-          <input form='form-store' type='hidden' value='' name='items_id'>
+          <summary class='sum'><h><b>Servicio</b>Nombre del articulo</h><input onchange="edit_item_qty(this)" id='qty_id' class='qty-input' form='form-store' type='number' name='qty' value='1' min='1' max='99'><a onclick="remove_cart_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a></summary>
+          <input id='input_id' form='form-store' type='hidden' value='' name='items_id'>
           <pre>Algo chulo para el usuario</pre>
         </details>
 
       </fieldset>
+
     </div>
   </div>
 </div>
@@ -61,6 +76,20 @@
     })
   }
 
+  function edit_item_qty(element){
+    event.preventDefault();
+    details = element.closest('details');
+    var id = $(details).prop('id');
+    var qty = $(details).find('#qty_id').val();
+    current_user.always(function(){
+      var method = 'store_edit_item_qty';
+      var payload = {'cart_item':id,'qty':qty};
+      remoteCall(method,payload,false).fail(function(){
+        messageAlert('Upps... algo no esta bien.');
+        })
+    })
+  }
+
   function parse_cart_item(cart_item){
     delete cart_item.payload_json['item_type'];
     delete cart_item.payload_json['cart_token'];
@@ -90,9 +119,10 @@
           cart_item = cart_items[i]
           cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
           new_cart_item = $('#'+ cart_item.id );
-          new_cart_item.find('h').html('<b>' + cart_item.type + '</b>');
+          new_cart_item.find('h').html('<b>' + cart_item.type + '</b>      ' + cart_item.layout);
           new_cart_item.find('pre').text(json_dumps(cart_item));
-          new_cart_item.find('input').val(cart_item.id);
+          new_cart_item.find('#input_id').val(cart_item.id);
+          new_cart_item.find('#qty_id').val(cart_item.qty);
           new_cart_item.css('display','block');
         }
       })
