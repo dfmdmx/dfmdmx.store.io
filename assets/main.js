@@ -67,18 +67,6 @@ function makeCall(form_data,callback){
 	})
 }
 
-function handshake(name) {
-	  var method = 'handshake'
-		console.log('Sending greetings...');
-	  remoteCall('handshake',{'name':name}).done(function(data){
-	  		console.log(data.greetings);
-	    }).fail(function(){
-	      console.log('handshake Error');
-	    }).always(function(){
-				console.log('bye');
-	    });
-}
-
 (function ($) {
     $.fn.serializeFormJSON = function () {
         var o = {};
@@ -121,7 +109,7 @@ function getCookie(cname) {
 
 function logout() {
 	if (getCookie('session_token') == '') { return };
-	remoteCall('form_logout',false,false).done(function(){
+	remoteCall('user_logout',false,false).done(function(){
 		if ( data_jekyll_env == 'production') {
 			gapi.load('auth2', function() {
 				var auth2 = gapi.auth2.getAuthInstance();
