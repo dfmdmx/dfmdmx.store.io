@@ -107,6 +107,18 @@
 
 <script>
 
+  {%- if jekyll.environment == 'production' -%}
+
+      function googleinit() {
+        gapi.load('auth2', function() {
+          gapi.auth2.init({
+            client_id: '{{site.data.google.client_id}}'
+          });
+        });
+      }
+
+  {% endif %}
+
   var cart_token = getCookie('cart_token');
   if (cart_token == '') {
     cart_token = Math.random().toString(36);
