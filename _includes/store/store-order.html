@@ -21,6 +21,7 @@
     margin-left: 20px;
     height: 1.8em;
     float: right;
+
   }
   .summary {
     height: 2em;
@@ -38,10 +39,17 @@
         <details id='pid-1' class='cart-item'>
 
           <input id='item_id' form='form-store' type='hidden' value='' name='items_id'>
+          <input id='order_id' type='hidden' value='' name='items_id'>
 
           <summary class='summary'><h id='header_text'><b>Servicio</b>Nombre del articulo</h>
-            <input id='qty' onchange="edit_item_qty(this)" class='qty-input' type='number' name='qty' value='1' min='1' max='99'>
-            <a onclick="remove_cart_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a>
+
+            <input id='qty' onchange="edit_order_item(this)" class='qty-input' type='number' name='qty' value='1' min='1' max='99'>
+            <input id='price_supplement' onchange="edit_order_item(this)" class='qty-input' type='number' name='price_supplement' value='1' min='1' max='99'>
+            <input id='price_factor' onchange="edit_order_item(this)" class='qty-input' type='number' name='price_factor' value='1' min='1' max='99'>
+            <input id='price' onchange="edit_order_item(this)" class='qty-input' type='number' name='price' value='1' min='1' max='9999999'>
+            <a onclick="remove_order_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a>
+
+
           </summary>
 
           <pre id='info'>Algo chulo para el usuario</pre>
@@ -59,7 +67,7 @@
   <legend>Todo listo</legend>
   <div class="pure-g">
     <div class="pure-u-1-2">
-      <button form='form-store' type="submit" class="pure-button send-button pure-button-primary">Cotizar <i class="fas fa-receipt"></i></button>
+      <button form='form-store' type="submit" class="pure-button send-button pure-button-primary">Guardar <i class="fas fa-save"></i></button>
     </div>
     <div class="pure-u-1">
       <p id="message-text"></p>
@@ -70,11 +78,14 @@
 <script>
 
   $(document).ready(function () {
+    var order_id = document.location.href.split('/').pop()
+    console.log(order_id);
     current_user.always(function(){
-      var method = 'store_cart_items';
-      var payload = {'cart_token':cart_token}
+      var method = 'store_order';
+      var payload = {'order_id':order_id}
       remoteCall(method,payload,false).done(function(response){
-        cart_items = response.cart_items;
+        console.log(response)
+        cart_items = response.items_json;
         var cart_item;
         var cart_item_container = $('#pid-1')
         for (var i = 0; i < cart_items.length; i++) {
@@ -82,10 +93,13 @@
           cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
           new_cart_item = $('#'+ cart_item.id );
           new_cart_item.find('#item_id').val(cart_item.id);
+          new_cart_item.find('#order_id').val(response.id);
           new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>      ' + cart_item.layout);
           new_cart_item.find('#qty').val(cart_item.qty);
+          new_cart_item.find('#price').val(cart_item.price);
+          new_cart_item.find('#price_factor').val(cart_item.price_factor);
+          new_cart_item.find('#price_supplement').val(cart_item.price_supplement);
           new_cart_item.find('#info').text(json_dumps(cart_item));
-
 
           new_cart_item.css('display','block');
         }
@@ -93,47 +107,37 @@
     })
   })
 
-  function remove_cart_item(element){
+  function remove_order_item(element){
     event.preventDefault();
-    details = element.closest('details');
-    id = $(details).prop('id');
+    details = $(element.closest('details'));
+    var item_id = details.find('#item_id').val();
+    var order_id = details.find('#order_id').val();
     current_user.always(function(){
-      var method = 'store_remove_cart_item';
-      var payload = {'cart_item':id};
+      var method = 'store_remove_order_item';
+      var payload = {'order_id':order_id,'item_id':item_id};
       remoteCall(method,payload,false).done(function(response){
         details.remove();
         })
     })
   }
 
-  function edit_item_qty(element){
+  function edit_order_item(element){
     event.preventDefault();
-    details = element.closest('details');
-    var id = $(details).prop('id');
-    var qty = $(details).find('#qty_id').val();
+    details = $(element.closest('details'));
+    var item_id = details.find('#item_id').val();
+    var order_id = details.find('#order_id').val();
+    var qty = details.find('#qty').val();
+    var price = details.find('#price').val();
+    var price_factor = details.find('#price_factor').val();
+    var price_supplement = details.find('#price_supplement').val();
     current_user.always(function(){
-      var method = 'store_edit_item_qty';
-      var payload = {'cart_item':id,'qty':qty};
+      var method = 'store_edit_order_item';
+      var payload = {'order_id':order_id,'item_id':item_id,'qty':qty,'price':price,'price_factor':price_factor,'price_supplement':price_supplement};
       remoteCall(method,payload,false).fail(function(){
         messageAlert('Upps... algo no esta bien.');
         })
     })
   }
 
-  function parse_cart_item(cart_item){
-    delete cart_item.payload_json['item_type'];
-    delete cart_item.payload_json['cart_token'];
-    var json_info = {'Información':cart_item.payload_json};
-    if (cart_item.files_json) {
-      var filenames = []
-      for (var e = 0; e < cart_item.files_json.length; e++) {
-        console.log(cart_item.files_json[e]['filename']);
-        filenames.push(cart_item.files_json[e]['filename']);
-      }
-      json_info['Archivos'] = filenames;
-
-    }
-    return JSON.stringify(json_info, null, '  ').replace('[\n', '').replace(']', '').replace(/"/g, '').replace('_json', '').replace(/,/g, '').replace(/,/g, '').replace(/{/g, '').replace(/}/g, '');
-  }
 
 </script>

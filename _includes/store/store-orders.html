@@ -5,21 +5,26 @@
 <style>
 
   .delete-item {
+    margin-top: .3em;
     float:right;
     font-size: 12px;
-    
+
+  }
+  .link-item {
+    margin-left:25px;
+    font-size: 12px;
+
   }
   .cart-item {
     margin-bottom: 12px;
     display: none;
   }
+  .summary {
+    height: 2em;
+  }
 </style>
 
 <div class="pure-form">
-
-  <form id='service'>
-    <input form='service' type="hidden" name="service" value="{{ page.title | slugify }}">
-  </form>
 
   <legend>Ordenes</legend>
   <div class="pure-g">
@@ -27,80 +32,58 @@
       <fieldset>
 
         <details id='pid-1' class='cart-item'>
-          <summary><pid><b>Servicio</b>Nombre del articulo</pid><a onclick="remove_order_item(this);" class='delete-item'>Cancelar <i class="fas fa-times"></i></a></summary>
-          <input form='service' type='hidden' value='' name='cart_items'>
-          <pre>Algo chulo para el usuario</pre>
+
+          <input id='item_id' form='form-store' type='hidden' value='' name='items_id'>
+
+          <summary class='summary'><h id='header_text'><b>Servicio</b>Nombre del articulo</h>
+            <a onclick="go_to_order(this);" class='link-item'> Detalles <i class="fas fa-external-link-alt"></i></a>
+            <a onclick="remove_order_item(this);" class='delete-item'>Cancelar <i class="fas fa-trash"></i></a>
+          </summary>
+
+          <pre id='info'>Algo chulo para el usuario</pre>
         </details>
 
       </fieldset>
+
     </div>
   </div>
 </div>
 
 <script>
 
-  function remove_cart_item(element){
-    event.preventDefault();
-    element.closest('details').remove();
-  };
-
   $(document).ready(function () {
     current_user.always(function(){
-      get_orders(false);
+      var method = 'store_orders';
+      var payload = {'cart_token':cart_token}
+      remoteCall(method,payload,false).done(function(response){
+        cart_items = response.orders;
+        var cart_item;
+        var cart_item_container = $('#pid-1')
+        for (var i = 0; i < cart_items.length; i++) {
+          cart_item = cart_items[i]
+          cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
+          new_cart_item = $('#'+ cart_item.id );
+          new_cart_item.find('#item_id').val(cart_item.id);
+          new_cart_item.find('#header_text').html('<b>' + cart_item.order_id + '</b> - ' + cart_item.items_json.length + ' artículos  - ' + cart_item.status + ' | ' + cart_item.timestamp_date  );
+          new_cart_item.find('#info').text(json_dumps(cart_item));
+          new_cart_item.css('display','block');
+        }
+      })
     })
-  });
+  })
 
   function remove_order_item(element){
     event.preventDefault();
     details = element.closest('details');
-    var id = $(details).prop('id');
-    var method = 'store_remove_order_item';
-    var payload = {'order_item':id};
-    showOkCancelDialog('Borrar orden','La orden se elimiará de forma permanente.').done(function(){
-      remoteCall(method,payload,false).done(function(response){
-        details.remove();
+    id = $(details).prop('id');
+    current_user.always(function(){
+      var method = 'store_remove_order';
+      var payload = {'order_item':id};
+      showOkCancelDialog('Borrar orden','La orden se elimiará de forma permanente.').done(function(){
+        remoteCall(method,payload,false).done(function(response){
+          details.remove();
+        })
       })
-    })
-  }
-
-  function parse_order_item(order){
-
-    var json_info = {};
-    json_info['Contacto'] = order.contact_json;
-    json_info['Articulos'] = [];
-    for (var w = 0; w < order.items_json.length; w++) {
-      var cart_item = order.items_json[w];
-      var item_info = {'Producto':cart_item.payload_json['item_type']};
-      delete cart_item.payload_json['item_type'];
-      delete cart_item.payload_json['cart_token'];
-      item_info['Información'] = cart_item.payload_json;
-      if (cart_item.file_name) {
-        item_info['Descarga'] = cart_item.file_name;
-      }
-      json_info['Articulos'].push(item_info);
-    }
-    json_info['Entrega'] = order.delivery;
-    json_info['Dirección'] = order.address_json;
-    return JSON.stringify(json_info, null, '  ').replace('[\n', '').replace(']', '').replace(/"/g, '').replace('_json', '').replace(/,/g, '').replace(/{/g, '').replace(/}/g, '');
-  }
-
-  function get_orders(captcha){
-    var method = 'store_orders';
-    var payload = {'cart_token':cart_token}
-    remoteCall(method,payload,false).done(function(response){
-      console.log(response)
-      cart_items = response.orders;
-      var cart_item;
-      var cart_item_container = $('#pid-1')
-      for (var i = 0; i < cart_items.length; i++) {
-        cart_item = cart_items[i]
-        cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
-        new_cart_item = $('#'+ cart_item.id );
-        new_cart_item.find('pid').html('<b>' + cart_item.order_id + '</b> - ' + cart_item.items_json.length + ' artículos  - ' + cart_item.status + ' | ' + cart_item.timestamp_date  );
-        new_cart_item.find('pre').text(json_dumps(cart_item));
-        new_cart_item.find('input').val(cart_item.id);
-        new_cart_item.css('display','block');
-      }
     })
   }
 

@@ -44,7 +44,7 @@
 <script>
   $( ".contact" ).on('submit', function( event ) {
     event.preventDefault();
-    var method = 'form_contact';
+    var method = 'user_contact';
     var payload = $( ".contact" ).serializeFormJSON();
     remoteCall(method,payload,false).done(function(response){
       $( ".contact" ).trigger('reset');
