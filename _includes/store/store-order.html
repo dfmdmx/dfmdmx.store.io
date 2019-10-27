@@ -61,7 +61,37 @@
   </div>
 </div>
 
-{% include store/input-user-info.html %}
+<div class="pure-form pure-form-stacked">
+
+    <legend>Entrega de material</legend>
+
+    <div class="pure-g">
+      <div class="pure-u-1-2">
+        <label><i class="fas fa-user"></i> Contacto</label>
+        <fieldset class="pure-group">
+          <input form='form-store' name="nombre" type="text" class="pure-input-1" placeholder="Nombre">
+          <input form='form-store' name="email" type="email" class="pure-input-1" placeholder="Correo electrónico">
+        </fieldset>
+      </div>
+      <div class="pure-u-1-2">
+        <label><i class="fas fa-map-marked-alt"></i> Dirección</label>
+        <fieldset class="pure-group">
+            <input form='form-store' name="calle" class="pure-input-1" placeholder="Calle" >
+            <input form='form-store' name="numero_ext" class="pure-input-1" placeholder="No. Exterior" >
+            <input form='form-store' name="numero_int" class="pure-input-1" placeholder="No. Interior" >
+            <input form='form-store' name="colonia" class="pure-input-1" placeholder="Colonia" >
+            <input form='form-store' name="municipio" class="pure-input-1" placeholder="Alcaldia/Municipio" >
+            <input form='form-store' name="estado" class="pure-input-1" placeholder="Estado" >
+            <input form='form-store' name="cp" class="pure-input-1" placeholder="CP" >
+        </fieldset>
+        <fieldset class="somespace">
+          <input form='form-store' type="radio" name="delivery" value="delivery" checked> <i class="fas fa-truck"></i> Envio a domicilio &nbsp;
+          <input form='form-store' type="radio" name="delivery" value="workshop"> <i class="fas fa-map-marker-alt"></i> Recojer en planta &nbsp;
+        </fieldset>
+      </div>
+    </div>
+
+</div>
 
 <div class="pure-form">
   <legend>Todo listo</legend>
@@ -85,6 +115,8 @@
       var payload = {'order_id':order_id}
       remoteCall(method,payload,false).done(function(response){
         console.log(response)
+        update_form(response.address_json);
+        update_form(response.contact_json);
         cart_items = response.items_json;
         var cart_item;
         var cart_item_container = $('#pid-1')
@@ -100,12 +132,18 @@
           new_cart_item.find('#price_factor').val(cart_item.price_factor);
           new_cart_item.find('#price_supplement').val(cart_item.price_supplement);
           new_cart_item.find('#info').text(json_dumps(cart_item));
-
           new_cart_item.css('display','block');
         }
       })
     })
   })
+
+
+  function update_form(address) {
+    Object.keys(address).forEach(function(key) {
+      $('input[name='+key+']').val(address[key]);
+    });
+  }
 
   function remove_order_item(element){
     event.preventDefault();
