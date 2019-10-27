@@ -1,6 +1,6 @@
 <!-- ---------includes--------- -->
 {% include utils/messages.html %}
-{% include store/form-store.html method='store_form_order' %}
+{% include store/form-store.html method='store_edit_order' %}
 <!-- ---------includes--------- -->
 
 <style>
@@ -34,43 +34,51 @@
   <legend>Productos</legend>
   <div class="pure-g">
     <div class="pure-u-1">
+
       <fieldset>
 
         <details id='pid-1' class='cart-item'>
-
-          <input id='item_id' form='form-store' type='hidden' value='' name='items_id'>
-          <input id='order_id' type='hidden' value='' name='items_id'>
-
+          <input id='item_id'  type='hidden' value='' name='item_id'>
+          <input id='order_id' type='hidden' value='' name='order_id'>
           <summary class='summary'><h id='header_text'><b>Servicio</b>Nombre del articulo</h>
-
             <input id='qty' onchange="edit_order_item(this)" class='qty-input' type='number' name='qty' value='1' min='1' max='99'>
-            <input id='price_supplement' onchange="edit_order_item(this)" class='qty-input' type='number' name='price_supplement' value='1' min='1' max='99'>
-            <input id='price_factor' onchange="edit_order_item(this)" class='qty-input' type='number' name='price_factor' value='1' min='1' max='99'>
+            <input id='price_supplement' onchange="edit_order_item(this)" class='qty-input' type='number' name='price_supplement' value='0' min='0' max='99'>
+            <input id='price_factor' onchange="edit_order_item(this)" class='qty-input' type='number' name='price_factor' step='0.1' value='1' min='1' max='99'>
             <input id='price' onchange="edit_order_item(this)" class='qty-input' type='number' name='price' value='1' min='1' max='9999999'>
             <a onclick="remove_order_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a>
-
-
           </summary>
-
           <pre id='info'>Algo chulo para el usuario</pre>
         </details>
-
       </fieldset>
-
     </div>
   </div>
 </div>
 
+<br>
+
 <div class="pure-form pure-form-stacked">
-
     <legend>Entrega de material</legend>
-
     <div class="pure-g">
       <div class="pure-u-1-2">
         <label><i class="fas fa-user"></i> Contacto</label>
         <fieldset class="pure-group">
           <input form='form-store' name="nombre" type="text" class="pure-input-1" placeholder="Nombre">
           <input form='form-store' name="email" type="email" class="pure-input-1" placeholder="Correo electrónico">
+        </fieldset>
+        <label><i class="fas fa-receipt"></i> Infromación</label>
+        <fieldset class="pure-group">
+          <input id ='date' form='form-store' name="date" type="text" class="pure-input-1" placeholder="Fecha">
+          <select name="status" id="status" form='form-store' class="pure-input-1">
+            <option>sent</option>
+            <option>received</option>
+            <option>ready</option>
+            <option>paid</option>
+            <option>production</option>
+            <option>shipped</option>
+            <option>delivered</option>
+            <option>cancel</option>
+          </select>
+        
         </fieldset>
       </div>
       <div class="pure-u-1-2">
@@ -85,12 +93,11 @@
             <input form='form-store' name="cp" class="pure-input-1" placeholder="CP" >
         </fieldset>
         <fieldset class="somespace">
-          <input form='form-store' type="radio" name="delivery" value="delivery" checked> <i class="fas fa-truck"></i> Envio a domicilio &nbsp;
-          <input form='form-store' type="radio" name="delivery" value="workshop"> <i class="fas fa-map-marker-alt"></i> Recojer en planta &nbsp;
+          <input id="delivery" form='form-store' type="radio" name="shipping" value="delivery"> <i class="fas fa-truck"></i> Envio a domicilio &nbsp;
+          <input id="workshop" form='form-store' type="radio" name="shipping" value="workshop"> <i class="fas fa-map-marker-alt"></i> Recojer en planta &nbsp;
         </fieldset>
       </div>
     </div>
-
 </div>
 
 <div class="pure-form">
@@ -105,6 +112,8 @@
   </div>
 </div>
 
+<input id='oid' form='form-store' type='hidden' value='' name='oid'>
+
 <script>
 
   $(document).ready(function () {
@@ -117,6 +126,11 @@
         console.log(response)
         update_form(response.address_json);
         update_form(response.contact_json);
+        console.log(response.shipping);
+        update_shipping(response.shipping);
+        $('#oid').val(response.id);
+        $('#date').val(response.date);
+        $('#status').val(response.status);
         cart_items = response.items_json;
         var cart_item;
         var cart_item_container = $('#pid-1')
@@ -138,6 +152,9 @@
     })
   })
 
+  function update_shipping(method){
+    $('#'+method).attr("checked","checked");
+  }
 
   function update_form(address) {
     Object.keys(address).forEach(function(key) {

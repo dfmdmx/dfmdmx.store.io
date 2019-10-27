@@ -30,10 +30,12 @@
               });
             }
         }else{
-          form_store.trigger('reset');
           messageInfo('¡Listo!');
-          if (upload_files.length != 0){
-            reset_files();
+          if (method != 'store_edit_order')  {
+            form_store.trigger('reset');
+            if (upload_files.length != 0){
+              reset_files();
+            }
           }
 
         }
