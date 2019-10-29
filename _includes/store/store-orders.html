@@ -64,7 +64,7 @@
           cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
           new_cart_item = $('#'+ cart_item.id );
           new_cart_item.find('#item_id').val(cart_item.id);
-          new_cart_item.find('#header_text').html('<b>' + cart_item.order_id + '</b> - ' + cart_item.items_json.length + ' artículos  - ' + cart_item.status + ' | ' + cart_item.date  );
+          new_cart_item.find('#header_text').html('<b>' + cart_item.order_id + '</b> - ' + cart_item.items_json.length + ' artículos  - ' + cart_item.status + ' | ' + cart_item.date_created  );
           new_cart_item.find('#info').text(json_dumps(cart_item));
           new_cart_item.css('display','block');
         }

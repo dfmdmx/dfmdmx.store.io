@@ -9,6 +9,10 @@
     float:right;
     font-size: 12px;
   }
+  .add-item {
+    margin-left: 20px;
+    font-size: 12px;
+  }
   .cart-item {
     margin-bottom: 12px;
     display: none;
@@ -21,22 +25,98 @@
     margin-left: 20px;
     height: 1.8em;
     float: right;
-
+  }
+  .item-total {
+    margin-top: 3px;
+    float: right;
+  }
+  .totales {
+    margin-left: 20px;
+  }
+  .totales-texto {
+    float: right;
+  }
+  .comment-input {
+    margin-top: 3px;
+    height: 3em;
   }
   .summary {
-    height: 2em;
-
+    height: 7em;
+  }
+  .button-add {
+      background: transparent;
+      height: 2.25em;
+  }
+  .pure-form input:not([type])[disabled] {
+    color: #404040;
+  }
+  .pure-form select:not([type])[disabled] {
+    color: #404040;
+  }
+  .pure-form textarea:not([type])[disabled] {
+    color: #404040;
   }
 </style>
 
-<div class="pure-form">
+<div class="pure-form pure-form-stacked">
+    <legend>Infromación</legend>
+    <div class="pure-g">
+      <div class="pure-u-1-2">
+        <label><i class="fas fa-receipt"></i> Datos</label>
+        <fieldset class="pure-group">
+          <input id ='user_email' form='form-store' name="user_email" type="text" class="pure-input-1" placeholder="Correo">
+          <input id ='date_created' form='form-store' name="date_created" type="text" class="pure-input-1" placeholder="Fecha">
+          <input id ='date_delivery' form='form-store' name="date_delivery" type="text" class="pure-input-1" placeholder="Fecha entrega">
+        </fieldset>
+      </div>
+      <div class="pure-u-1-4"></div>
+      <div class="pure-u-1-4">
+        <label><i class="fas fa-list-ul"></i> Estado</label>
+        <fieldset class="pure-group">
+          <select   name="status" id="status" form='form-store' class="pure-input-1">
+            <option>sent</option>
+            <option>received</option>
+            <option>ready</option>
+            <option>paid</option>
+            <option>production</option>
+            <option>shipped</option>
+            <option>delivered</option>
+            <option>cancel</option>
+          </select>
+        </fieldset>
+      </div>
+      <div class="pure-u-1">
+        <fieldset class="pure-group">
+          <input id ='title' form='form-store' name="title" type="text" class="pure-input-1" placeholder="Título">
+          <textarea id='description' form='form-store' name="description" class="pure-input-1"  placeholder="Descripción"></textarea>
+        </fieldset>
+        <textarea id='notes' form='form-store' name="notes" class="pure-input-1"  placeholder="Notas"></textarea>
+      </div>
+    </div>
+</div>
 
+<br>
+
+<div class="pure-form">
   <legend>Productos</legend>
   <div class="pure-g">
-    <div class="pure-u-1">
-
+    <div class="pure-u-1-2">
       <fieldset>
-
+          <input id="new_item_md5" name="new_item_md5" type="text" class="pure-input-1" placeholder="md5">
+      </fieldset>
+    </div>
+    <div class="pure-u-1-4">
+      <fieldset>
+          <a onclick="add_item();" class="pure-button button-add">Agregar producto <i class="fas fa-plus"></i></a>
+      </fieldset>
+    </div>
+    <div class="pure-u-1-4">
+      <fieldset>
+          <p id='add_item_text'></p>
+      </fieldset>
+    </div>
+    <div class="pure-u-1">
+      <fieldset>
         <details id='pid-1' class='cart-item'>
           <input id='item_id'  type='hidden' value='' name='item_id'>
           <input id='order_id' type='hidden' value='' name='order_id'>
@@ -46,6 +126,8 @@
             <input id='price_factor' onchange="edit_order_item(this)" class='qty-input' type='number' name='price_factor' step='0.1' value='1' min='1' max='99'>
             <input id='price' onchange="edit_order_item(this)" class='qty-input' type='number' name='price' value='1' min='1' max='9999999'>
             <a onclick="remove_order_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a>
+            <textarea   id='item_comment' name="item_comment" class="pure-input-1 comment-input" onchange="edit_order_item(this)" placeholder="Comment"></textarea>
+            <span id='item_total' class='item-total'> Total </span>
           </summary>
           <pre id='info'>Algo chulo para el usuario</pre>
         </details>
@@ -56,29 +138,45 @@
 
 <br>
 
+<div class="pure-form">
+  <legend>Totales</legend>
+  <div class="pure-g">
+    <div class="pure-u-1-2">
+      <fieldset>
+        <label>Descuento % </label>
+        <input id='discount' onchange="update_total()" class='totales' form='form-store' name="discount" type='number' min='0' max='100'>
+      </fieldset>
+    </div>
+    <div class="pure-u-1-4">
+      <fieldset>
+        <span class='totales-texto'>Subtotal:</span><br>
+        <span id='total_descuento_text' class='totales-texto'>Descuento:</span><br>
+        <span class='totales-texto'>IVA 16%:</span><br>
+        <span class='totales-texto'>Total:</span><br>
+      </fieldset>
+    </div>
+    <div class="pure-u-1-4">
+      <fieldset>
+        <span id='subtotal' class='totales'></span><br>
+        <span id='total_descuento' class='totales'></span><br>
+        <span id='total_iva' class='totales'></span><br>
+        <span id='total' class='totales'></span><br>
+      </fieldset>
+    </div>
+
+  </div>
+</div>
+
+<br>
+
 <div class="pure-form pure-form-stacked">
-    <legend>Entrega de material</legend>
+    <legend>Entrega</legend>
     <div class="pure-g">
       <div class="pure-u-1-2">
         <label><i class="fas fa-user"></i> Contacto</label>
         <fieldset class="pure-group">
           <input form='form-store' name="nombre" type="text" class="pure-input-1" placeholder="Nombre">
           <input form='form-store' name="email" type="email" class="pure-input-1" placeholder="Correo electrónico">
-        </fieldset>
-        <label><i class="fas fa-receipt"></i> Infromación</label>
-        <fieldset class="pure-group">
-          <input id ='date' form='form-store' name="date" type="text" class="pure-input-1" placeholder="Fecha">
-          <select name="status" id="status" form='form-store' class="pure-input-1">
-            <option>sent</option>
-            <option>received</option>
-            <option>ready</option>
-            <option>paid</option>
-            <option>production</option>
-            <option>shipped</option>
-            <option>delivered</option>
-            <option>cancel</option>
-          </select>
-        
         </fieldset>
       </div>
       <div class="pure-u-1-2">
@@ -129,28 +227,92 @@
         console.log(response.shipping);
         update_shipping(response.shipping);
         $('#oid').val(response.id);
-        $('#date').val(response.date);
+        $('#date_created').val(response.date_created);
+        $('#date_delivery').val(response.date_delivery);
         $('#status').val(response.status);
+        $('#user_email').val(response.user_email);
+        $('#discount').val(response.discount);
+        $('#title').val(response.title);
+        $('#description').val(response.description);
+        $('#notes').val(response.notes);
         cart_items = response.items_json;
         var cart_item;
-        var cart_item_container = $('#pid-1')
+
         for (var i = 0; i < cart_items.length; i++) {
           cart_item = cart_items[i]
-          cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
-          new_cart_item = $('#'+ cart_item.id );
-          new_cart_item.find('#item_id').val(cart_item.id);
-          new_cart_item.find('#order_id').val(response.id);
-          new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>      ' + cart_item.layout);
-          new_cart_item.find('#qty').val(cart_item.qty);
-          new_cart_item.find('#price').val(cart_item.price);
-          new_cart_item.find('#price_factor').val(cart_item.price_factor);
-          new_cart_item.find('#price_supplement').val(cart_item.price_supplement);
-          new_cart_item.find('#info').text(json_dumps(cart_item));
-          new_cart_item.css('display','block');
+          update_cart_item(cart_item,response.id);
         }
+      update_total();
       })
     })
   })
+
+  function update_cart_item(cart_item,order_id){
+    var cart_item_container = $('#pid-1')
+    cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
+    new_cart_item = $('#'+ cart_item.id );
+    new_cart_item.find('#item_id').val(cart_item.id);
+    new_cart_item.find('#order_id').val(order_id);
+    new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>      ' + cart_item.layout);
+    new_cart_item.find('#qty').val(cart_item.qty);
+    new_cart_item.find('#price').val(cart_item.price);
+    new_cart_item.find('#price_factor').val(cart_item.price_factor);
+    new_cart_item.find('#price_supplement').val(cart_item.price_supplement);
+    new_cart_item.find('#item_comment').val(cart_item.comment);
+    calculate_item_total(new_cart_item);
+    new_cart_item.find('#info').text(json_dumps(cart_item));
+    new_cart_item.css('display','block');
+  }
+
+  function calculate_item_total(element){
+    details = $(element.closest('details'));
+    var item_id = details.find('#item_id').val();
+    var qty = details.find('#qty').val();
+    var price = details.find('#price').val();
+    var price_factor = details.find('#price_factor').val();
+    var price_supplement = details.find('#price_supplement').val();
+    var total = qty * (price_supplement + (price * price_factor))
+    details.find('#item_total').text(formatCurrency(total));
+
+  }
+
+  function update_total(){
+    var total = 0;
+    var iva = .16;
+    var discount = parseFloat($('#discount').val());
+    var total_discount = 0;
+    var total_iva = 0;
+    var subtotal = 0;
+    $(".item-total").each(function() {
+      var n = parseCurrency($(this).text());
+      if (n) {
+        console.log(n);
+        subtotal += n;
+      }
+    });
+    if (discount) {
+      total_discount = subtotal * (discount/100);
+      total = subtotal - total_discount;
+    }else{
+      total = subtotal;
+    };
+
+    total_iva = total * iva;
+    total += total_iva;
+
+    $("#subtotal").text(formatCurrency(subtotal));
+    $("#total_iva").text(formatCurrency(total_iva));
+    $("#total").text(formatCurrency(total));
+
+    if (discount == 0) {
+      $("#total_descuento").text('');
+      $("#total_descuento_text").text('');
+    } else {
+      $("#total_descuento").text(formatCurrency(total_discount));
+      $("#total_descuento_text").text('Descuento:');
+    }
+
+  }
 
   function update_shipping(method){
     $('#'+method).attr("checked","checked");
@@ -176,6 +338,25 @@
     })
   }
 
+  function add_item(){
+    var md5 = $('#new_item_md5').val();
+    if (md5.length == 0) {
+      $('#new_item_md5').attr('placeholder','Agrega el md5-pid del producto');
+      return
+    }
+    var oid = $('#oid').val();
+    current_user.always(function(){
+      var method = 'store_add_order_item';
+      var payload = {'order_id':oid,'md5':md5};
+      remoteCall(method,payload,false).done(function(response){
+        update_cart_item(response.cart_item,oid);
+      }).fail(function(){
+        $('#add_item_text').text('md5 invalido');
+      })
+
+    })
+  }
+
   function edit_order_item(element){
     event.preventDefault();
     details = $(element.closest('details'));
@@ -185,13 +366,17 @@
     var price = details.find('#price').val();
     var price_factor = details.find('#price_factor').val();
     var price_supplement = details.find('#price_supplement').val();
+    var comment = details.find('#item_comment').val();
+    var total = qty * (price_supplement + (price * price_factor))
+    details.find('#item_total').text(total);
     current_user.always(function(){
       var method = 'store_edit_order_item';
-      var payload = {'order_id':order_id,'item_id':item_id,'qty':qty,'price':price,'price_factor':price_factor,'price_supplement':price_supplement};
+      var payload = {'order_id':order_id,'item_id':item_id,'item_comment':comment,'qty':qty,'price':price,'price_factor':price_factor,'price_supplement':price_supplement};
       remoteCall(method,payload,false).fail(function(){
         messageAlert('Upps... algo no esta bien.');
         })
     })
+    update_total();
   }
 
 
