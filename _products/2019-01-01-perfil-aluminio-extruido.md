@@ -1,6 +1,6 @@
 ---
 layout: product
-comments: false
+comments: true
 ---
 
 ### 6061 T6
