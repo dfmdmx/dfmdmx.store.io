@@ -30,12 +30,14 @@
               });
             }
         }else{
-          messageInfo('¡Listo!');
           if (method != 'store_edit_order')  {
+            messageInfo('¡Listo!');
             form_store.trigger('reset');
             if (upload_files.length != 0){
               reset_files();
             }
+          }else{
+            location.replace(document.location.href.replace('order-edit','order'));
           }
 
         }

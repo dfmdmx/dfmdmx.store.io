@@ -38,6 +38,11 @@
           <input name="cp" class="pure-input-1-2" placeholder="CP" >
       </fieldset>
       <fieldset class="pure-group">
+          <legend class="pure-input-1-2" >Facturación</legend>
+          <input name="razon_social" type="text" class="pure-input-1-2" placeholder="Razon social" >
+          <input name="rfc" type="text" class="pure-input-1-2" placeholder="RFC" >
+      </fieldset>
+      <fieldset class="pure-group">
         <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Guardar <i class="fas fa-save"></i></button>
       </fieldset>
 
@@ -85,6 +90,8 @@ $(document).ready(function () {
   current_user.done(function(current_user){
     $('#email_title').text(current_user.email)
     $('input[name=name]').val(current_user.name);
+    $('input[name=rfc]').val(current_user.rfc);
+    $('input[name=razon_social]').val(current_user.razon_social);
     if (current_user.address) {
       Object.keys(current_user.address).forEach(function(key) {
         $('input[name='+key+']').val(current_user.address[key]);
