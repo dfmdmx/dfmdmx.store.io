@@ -152,28 +152,30 @@
   </div>
 </div>
 </div>
+
+
 <div class="pure-form pure-form-stacked">
+  <fieldset>
     <legend>Información</legend>
     <div class="pure-g">
-      <div class="pure-u-2-3">
+
+      <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-receipt"></i> Datos</label>
-        <fieldset class="pure-group">
-          Solicita: <b><span id ='addressed_to' class="pure-input-1"></span></b><br><br>
-          Correo: <span id ='user_email' class="pure-input-1"></span><br>
-          Razón social: <span id ='razon_social' class="pure-input-1"></span><br>
-          RFC: <span id ='rfc' class="pure-input-1"></span><br>
-        </fieldset>
+        Solicita: <b><span id ='addressed_to' class="pure-input-1"></span></b><br><br>
+        Correo: <span id ='user_email' class="pure-input-1"></span><br>
+        Razón social: <span id ='razon_social' class="pure-input-1"></span><br>
+        RFC: <span id ='rfc' class="pure-input-1"></span><br>
       </div>
-      <div class="pure-u-1-3">
+
+      <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-list-ul"></i> Estado</label>
-        <fieldset class="pure-group">
-          Estado: <b><span id ='status' class="pure-input-1"></span></b><br><br>
-          Fecha:  <span id ='date_created' class="pure-input-1"></span><br>
-          Fecha entrega: <span id ='date_delivery' class="pure-input-1"></span><br>
-        </fieldset>
+        Estado: <b><span id ='status' class="pure-input-1"></span></b><br><br>
+        Fecha:  <span id ='date_created' class="pure-input-1"></span><br>
+        Fecha entrega: <span id ='date_delivery' class="pure-input-1"></span><br>
       </div>
 
     </div>
+  </fieldset>
 </div>
 
 <br>
@@ -205,7 +207,7 @@
 
             <span  class='pure-input-1 item-total'><div id='item_total' class='move-right'></div></span>
           </summary>
-          <pre id='info'>Algo chulo para el usuario</pre>
+          <pre id='info'></pre>
         </details>
       </fieldset>
     </div>
@@ -243,26 +245,25 @@
 <br>
 
 <div class="pure-form pure-form-stacked">
+  <fieldset>
     <legend>Entrega</legend>
     <div class="pure-g">
-      <div class="pure-u-1-2">
+
+      <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-user"></i> Contacto</label>
-        <fieldset class="pure-group">
-          <span id="nombre" class="pure-input-1" ></span><br>
-          <span id="email"  class="pure-input-1" ></span><br>
-        </fieldset>
+        <span id="nombre" class="pure-input-1" ></span><br>
+        <span id="email"  class="pure-input-1" ></span><br>
       </div>
-      <div class="pure-u-1-2">
+
+      <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-map-marked-alt"></i> Dirección</label>
-        <fieldset class="pure-group">
-            <pre id='address_data' class="pure-input-1 notes"></pre>
-        </fieldset>
-        <fieldset class="somespace">
-          <input disabled id="delivery" type="radio" name="shipping" value="delivery"> <i class="fas fa-truck"></i> Envio a domicilio &nbsp;
-          <input disabled id="workshop" type="radio" name="shipping" value="workshop"> <i class="fas fa-map-marker-alt"></i> Recojer en planta &nbsp;
-        </fieldset>
+        <pre id='address_data' class="pure-input-1 notes"></pre><br>
+        <input disabled id="delivery" type="radio" name="shipping" value="delivery"> <i class="fas fa-truck"></i> Envio a domicilio<br>
+        <input disabled id="workshop" type="radio" name="shipping" value="workshop"> <i class="fas fa-map-marker-alt"></i> Recojer en planta
       </div>
+
     </div>
+  </fieldset>
 </div>
 
 <div class="pure-form pure-form-stacked">
