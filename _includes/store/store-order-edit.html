@@ -222,7 +222,7 @@ ID: <span id ='order_webid' class="pure-input-1"></span><br>
 <script>
 
   $(document).ready(function () {
-    var order_id = document.location.href.split('/').pop()
+    var order_id = getCookie('active_order');
     console.log(order_id);
     current_user.always(function(){
       var method = 'store_order';
