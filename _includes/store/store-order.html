@@ -403,7 +403,11 @@ CLABE  BBVA: 012180004439282840
     }
 
     new_cart_item.find('#item_data').text(json_data(cart_item.data_json));
-    new_cart_item.find('#info').text(json_dumps(cart_item));
+    if (current_user.admin) {
+      new_cart_item.find('#info').text(json_dumps(cart_item));
+    }else{
+      new_cart_item.find('#info').text(json_item(cart_item));
+    }
     new_cart_item.css('display','block');
   }
 

@@ -35,12 +35,12 @@
 
           <input id='item_id' form='form-store' type='hidden' value='' name='items_id'>
 
-          <summary class='summary'><h id='header_text'><b>Servicio</b>Nombre del articulo</h>
-            <a onclick="go_to_order(this);" class='link-item'> Detalles <i class="fas fa-external-link-alt"></i></a>
-            <a onclick="remove_order_item(this);" class='delete-item'>Cancelar <i class="fas fa-trash"></i></a>
-          </summary>
+          <summary class='summary'><h id='header_text'></h>
+            <a onclick="go_to_order(this);" class='delete-item'> Detalles <i class="fas fa-external-link-alt"></i></a>
 
-          <pre id='info'>Algo chulo para el usuario</pre>
+          </summary>
+          <a onclick="remove_order_item(this);" class='delete-item'>Cancelar <i class="fas fa-trash"></i></a>
+          <pre id='info'></pre>
         </details>
 
       </fieldset>
@@ -66,7 +66,12 @@
           new_cart_item = $('#'+ cart_item.id );
           new_cart_item.find('#item_id').val(cart_item.id);
           new_cart_item.find('#header_text').html('<b>' + cart_item.order_id + '</b> - ' + cart_item.items_json.length + ' artículos  - ' + cart_item.status + ' | ' + cart_item.date_created  );
-          new_cart_item.find('#info').text(json_dumps(cart_item));
+          console.log(current_user);
+          if (current_user.admin) {
+            new_cart_item.find('#info').text(json_dumps(cart_item));
+          }else{
+            new_cart_item.find('#info').css('display','none');
+          }
           if (cart_item.status != 'Solicitud') {
             new_cart_item.find('.delete-item').css('display','none');
           }

@@ -84,7 +84,11 @@
           new_cart_item.find('#item_id').val(cart_item.id);
           new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>      ' + cart_item.layout);
           new_cart_item.find('#qty').val(cart_item.qty);
-          new_cart_item.find('#info').text(json_dumps(cart_item));
+          if (current_user.admin) {
+            new_cart_item.find('#info').text(json_dumps(cart_item));
+          }else{
+            new_cart_item.find('#info').text(json_item(cart_item));
+          }
 
 
           new_cart_item.css('display','block');

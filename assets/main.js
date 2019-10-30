@@ -2,6 +2,21 @@ function json_dumps(json_data){
 	return JSON.stringify(json_data, null, '  ').replace('[\n', '').replace('[', '').replace(']', '').replace(/"/g, '').replace(/,/g, '').replace(/,/g, '').replace(/{/g, '').replace(/}/g, '')
 }
 
+function json_item(cart_item){
+	var info = 'Información:\n' + JSON.stringify(cart_item.data_json, null, '  ').replace('[\n', '').replace('[', '').replace(']', '').replace(/"/g, '').replace(/,/g, '').replace(/,/g, '').replace(/{\n/g, '').replace(/}/g, '')
+	var filenames = [];
+	if (cart_item.files_json) {
+		Object.keys(cart_item.files_json).forEach(function(key) {
+			filenames.push(cart_item.files_json[key]['filename']);
+		});
+		info += '\nArchivos:\n' + JSON.stringify(filenames, null, '  ').replace('[\n', '').replace('[', '').replace(']', '').replace(/"/g, '').replace(/,/g, '').replace(/,/g, '').replace(/{\n/g, '').replace(/}/g, '')
+	}
+	if ($.isEmptyObject(cart_item.info_json) != true) {
+		info += '\nPedido:\n' + JSON.stringify(cart_item.info_json, null, '  ').replace('[\n', '').replace('[', '').replace(']', '').replace(/"/g, '').replace(/,/g, '').replace(/,/g, '').replace(/{\n/g, '').replace(/}/g, '')
+	}
+	return info
+}
+
 function decodePayload(payload){
 	var decodedData = JSON.parse(payload);
 	return decodedData
