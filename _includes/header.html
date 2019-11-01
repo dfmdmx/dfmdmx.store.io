@@ -2,10 +2,8 @@
 
   .checkout-button {
       float: right;
-      padding-top: 2px;
-      padding-bottom: 2px;
-      padding-right: 2px;
-      padding-left: 12px;
+      margin-top:6px;
+      font-size: 12px;
   }
   .title-header {
     padding:4px;
@@ -21,14 +19,15 @@
     color: #e4e4e4;
   }
   .button-transparent {
-      background: transparent;
+    background: transparent;
   }
   .apiuser {
     float: right;
     font-size: 14px;
     color: #9c9c9c;
-    padding-right: 2px;
-    padding-top: 12px;
+    margin-right: 4px;
+    margin-left: 4px;
+    padding-top: 9px;
   }
   .custom-menu {
       white-space: normal;
@@ -39,6 +38,9 @@
     -webkit-animation:spin 4s linear infinite;
     -moz-animation:spin 4s linear infinite;
     animation:spin 4s linear infinite;
+  }
+  .logo-image {
+    height: 25px;
   }
   .stop {
     -webkit-animation-play-state:paused;
@@ -66,15 +68,13 @@
     {%- assign page_paths = site.header_pages | default: default_paths -%}
 
     <div class="title-header">
-      <a href="/">{{ site.title | escape }}</a>
-      <img id="loading-image" class="loading-image init-rotation stop" src="/assets/images/noun_carbon.svg" alt="006 Carbon C by Joel Wisneski from the Noun Project">
+      <a href="/"><img id="logo-image" class="logo-image" src="/assets/images/logo_hangarmx_white.svg"></a>
+      <!-- <img id="loading-image" class="loading-image init-rotation stop" src="/assets/images/noun_carbon.svg" alt="006 Carbon C by Joel Wisneski from the Noun Project"> -->
+      <a class="checkout-button pure-button button-transparent" id="login-button" href="/login"><i class="fas fa-user-plus"></i></a>
       <a class='apiuser' href="/edit_user" id='apiuser'></a>
-    </div>
+      <a class="checkout-button pure-button button-transparent" id='orders-button' href="/orders"><i class="fas fa-receipt"></i></a>
+      <a class="checkout-button pure-button button-transparent" href="/checkout"><i class="fas fa-shopping-cart"></i></a>
 
-    <div class='checkout-button'">
-      <a class="pure-button button-transparent" id='orders-button' href="/orders"><i class="fas fa-receipt"></i></a>
-      <a class="pure-button button-transparent" href="/checkout"><i class="fas fa-shopping-cart"></i></a>
-      <a class="pure-button button-transparent" id="login-button" href="/login"><i class="fas fa-user-plus"></i></a>  <!-- <i class="fas fa-user-minus"></i> -->
     </div>
 
     <div class="pure-menu pure-menu-horizontal custom-menu">
