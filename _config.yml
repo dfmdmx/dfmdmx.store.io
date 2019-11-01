@@ -1,12 +1,12 @@
 title: HMX
 author: dfmd
-email: io@dfmd.mx
+email: io@hangarmx.com
 description: > # this means to ignore newlines until "show_excerpts:"
   Tienda en línea de productos maquinados en CNC,
   servicio de corte con router de control numérico e impresión 3D.
 
 #Used for sitemap plugin
-url: https://store.dfmd.mx/
+url: https://hangarmx.com
 # google_analytics: UA-144671485-1
 #Used for local development
 repository: dfmdmx/dfmdmx.store.io
