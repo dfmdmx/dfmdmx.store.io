@@ -19,7 +19,7 @@ collections:
     output: true
 
 disqus:
-  shortname: dfmd
+  shortname: hangarmx
   comments: false
 
 # social links
