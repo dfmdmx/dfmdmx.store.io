@@ -61,11 +61,11 @@
     <div class="pure-u-1-4">
       <div class="perfundo">
         <a class="perfundo__link" href="#perfundo-img{{ folder }}{{ img_count }}">
-          <img class='pure-img' src="{{site.data.callback.th-url}}{{ file.path | replace: '/','_' }}" alt="{{ filename }}" title="{{ filename }}" />
+          <img class='pure-img' src="{{ file.path }}" alt="{{ filename }}" title="{{ filename }}" />
         </a>
         <div id="perfundo-img{{ folder }}{{ img_count }}" class="perfundo__overlay fadeIn">
           <div class='pure-u-1-2' style='margin:auto'>
-            <img id='imagelink' style='max-height:100vh' class ='pure-img' src="{{ file.path }}" alt="image">
+            <img id='imagelink' style='max-height:100vh' class ='pure-img imagelink' src="{{ file.path }}" alt="image">
           </div>
           <a href="#perfundo-untarget" class="perfundo__close perfundo__control">Cerrar</a>
           <a class="perfundo__next perfundo__control" href="#perfundo-img{{ folder }}{{ img_count | plus: 1 }}"> >>> </a>
@@ -90,7 +90,8 @@
 <script>
   $(document).ready(function() {
     var images = [];
-    $('.image-gallery').find('#imagelink').each(function(){
+    $('.image-gallery').find('.imagelink').each(function(){
+      console.log(this.src);
       images.push(this.src);
     });
     var payload = {'urls':images}
