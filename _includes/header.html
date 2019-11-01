@@ -90,8 +90,8 @@
             <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
                 <a href="#" id="menuLink1" class="pure-menu-link">Productos</a>
                 <ul class="pure-menu-children">
-                  {% for product in site.products %}
-                    <li class="pure-menu-item"><a href="{{ product.url }}" class="pure-menu-link">{{ product.title }}</a></li>
+                  {% for group in site.groups %}
+                    <li class="pure-menu-item"><a href="{{ group.url }}" class="pure-menu-link">{{ group.title }}</a></li>
                   {% endfor %}
                 </ul>
             </li>

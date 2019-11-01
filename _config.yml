@@ -14,8 +14,9 @@ repository: dfmdmx/dfmdmx.store.io
 collections:
   products:
     output: true
-
   services:
+    output: true
+  groups:
     output: true
 
 disqus:

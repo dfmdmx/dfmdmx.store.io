@@ -1,6 +1,7 @@
 ---
 layout: product
 comments: false
+group: sistemas-de-armado
 ---
 
 ### 6061 T6
