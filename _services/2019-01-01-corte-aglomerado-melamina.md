@@ -1,6 +1,6 @@
 ---
 layout: service
-comments: false
+comments: true
 ---
 
 {% include utils/image-gallery.html name='fotos' %}
