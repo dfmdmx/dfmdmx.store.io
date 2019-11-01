@@ -14,8 +14,12 @@ layout: default
     {{ content }}
   </div>
 
+
   {%- if site.disqus.shortname -%}
+  <details>
+    <summary class='summary'><h>Comentarios</h></summary>
     {%- include disqus_comments.html -%}
+  </details>
   {%- endif -%}
 
   <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
