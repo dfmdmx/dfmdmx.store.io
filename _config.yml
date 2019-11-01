@@ -7,7 +7,7 @@ description: > # this means to ignore newlines until "show_excerpts:"
 
 #Used for sitemap plugin
 url: https://hangarmx.com
-# google_analytics: UA-144671485-1
+google_analytics: UA-151351771-1
 #Used for local development
 repository: dfmdmx/dfmdmx.store.io
 #Used for post like structures
