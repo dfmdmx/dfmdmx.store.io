@@ -48,12 +48,9 @@ blockquote {
 }
 // Comments
 #disqus_thread {
-  filter: grayscale(1) opacity(.66);
-  margin-top: 100px;
-  margin-bottom: 20px;
-}
-#disqus_thread:hover {
   filter: grayscale(1) opacity(1);
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 // Services shadow
 .upload-shadow {
