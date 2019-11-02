@@ -1,3 +1,20 @@
+<script>
+  var order_response = $.Deferred();
+  var =
+  var order_id = getCookie('active_order');
+  current_user.always(function(){
+    var method = 'store_order';
+    var payload = {'order_id':order_id,'action':'consult'}
+    remoteCall(method,payload,false).done(function(response){
+      console.log(response);
+      order_response.resolve(response).promise();
+    }).fail(function(){
+      order_response.reject(false).promise();
+    });
+  });
+</script>
+
+
 <!-- ---------includes--------- -->
 {% include utils/messages.html %}
 {% include store/form-store.html method='store_edit_order' %}
@@ -150,10 +167,7 @@
         <label><i class="fas fa-receipt"></i> MercadoPago</label>
         <fieldset class="pure-group">
             <form id="script-mercadopago" action="/" method="POST">
-              <script
-               data-preference-id="485440642-7ed45305-177c-409f-9207-646cd35ac25d">
-               $.getScript("https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js");
-              </script>
+
             </form>
         </fieldset>
       </div>
@@ -304,75 +318,64 @@ CLABE  BBVA: 012180004439282840
 </div>
 
 <script>
-  var order_response;
-  var order_id = getCookie('active_order');
-  current_user.always(function(){
-    var method = 'store_order';
-    var payload = {'order_id':order_id,'action':'consult'}
-    remoteCall(method,payload,false).done(function(response){
-      console.log(response);
-      order_response = response;
-    });
-  });
-
-</script>
-
-
-<script>
 
   $(document).ready(function () {
 
-    var response = order_response;
+    order_response.done(function(response){
 
-    console.log(response)
+      console.log(response)
 
-    $('#address_data').text(json_address(response.address_json));
-    update_form(response.contact_json);
-    update_form(response.invoice_json);
-    update_shipping(response.shipping);
-    $('#date_created').text(response.date_created);
-    $('#date_delivery').text(response.date_delivery);
-    $('#status').text(response.status);
-    $('#user_email').text(response.user_email);
-    $('#order_webid').text(response.order_id);
-    $('#discount').val(response.discount);
-    $('#addressed_to').text(response.addressed_to);
-    $('#script--mercadopago').attr("data-preference-id",response.preferenceResult.response.id);
 
-    if (response.title) {
-      $('#title').text(response.title);
-    }else{
-      $('#title').css('display','none');
-    }
-    if (response.description) {
-      $('#description').text(response.description);
-    }else{
-      $('#description').css('display','none');
-    }
-    if (response.notes) {
-      $('#notes').text(response.notes);
-    }else{
-      $('#notes').css('display','none');
-    }
-    console.log('admin',response.admin);
-    if (response.admin != 1){
-      $('#edit_button').css('display','none');
-    }
-    var show_prices = false;
-    if (response.status != 'Solicitud' && response.status != 'Procesando') {
-      show_prices = true;
-    }
-    cart_items = response.items_json;
-    var cart_item;
 
-    for (var i = 0; i < cart_items.length; i++) {
-      cart_item = cart_items[i]
-      update_cart_item(cart_item,response.id,show_prices);
-    }
-    if (show_prices){
-      update_total();
-    }
+      $('#address_data').text(json_address(response.address_json));
+      update_form(response.contact_json);
+      update_form(response.invoice_json);
+      update_shipping(response.shipping);
+      $('#date_created').text(response.date_created);
+      $('#date_delivery').text(response.date_delivery);
+      $('#status').text(response.status);
+      $('#user_email').text(response.user_email);
+      $('#order_webid').text(response.order_id);
+      $('#discount').val(response.discount);
+      $('#addressed_to').text(response.addressed_to);
 
+      $('#script--mercadopago').attr("data-preference-id",response.preferenceResult.response.id);
+      $('#script-mercadopago').append('<script data-preference-id="485440642-7ed45305-177c-409f-9207-646cd35ac25d" src ="https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js"><\/script>')
+      if (response.title) {
+        $('#title').text(response.title);
+      }else{
+        $('#title').css('display','none');
+      }
+      if (response.description) {
+        $('#description').text(response.description);
+      }else{
+        $('#description').css('display','none');
+      }
+      if (response.notes) {
+        $('#notes').text(response.notes);
+      }else{
+        $('#notes').css('display','none');
+      }
+      console.log('admin',response.admin);
+      if (response.admin != 1){
+        $('#edit_button').css('display','none');
+      }
+      var show_prices = false;
+      if (response.status != 'Solicitud' && response.status != 'Procesando') {
+        show_prices = true;
+      }
+      cart_items = response.items_json;
+      var cart_item;
+
+      for (var i = 0; i < cart_items.length; i++) {
+        cart_item = cart_items[i]
+        update_cart_item(cart_item,response.id,show_prices);
+      }
+      if (show_prices){
+        update_total();
+      }
+
+    })
   })
 
   function print_order(element){
