@@ -147,17 +147,10 @@
     <legend>Pago</legend>
     <div class="pure-g">
       <div class="pure-u-1">
-        <label><i class="fas fa-receipt"></i> Comentarios</label>
+        <label><i class="fas fa-receipt"></i> MercadoPago</label>
         <fieldset class="pure-group">
-          <form action="https://www.hangarmx.com" method="POST">
-            <form action="/" method="POST">
-              <script
-               id = "script-mercadopago"
-               src="https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js"
-               data-preference-id="485440642-7ed45305-177c-409f-9207-646cd35ac25d">
-              </script>
+            <form id = "script-mercadopago" action="/" method="POST">
             </form>
-          </form>
         </fieldset>
       </div>
     </div>
@@ -328,8 +321,7 @@ CLABE  BBVA: 012180004439282840
         $('#order_webid').text(response.order_id);
         $('#discount').val(response.discount);
         $('#addressed_to').text(response.addressed_to);
-        $('#script--mercadopago').attr("data-preference-id",response.preferenceResult.response.id);
-
+        $('#script-mercadopago').html('<script src="https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js" data-preference-id="' + response.preferenceResult.response.id + '<script src="https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js" data-preference-id="' + response.preferenceResult.response.id + '"></script>');
         if (response.title) {
           $('#title').text(response.title);
         }else{
