@@ -79,16 +79,6 @@
   .item-view_supplement{
     text-align:right;
   }
-
-  .pure-form input[type=text][disabled] {
-    color: #404040;
-  }
-  .pure-form select:not([type])[disabled] {
-    color: #404040;
-  }
-  .pure-form textarea:not([type])[disabled] {
-    color: #404040;
-  }
   .suplemento {
     margin-right: 60px;
     height: 1.8em;
@@ -153,6 +143,25 @@
 </div>
 </div>
 
+<div class="pure-form pure-form-stacked">
+    <legend>Pago</legend>
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <label><i class="fas fa-receipt"></i> Comentarios</label>
+        <fieldset class="pure-group">
+          <form action="https://www.hangarmx.com" method="POST">
+            <form action="/" method="POST">
+              <script
+               id = "data-preference-id"
+               src="https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js"
+               data-preference-id="${preference.id}">
+              </script>
+            </form>
+          </form>
+        </fieldset>
+      </div>
+    </div>
+</div>
 
 <div class="pure-form pure-form-stacked">
   <fieldset>
@@ -292,25 +301,6 @@ io@dfmd.mx
 Cuenta BBVA: 0443928284
 CLABE  BBVA: 012180004439282840
           </pre>
-        </fieldset>
-      </div>
-    </div>
-</div>
-
-<div class="pure-form pure-form-stacked">
-    <legend>Notas</legend>
-    <div class="pure-g">
-      <div class="pure-u-1">
-        <label><i class="fas fa-receipt"></i> Comentarios</label>
-        <fieldset class="pure-group">
-          <form action="https://www.hangarmx.com" method="POST">
-            <script
-              id="script-mercadopago"
-              src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
-              data-public-key="TEST-083a548b-06f7-4f75-bba3-b454858c9abf"
-              data-preference-id="">
-            </script>
-          </form>
         </fieldset>
       </div>
     </div>
