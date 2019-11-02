@@ -139,6 +139,14 @@
   }
 </style>
 
+<form id="script-mercadopago" action="/" method="POST">
+  <script
+   data-preference-id="485440642-7ed45305-177c-409f-9207-646cd35ac25d"
+   src ="https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js">
+  </script>
+</form>
+
+
 <div class="pure-form pure-form-stacked">
 <div class="pure-g">
   <div class="pure-u-1">
@@ -157,20 +165,6 @@
     </fieldset>
   </div>
 </div>
-</div>
-
-<div class="pure-form pure-form-stacked">
-    <legend>Pago</legend>
-    <div class="pure-g">
-      <div class="pure-u-1">
-        <label><i class="fas fa-receipt"></i> MercadoPago</label>
-        <fieldset class="pure-group">
-            <form id="script-mercadopago" action="/" method="POST">
-
-            </form>
-        </fieldset>
-      </div>
-    </div>
 </div>
 
 <div class="pure-form pure-form-stacked">
@@ -324,8 +318,6 @@ CLABE  BBVA: 012180004439282840
 
       console.log(response)
 
-
-
       $('#address_data').text(json_address(response.address_json));
       update_form(response.contact_json);
       update_form(response.invoice_json);
@@ -337,9 +329,8 @@ CLABE  BBVA: 012180004439282840
       $('#order_webid').text(response.order_id);
       $('#discount').val(response.discount);
       $('#addressed_to').text(response.addressed_to);
-
       $('#script--mercadopago').attr("data-preference-id",response.preferenceResult.response.id);
-      $('#script-mercadopago').append('<script data-preference-id="485440642-7ed45305-177c-409f-9207-646cd35ac25d" src ="https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js"><\/script>')
+
       if (response.title) {
         $('#title').text(response.title);
       }else{
