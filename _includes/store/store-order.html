@@ -297,6 +297,24 @@ CLABE  BBVA: 012180004439282840
     </div>
 </div>
 
+<div class="pure-form pure-form-stacked">
+    <legend>Notas</legend>
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <label><i class="fas fa-receipt"></i> Comentarios</label>
+        <fieldset class="pure-group">
+          <form action="/procesar-pago" method="POST">
+            <script
+              src="https://www.mercadopago.com.ar/integrations/v1/web-tokenize-checkout.js"
+              data-public-key="TEST-c4841fc2-0334-4da0-93af-58d342e2a77c"
+              data-transaction-amount="100.00">
+            </script>
+          </form>
+        </fieldset>
+      </div>
+    </div>
+</div>
+
 <script>
 
   $(document).ready(function () {
