@@ -1,5 +1,6 @@
 ---
 layout: service
+group: corte-cnc
 comments: true
 ---
 
