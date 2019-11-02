@@ -339,7 +339,7 @@ CLABE  BBVA: 012180004439282840
         $('#discount').val(response.discount);
         $('#addressed_to').text(response.addressed_to);
         console.log(response.preferenceResult.id);
-        $('#script-mercadopago').attr("data-preference-id",response.preferenceResult.id);
+        $('#script-mercadopago').attr("data-preference-id",response.preferenceResult.response.id);
 
         if (response.title) {
           $('#title').text(response.title);
