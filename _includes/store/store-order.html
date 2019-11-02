@@ -149,8 +149,9 @@
       <div class="pure-u-1">
         <label><i class="fas fa-receipt"></i> MercadoPago</label>
         <fieldset class="pure-group">
-            <form id="script-mercadopago" action="/" method="POST">
-
+            <form action="/" method="POST">
+              <span id="script-mercadopago"></span>
+              </script>
             </form>
         </fieldset>
       </div>
@@ -322,7 +323,7 @@ CLABE  BBVA: 012180004439282840
         $('#order_webid').text(response.order_id);
         $('#discount').val(response.discount);
         $('#addressed_to').text(response.addressed_to);
-        $('#script-mercadopago').html('<script src="https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js" data-preference-id=""></script>');
+        $('#script-mercadopago').html('<script src="https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js" data-preference-id="">');
         $('#script--mercadopago').attr("data-preference-id",response.preferenceResult.response.id);
 
         if (response.title) {
