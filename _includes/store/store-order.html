@@ -139,14 +139,6 @@
   }
 </style>
 
-<form id="script-mercadopago" action="/" method="POST">
-  <script
-   data-preference-id="485440642-7ed45305-177c-409f-9207-646cd35ac25d"
-   src ="https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js">
-  </script>
-</form>
-
-
 <div class="pure-form pure-form-stacked">
 <div class="pure-g">
   <div class="pure-u-1">
@@ -155,9 +147,16 @@
       <a id='print_button' onclick="print_order(this);" class='link-button'> Imprimir <i class="fas fa-print"></i></a>
       <a id='edit_button' onclick="goto_edit_order();" class='link-button'> Editar <i class="fas fa-print"></i></a>
       <div class="logo-header">
-        <span class='logo-text'>store.dfmd.mx</span>
-        <img  src="/assets/images/noun_carbon.svg" alt="006 Carbon C by Joel Wisneski from the Noun Project">
+        <img src="/assets/images/logo_hangarmx_black.svg">
       </div>
+
+      <form id="script-mercadopago" action="/" method="POST">
+        <script
+         data-preference-id="485440642-7ed45305-177c-409f-9207-646cd35ac25d"
+         src ="https://www.mercadopago.com.mx/integrations/v1/web-payment-checkout.js">
+        </script>
+      </form>
+
     </fieldset>
     <fieldset class="pure-group">
       <h4 id ='title' class="pure-input-1"></h4>
@@ -371,6 +370,7 @@ CLABE  BBVA: 012180004439282840
   function print_order(element){
     $('#print_button').css('display','none');
     $('#edit_button').css('display','none');
+    $('#script-mercadopago').css('display','none');
     $('footer').css('display','none');
     $('.site-header').css('display','none');
     print();
