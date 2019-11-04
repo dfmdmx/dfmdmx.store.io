@@ -144,6 +144,10 @@
     font-family: 'Inconsolata', monospace;
     font-size: 18px;
   }
+  .mp-button a {
+    dispaly: none;
+
+  }
 
 </style>
 
@@ -160,7 +164,7 @@
 
       <br>
 
-      <a id='mp-button' style='display:none' href="/"><button class="pure-button pure-button-primary">Pagar <i class="fas fa-credit-card"></i></button></a>
+      <a id='mp-button' class='mp-button' href="/"><button class="pure-button pure-button-primary">Pagar <i class="fas fa-credit-card"></i></button></a>
       <span id='mp-status' class='mp-status'></span>
 
     </fieldset>
@@ -337,9 +341,9 @@ CLABE  BBVA: 012180004439282840
         status = 'Pago aprovado'
       }else if (response.payment_json.status == 'pending'){
         status = 'Pago pendiente'
-        $('#mp-button').css('display','normal');
+        $('#mp-button').css('display','unset');
       }else {
-        $('#mp-button').css('display','normal');
+        $('#mp-button').css('display','unset');
       }
       $('#mp-status').text(status);
       // $('#mp-frame').attr("src",response.preferenceResult.sandbox_init_point);
