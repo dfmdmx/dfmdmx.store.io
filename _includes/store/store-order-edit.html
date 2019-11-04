@@ -83,10 +83,24 @@
     float: right;
     text-align: right;
   }
+  .link-button {
+    margin-left:30px;
+  }
 </style>
 
-ID: <span id ='order_webid' class="pure-input-1"></span><br>
-<a href="/order"><button class="pure-button pure-button-primary">Regresar</button></a>
+<div class="pure-form pure-form-stacked">
+<div class="pure-g">
+  <div class="pure-u-1">
+    <fieldset class="pure-group">
+
+      ID: <span id ='order_webid' class="pure-input-1"></span>
+      <a  onclick="location.replace('/order');" class='link-button'><i class="fas fa-chevron-left"></i> Regresar </a>
+      <a  onclick="window.scrollTo(0,document.body.scrollHeight);" class='link-button'><i class="fas fa-chevron-down"></i> Guardar </a>
+    </fieldset>
+
+  </div>
+</div>
+</div>
 
 <div class="pure-form pure-form-stacked">
     <legend>Información</legend>

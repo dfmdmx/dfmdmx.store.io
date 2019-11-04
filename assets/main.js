@@ -43,6 +43,7 @@ function create_submit_form(method,payload,files){
 }
 
 function remoteCall(method,payload,files){
+
 	var callback = $.Deferred();
 	var form_data = create_submit_form(method,payload,files);
 	if (data_jekyll_env == 'production') {
@@ -60,6 +61,7 @@ function remoteCall(method,payload,files){
 }
 
 function makeCall(form_data,callback){
+	loading(true);
 	return $.ajax({
 			type: 'POST',
 			url: data_callback_url,
@@ -68,9 +70,11 @@ function makeCall(form_data,callback){
 			cache: false,
 			processData: false,
 			success: function(data){
+				loading(false);
 				callback.resolve(data);
 			},
 			error: function(){
+				loading(false);
 				callback.reject();
 			},
 			dataFilter: function(data){
@@ -137,16 +141,6 @@ function logout() {
   setCookie('session_token','',-1000);
   window.location.replace("/");
   });
-}
-
-// Se necesita colocar css y html en header para que esto funcione
-var loader = {
-	runLoader : function () {
-		jQuery( '.loading-image' ).toggleClass("stop");
-	},
-	stopLoader : function () {
-		jQuery( '.loading-image' ).toggleClass("stop");
-	}
 }
 
 function formatCurrency(total) {
