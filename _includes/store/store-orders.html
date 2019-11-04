@@ -10,6 +10,12 @@
     font-size: 12px;
 
   }
+  .details-item {
+    margin-top: .3em;
+    float:right;
+    font-size: 12px;
+
+  }
   .link-item {
     margin-left:25px;
     font-size: 12px;
@@ -36,7 +42,7 @@
           <input id='item_id' form='form-store' type='hidden' value='' name='items_id'>
 
           <summary class='summary'><h id='header_text'></h>
-            <a onclick="go_to_order(this);" class='delete-item'> Detalles <i class="fas fa-external-link-alt"></i></a>
+            <a onclick="go_to_order(this);" class='details-item'> Detalles <i class="fas fa-external-link-alt"></i></a>
 
           </summary>
           <a onclick="remove_order_item(this);" class='delete-item'>Cancelar <i class="fas fa-trash"></i></a>
