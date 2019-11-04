@@ -144,9 +144,8 @@
     font-family: 'Inconsolata', monospace;
     font-size: 18px;
   }
-  .mp-button a {
-    dispaly: none;
-
+  .payment {
+    display: none;
   }
 
 </style>
@@ -163,8 +162,9 @@
       </div>
 
       <br>
-
-      <a id='mp-button' class='mp-button' href="/"><button class="pure-button pure-button-primary">Pagar <i class="fas fa-credit-card"></i></button></a>
+      <div id="payment" class='payment'>
+        <a id='mp-button' href="/"><button class="pure-button pure-button-primary">Pagar <i class="fas fa-credit-card"></i></button></a>
+      </div>
       <span id='mp-status' class='mp-status'></span>
 
     </fieldset>
@@ -181,15 +181,14 @@
     <legend>Información</legend>
     <div class="pure-g">
 
-      <div class="pure-u-1 pure-u-md-1-2">
+      <div class="pure-u-1-2">
         <label><i class="fas fa-receipt"></i> Datos</label>
         Solicita: <b><span id ='addressed_to' class="pure-input-1"></span></b><br><br>
         Correo: <span id ='user_email' class="pure-input-1"></span><br>
         Razón social: <span id ='razon_social' class="pure-input-1"></span><br>
         RFC: <span id ='rfc' class="pure-input-1"></span><br>
       </div>
-
-      <div class="pure-u-1 pure-u-md-1-2">
+      <div class="pure-u-1-2">
         <label><i class="fas fa-list-ul"></i> Estado</label>
         Estado: <b><span id ='status' class="pure-input-1"></span></b><br><br>
         Fecha:  <span id ='date_created' class="pure-input-1"></span><br>
@@ -335,15 +334,19 @@ CLABE  BBVA: 012180004439282840
       $('#discount').val(response.discount);
       $('#addressed_to').text(response.addressed_to);
 
+      if (response.status == 'Activa' && response.payment_json.status != 'approved') {
+      }
       $('#mp-button').attr("href",response.mp_json.preference.sandbox_init_point);
       var status = '';
       if (response.payment_json.status == 'approved'){
         status = 'Pago aprovado'
       }else if (response.payment_json.status == 'pending'){
         status = 'Pago pendiente'
-        $('#mp-button').css('display','unset');
+        $('#payment').css('display','unset');
       }else {
-        $('#mp-button').css('display','unset');
+        if (response.status == 'Activa'){
+          $('#payment').css('display','unset');
+        }
       }
       $('#mp-status').text(status);
       // $('#mp-frame').attr("src",response.preferenceResult.sandbox_init_point);
@@ -428,13 +431,8 @@ CLABE  BBVA: 012180004439282840
       calculate_item_total(new_cart_item);
       new_cart_item.find('#item_comment').text(cart_item.comment);
     }
-
     new_cart_item.find('#item_data').text(json_data(cart_item.data_json));
-    if (current_user.admin) {
-      new_cart_item.find('#info').text(json_dumps(cart_item));
-    }else{
-      new_cart_item.find('#info').text(json_item(cart_item));
-    }
+    new_cart_item.find('#info').text(json_item(cart_item));
     new_cart_item.css('display','block');
   }
   function calculate_item_total(element){

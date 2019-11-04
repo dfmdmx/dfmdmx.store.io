@@ -6,20 +6,18 @@
 
   .delete-item {
     margin-top: .3em;
+    margin-right: 20px;
     float:right;
     font-size: 12px;
-
   }
   .details-item {
     margin-top: .3em;
     float:right;
     font-size: 12px;
-
   }
   .link-item {
     margin-left:25px;
     font-size: 12px;
-
   }
   .cart-item {
     margin-bottom: 12px;
@@ -43,9 +41,9 @@
 
           <summary class='summary'><h id='header_text'></h>
             <a onclick="go_to_order(this);" class='details-item'> Detalles <i class="fas fa-external-link-alt"></i></a>
-
+            <a onclick="remove_order_item(this);" class='delete-item'>Cancelar <i class="fas fa-trash"></i></a>
           </summary>
-          <a onclick="remove_order_item(this);" class='delete-item'>Cancelar <i class="fas fa-trash"></i></a>
+
           <pre id='info'></pre>
         </details>
 
@@ -71,13 +69,9 @@
           cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
           new_cart_item = $('#'+ cart_item.id );
           new_cart_item.find('#item_id').val(cart_item.id);
-          new_cart_item.find('#header_text').html('<b>' + cart_item.order_id + '</b> - ' + cart_item.items_json.length + ' artículos  - ' + cart_item.status + ' | ' + cart_item.date_created  );
-          console.log(current_user);
-          if (current_user.admin) {
-            new_cart_item.find('#info').text(json_dumps(cart_item));
-          }else{
-            new_cart_item.find('#info').css('display','none');
-          }
+          new_cart_item.find('#header_text').html('<b>' + cart_item.order_id + '</b> - ' + cart_item.items_json.length + ' artículos  - ' + cart_item.date_created + ' | ' + cart_item.status  );
+          new_cart_item.find('#info').text(json_dumps(cart_item));
+
           if (cart_item.status != 'Solicitud') {
             new_cart_item.find('.delete-item').css('display','none');
           }

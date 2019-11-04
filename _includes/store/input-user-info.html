@@ -13,17 +13,17 @@
       <div class="pure-u-1-2">
         <label><i class="fas fa-map-marked-alt"></i> Dirección</label>
         <fieldset class="pure-group">
-            <input form='form-store' name="calle" class="pure-input-1" placeholder="Calle" >
-            <input form='form-store' name="numero_ext" class="pure-input-1" placeholder="No. Exterior" >
+            <input required form='form-store' name="calle" class="pure-input-1 address" placeholder="Calle" >
+            <input required form='form-store' name="numero_ext" class="pure-input-1 address" placeholder="No. Exterior" >
             <input form='form-store' name="numero_int" class="pure-input-1" placeholder="No. Interior" >
-            <input form='form-store' name="colonia" class="pure-input-1" placeholder="Colonia" >
-            <input form='form-store' name="municipio" class="pure-input-1" placeholder="Alcaldia/Municipio" >
-            <input form='form-store' name="estado" class="pure-input-1" placeholder="Estado" >
-            <input form='form-store' name="cp" class="pure-input-1" placeholder="CP" >
+            <input required form='form-store' name="colonia" class="pure-input-1 address" placeholder="Colonia" >
+            <input required form='form-store' name="municipio" class="pure-input-1 address" placeholder="Alcaldia/Municipio" >
+            <input required form='form-store' name="estado" class="pure-input-1 address" placeholder="Estado" >
+            <input required form='form-store' name="cp" class="pure-input-1 address" placeholder="CP" >
         </fieldset>
         <fieldset class="somespace">
-          <input form='form-store' type="radio" name="shipping" value="delivery" checked> <i class="fas fa-truck"></i> Envio a domicilio &nbsp;
-          <input form='form-store' type="radio" name="shipping" value="workshop"> <i class="fas fa-map-marker-alt"></i> Recojer en planta &nbsp;
+          <input onchange='check_address(this)' form='form-store' type="radio" name="shipping" value="delivery" checked> <i class="fas fa-truck"></i> Envio a domicilio &nbsp;
+          <input onchange='check_address(this)' form='form-store' type="radio" name="shipping" value="workshop"> <i class="fas fa-map-marker-alt"></i> Recojer en planta &nbsp;
         </fieldset>
       </div>
     </div>
@@ -43,4 +43,16 @@
       }
     });
   });
+  function check_address(element){
+    var el = $(element)
+    if (el.prop('checked') && el.val() == "delivery"){
+      $('.address').each(function(i){
+        $(this).prop('required',true);
+      })
+    }else if (el.prop('checked') && el.val() == "workshop"){
+      $('.address').each(function(i){
+        $(this).prop('required',false);
+      })
+    }
+  }
 </script>

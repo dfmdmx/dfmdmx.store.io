@@ -108,7 +108,6 @@ ID: <span id ='order_webid' class="pure-input-1"></span><br>
             <option>Solicitud</option>
             <option>Procesando</option>
             <option>Activa</option>
-            <option>Aprobada</option>
             <option>Cancelada</option>
           </select>
         </fieldset>
@@ -379,6 +378,7 @@ ID: <span id ='order_webid' class="pure-input-1"></span><br>
   }
 
   function remove_order_item(element){
+
     event.preventDefault();
     details = $(element.closest('details'));
     var item_id = details.find('#item_id').val();
@@ -386,9 +386,11 @@ ID: <span id ='order_webid' class="pure-input-1"></span><br>
     current_user.always(function(){
       var method = 'store_remove_order_item';
       var payload = {'order_id':order_id,'item_id':item_id};
-      remoteCall(method,payload,false).done(function(response){
-        details.remove();
+      showOkCancelDialog('Borrar partida','La partida se elimiará de forma permanente.').done(function(){
+        remoteCall(method,payload,false).done(function(response){
+          details.remove();
         })
+      });
     })
   }
 

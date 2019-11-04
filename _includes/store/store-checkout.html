@@ -40,11 +40,11 @@
           <input id='item_id' form='form-store' type='hidden' value='' name='items_id'>
 
           <summary class='summary'><h id='header_text'><b>Servicio</b>Nombre del articulo</h>
-            <input id='qty' onchange="edit_item_qty(this)" class='qty-input' type='number' name='qty' value='1' min='1' max='99'>
+            <input required id='qty' onchange="edit_item_qty(this)" class='qty-input' type='number' name='qty' value='1' min='1' max='99'>
             <a onclick="remove_cart_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a>
           </summary>
 
-          <pre id='info'>Algo chulo para el usuario</pre>
+          <pre id='info'></pre>
         </details>
 
       </fieldset>
@@ -84,13 +84,7 @@
           new_cart_item.find('#item_id').val(cart_item.id);
           new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>      ' + cart_item.layout);
           new_cart_item.find('#qty').val(cart_item.qty);
-          if (current_user.admin) {
-            new_cart_item.find('#info').text(json_dumps(cart_item));
-          }else{
-            new_cart_item.find('#info').text(json_item(cart_item));
-          }
-
-
+          new_cart_item.find('#info').text(json_item(cart_item));
           new_cart_item.css('display','block');
         }
       })
@@ -114,7 +108,7 @@
     event.preventDefault();
     details = element.closest('details');
     var id = $(details).prop('id');
-    var qty = $(details).find('#qty_id').val();
+    var qty = $(details).find('#qty').val();
     current_user.always(function(){
       var method = 'store_edit_item_qty';
       var payload = {'cart_item':id,'qty':qty};
