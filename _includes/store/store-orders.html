@@ -70,7 +70,7 @@
           new_cart_item = $('#'+ cart_item.id );
           new_cart_item.find('#item_id').val(cart_item.id);
           new_cart_item.find('#header_text').html('<b>' + cart_item.order_id + '</b> - ' + cart_item.items_json.length + ' artículos  - ' + cart_item.date_created + ' | ' + cart_item.status  );
-          new_cart_item.find('#info').text(json_dumps(cart_item));
+          // new_cart_item.find('#info').text(json_dumps(cart_item));
 
           if (cart_item.status != 'Solicitud') {
             new_cart_item.find('.delete-item').css('display','none');
