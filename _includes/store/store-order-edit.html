@@ -94,7 +94,7 @@
     <fieldset class="pure-group">
 
       ID: <span id ='order_webid' class="pure-input-1"></span>
-      <a  onclick="location.replace('/order');" class='link-button'><i class="fas fa-chevron-left"></i> Regresar </a>
+      <a  onclick="location.replace(document.location.href.replace('order-edit','order'));" class='link-button'><i class="fas fa-chevron-left"></i> Regresar </a>
       <a  onclick="window.scrollTo(0,document.body.scrollHeight);" class='link-button'><i class="fas fa-chevron-down"></i> Guardar </a>
     </fieldset>
 
@@ -281,8 +281,9 @@
     current_user.always(function(){
       var method = 'store_order';
       var payload = {'order_id':order_id,'action':'edit'}
-      remoteCall(method,payload,false).done(function(response){
-        console.log(response)
+      remoteCall(method,payload,false).done(function(order){
+        var response = order.order;
+        console.log(response);
         update_form(response.address_json);
         update_form(response.contact_json);
         update_form(response.invoice_json);

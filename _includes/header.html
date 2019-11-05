@@ -38,6 +38,11 @@
   #orders-button {
     display: none;
   }
+  .return-link  {
+    font-size: 12px;
+    font-family: 'Inconsolata', monospace;
+    color: #fff;
+  }
 
   /* The Modal (background) */
 .modal {
@@ -110,7 +115,9 @@
 <!-- The modal loading -->
 <div id="myModal" class="modal">
   <div class="modal-content">
-    <p>Cargando página de internet . . .</p>
+    <p>Cargando página de internet . . .<br>
+    <a onclick='location.reload();' class='return-link'>(Recargar manualmente)</a>
+    </p>
   </div>
 </div>
 

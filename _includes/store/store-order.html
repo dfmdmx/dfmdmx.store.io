@@ -6,7 +6,7 @@
     var payload = {'order_id':order_id,'action':'consult'}
     remoteCall(method,payload,false).done(function(response){
       console.log(response);
-      order_response.resolve(response).promise();
+      order_response.resolve(response.order).promise();
     }).fail(function(){
       order_response.reject(false).promise();
     });
@@ -141,6 +141,9 @@
   }
   .mp-status {
     color: #828282;
+    paddin-top:3px;
+    margin-left:15px;
+    vertical-align: middle;
     font-family: 'Inconsolata', monospace;
     font-size: 18px;
   }
@@ -162,7 +165,7 @@
       <div class="logo-header">
         <img src="/assets/images/logo_hangarmx_black.svg">
       </div>
-
+      <br>
       <br>
       <div id="payment" class='payment'>
         <a id='mp-button' href="/"><button class="pure-button pure-button-primary">Pagar <i class="fas fa-credit-card"></i></button></a>
@@ -336,8 +339,6 @@ CLABE  BBVA: 012180004439282840
       $('#discount').val(response.discount);
       $('#addressed_to').text(response.addressed_to);
 
-      if (response.status == 'Activa' && response.payment_json.status != 'approved') {
-      }
       $('#mp-button').attr("href",response.mp_json.preference.sandbox_init_point);
       var status = '';
       if (response.payment_json.status == 'approved'){
