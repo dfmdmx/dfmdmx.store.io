@@ -18,6 +18,8 @@ collections:
     output: true
   groups:
     output: true
+  landings:
+    output: true
 
 disqus:
   shortname: hangarmx

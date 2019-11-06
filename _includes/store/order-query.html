@@ -1,0 +1,34 @@
+<!-- ---------includes--------- -->
+{% include utils/messages.html %}
+<!-- ---------includes--------- -->
+
+<style>
+.form-contact {
+  margin-bottom: 20px;
+}
+</style>
+
+<div class='form-contact'>
+    <p id="message-text"></p>
+    <form class="pure-form contact">
+        <fieldset class="pure-group">
+            <input required name="order_id" type="text" class="pure-input-1-2" placeholder="hmx00000000" >
+        </fieldset>
+        <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Consultar <i class="fas fa-server"></i></button>
+    </form>
+  </div>
+
+<script>
+  $( ".contact" ).on('submit', function( event ) {
+    event.preventDefault();
+    var order_id = $('#order_id').val();
+    var method = 'store_order_query';
+    var payload = $( ".contact" ).serializeFormJSON();
+    remoteCall(method,payload,false).done(function(response){
+      setCookie('active_order',response.order.id,1)
+      location.replace('/order');
+    }).fail(function(){
+      messageAlert('No se encontró la orden en el sistema.');
+    });
+  });
+</script>
