@@ -17,6 +17,14 @@ function json_item(cart_item){
 	return info
 }
 
+function json_order_item(cart_item){
+	var info = ''
+	if ($.isEmptyObject(cart_item.info_json) != true) {
+		info += 'Pedido:\n' + JSON.stringify(cart_item.info_json, null, '  ').replace('[\n', '').replace('[', '').replace(']', '').replace(/"/g, '').replace(/,/g, '').replace(/,/g, '').replace(/{\n/g, '').replace(/}/g, '')
+	}
+	return info
+}
+
 function decodePayload(payload){
 	var decodedData = JSON.parse(payload);
 	return decodedData

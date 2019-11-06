@@ -150,8 +150,31 @@
   .payment {
     display: none;
   }
-
-
+  .download-link {
+    text-align:right;
+    margin-bottom:30px;
+    font-family: 'Inconsolata', monospace;
+  }
+  .download-link a{
+    color: #333;
+  }
+  .download-link a:visited{
+    color: #333;
+  }
+  .item-info{
+    background-color:#fdfdfd;
+    margin-bottom:3px;
+  }
+  .admin-button {
+    margin-top:8px;
+    display: none;
+  }
+  .admin-button a {
+    margin-right:18px;
+  }
+  #edit_button {
+    display: none;
+  }
 </style>
 
 <div class="pure-form pure-form-stacked">
@@ -160,12 +183,32 @@
     <fieldset class="pure-group">
 
       ID: <span id ='order_webid' class="pure-input-1"></span>
-      <a id='print_button' onclick="print_order(this);" class='link-button'> Imprimir <i class="fas fa-print"></i></a>
-      <a id='edit_button' onclick="goto_edit_order();" class='link-button'> Editar <i class="fas fa-edit"></i></a>
       <div class="logo-header">
         <img src="/assets/images/logo_hangarmx_black.svg">
       </div>
-      <br>
+      <a id='print_button' onclick="print_order(this);" class='link-button'> Imprimir <i class="fas fa-print"></i></a>
+      <a id='edit_button' onclick="goto_edit_order();" class='link-button' > Editar <i class="fas fa-edit"></i></a>
+      <div id='admin-menu' class='admin-button'>
+        <small>
+        <a onclick="send_mail('orden_recibida');" ><i class="fas fa-at"></i>Orden recibida </a>
+        <a href="goto_edit_order();" ><i class="fas fa-at"></i>Orden activa </a>
+        <a href="goto_edit_order();" ><i class="fas fa-at"></i>Acuse pago </a>
+        <a href="goto_edit_order();" ><i class="fas fa-at"></i>Aviso recoleción </a>
+        <a href="goto_edit_order();" ><i class="fas fa-at"></i>Aviso envio </a>
+        </small>
+        <div class="pure-u-1">
+          <p id="message-text"></p>
+        </div>
+        <fieldset>
+          <details id='pid-1' class='cart-item'>
+            <summary class='summary'>
+              Bitacora
+            </summary>
+
+            <pre class='item-info'></pre>
+          </details>
+        </fieldset>
+      </div>
       <br>
       <div id="payment" class='payment'>
         <a id='mp-button' href="/"><button class="pure-button pure-button-primary">Pagar <i class="fas fa-credit-card"></i></button></a>
@@ -233,7 +276,10 @@
 
             <span  class='pure-input-1 item-total'><div id='item_total' class='move-right'></div></span>
           </summary>
-          <pre id='info'></pre>
+
+          <pre class='item-info' id='info'></pre>
+          <div id='download-cont' class="download-link"><a id='download-link' href='/'>Descargar <i class="far fa-file-archive"></i>.zip</a></div>
+
         </details>
       </fieldset>
     </div>
@@ -301,7 +347,7 @@
           <pre id='notes' class="pure-input-1 notes"></pre>
           <pre class="pure-input-1 notes">
 Precios en pesos mexicanos.
-No incluye flete a menos que se incluya como partida.
+No incluye flete a menos que se indique en alguna partida.
           </pre>
         </fieldset>
       </div>
@@ -323,10 +369,13 @@ CLABE  BBVA: 012180004439282840
     </div>
 </div>
 
+<input id='oid' type='hidden' value=''>
+
 <script>
 
   $(document).ready(function () {
     order_response.done(function(response){
+      $('#oid').val(response.id);
       $('#address_data').text(json_address(response.address_json));
       update_form(response.contact_json);
       update_form(response.invoice_json);
@@ -369,8 +418,9 @@ CLABE  BBVA: 012180004439282840
       }else{
         $('#notes').css('display','none');
       }
-      if (response.admin != 1){
-        $('#edit_button').css('display','none');
+      if (response.admin == 1){
+        $('#edit_button').css('display','unset');
+        $('#admin-menu').css('display','block');
       }
       var show_prices = false;
       if (response.status != 'Solicitud' && response.status != 'Procesando') {
@@ -388,6 +438,20 @@ CLABE  BBVA: 012180004439282840
     })
   })
 
+  function send_mail(mail_type){
+    var order_id = $('#oid').val();
+    current_user.always(function(){
+      var method = 'store_send_mail';
+      var payload = {'order_id':order_id,'mail_type':mail_type};
+      showOkCancelDialog('Enviar '+ mail_type,'Revisa que el estado de la orden coincida con el correo').done(function(){
+        remoteCall(method,payload,false).done(function(response){
+          messageInfo('¡Corre enviado!');
+        }).fail(function(){
+          messageAlert('Upps... algo no esta bien.');
+        })
+      });
+    })
+  }
   function print_order(element){
     $('#print_button').css('display','none');
     $('#edit_button').css('display','none');
@@ -404,7 +468,6 @@ CLABE  BBVA: 012180004439282840
   	return 'Información:\n' + JSON.stringify(json_data, null, '  ').replace('[\n', '').replace('[', '').replace(']', '').replace(/"/g, '').replace(/,/g, '').replace(/,/g, '').replace(/{\n/g, '').replace(/}/g, '')
   }
   function json_address(json_data){
-
     var address = ''
     address += json_data.calle + ' ' + json_data.numero_ext + '    ' + json_data.numero_int + '\n'  ;
     address += json_data.colonia + '   ' + json_data.municipio + '\n'  ;
@@ -435,7 +498,13 @@ CLABE  BBVA: 012180004439282840
       new_cart_item.find('#item_comment').text(cart_item.comment);
     }
     new_cart_item.find('#item_data').text(json_data(cart_item.data_json));
-    new_cart_item.find('#info').text(json_item(cart_item));
+    new_cart_item.find('#info').text(json_order_item(cart_item));
+    console.log(cart_item.file_url);
+    if (cart_item.file_url != null) {
+      new_cart_item.find('#download-link').prop('href',cart_item.file_url);
+    }else{
+      new_cart_item.find('#download-cont').css('display','none');
+    }
     new_cart_item.css('display','block');
   }
   function calculate_item_total(element){
