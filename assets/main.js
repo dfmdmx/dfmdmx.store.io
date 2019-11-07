@@ -25,6 +25,15 @@ function json_order_item(cart_item){
 	return info
 }
 
+function log_to_txt(log_json){
+	var log = ''
+	log_json.reverse()
+	log_json.forEach(function(item,index){
+		log += item.date + ' | ' + item.entry + '\n'
+	})
+	return log
+}
+
 function decodePayload(payload){
 	var decodedData = JSON.parse(payload);
 	return decodedData

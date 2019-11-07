@@ -36,8 +36,10 @@
     display: none;
   }
   .send-button {
+    margin-left: 20px;
+    margin-top: .4em;
     width : 100% ;
-    line-height: 1.3em;
+    line-height: 1em;
   }
   .item-total {
     margin-top: 3px;
@@ -181,6 +183,13 @@
     display: none;
     margin-bottom: 40px;
   }
+  .log-info {
+    background-color:#fdfdfd;
+    font-size: 11px;
+  }
+  .log-entry {
+    height: 2em;
+  }
 </style>
 <div id='admin_form' class='admin-form'>
   <div class="pure-form pure-form-stacked">
@@ -203,7 +212,17 @@
             <summary class='summary'>
               Bitacora
             </summary>
-            <pre class='item-info'></pre>
+
+            <div class="pure-u-3-4">
+              <fieldset class="pure-group">
+                <input id='log-entry' name="title" type="text" class="pure-input-1 log-entry" placeholder="Entrada manual">
+              </fieldset>
+            </div>
+            <div class="pure-u-1-5">
+              <button onclick='order_log()' class="pure-button send-button">Registrar <i class="fas fa-shopping-cart"></i></button>
+            </div>
+
+            <pre id='order_log' class='log-info'></pre>
           </details>
         </div>
         <div class="pure-u-1">
@@ -393,6 +412,7 @@ CLABE  BBVA: 012180004439282840
 
       // Activa el menu de edicion
       if (response.admin == 1){
+        $('#order_log').text(log_to_txt(response.log_json));
         $('#admin_form').css('display','block');
       }
 
@@ -456,13 +476,29 @@ CLABE  BBVA: 012180004439282840
     })
   })
 
+  function order_log(){
+    var order_id = $('#oid').val();
+    var log_entry = $('#log-entry').val();
+    current_user.always(function(){
+      var method = 'store_order_log';
+      var payload = {'order_id':order_id,'entry':log_entry};
+        remoteCall(method,payload,false).done(function(response){
+          $('#log-entry').val('');
+          $('#order_log').text(log_to_txt(response.order.log_json));
+          messageInfo('¡Bitacora actualizada!');
+        }).fail(function(){
+          messageAlert('Upps... algo no esta bien.');
+        })
+      });
+  }
   function send_mail(mail_type){
     var order_id = $('#oid').val();
     current_user.always(function(){
       var method = 'store_send_mail';
       var payload = {'order_id':order_id,'mail_type':mail_type};
-      showOkCancelDialog('Enviar '+ mail_type,'Revisa que el estado de la orden coincida con el correo').done(function(){
+      showOkCancelDialog('Enviar '+ mail_type,'Revisa que el estado de la orden coincida con el tipo de correo a mandar y que no esté ya registrado en la bitacora.').done(function(){
         remoteCall(method,payload,false).done(function(response){
+          $('#order_log').text(log_to_txt(response.order.log_json));
           messageInfo('¡Corre enviado!');
         }).fail(function(){
           messageAlert('Upps... algo no esta bien.');
@@ -497,7 +533,6 @@ CLABE  BBVA: 012180004439282840
     var cart_item_container = $('#pid-1')
     cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
     new_cart_item = $('#'+ cart_item.id );
-    console.log(new_cart_item)
     new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>      ' + cart_item.layout);
     new_cart_item.find('#qty').val(cart_item.qty);
     new_cart_item.find('#price').val(cart_item.price);
