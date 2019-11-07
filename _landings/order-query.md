@@ -8,6 +8,6 @@ permalink: /order-query/
 
 {% include store/order-query.html %}
 
-No dudes en ponerte en conctacto con nosotros.  
+No dudes en ponerte en contacto con nosotros.  
 **Equipo HMX**  
 [hmx@hangarmx.com](mailto:hmx@hangarmx.com)
