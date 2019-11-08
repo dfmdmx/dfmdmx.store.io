@@ -6,7 +6,7 @@
 
   .delete-item {
     margin-top: .3em;
-    margin-right: 20px;
+    margin-right: 40px;
     float:right;
     font-size: 12px;
   }
@@ -24,7 +24,12 @@
     display: none;
   }
   .summary {
-    height: 2em;
+    min-height: 2em;
+    height: auto;
+  }
+  .info-state {
+    background-color:#fdfdfd;
+    white-space: pre-wrap;
   }
 </style>
 
@@ -44,7 +49,7 @@
             <a onclick="remove_order_item(this);" class='delete-item'>Cancelar <i class="fas fa-trash"></i></a>
           </summary>
 
-          <pre id='info'></pre>
+          <pre id='info_state' class='info-state'></pre>
         </details>
 
       </fieldset>
@@ -64,13 +69,18 @@
         cart_items = response.orders;
         var cart_item;
         var cart_item_container = $('#pid-1')
+        var header = ''
         for (var i = 0; i < cart_items.length; i++) {
           cart_item = cart_items[i]
           cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
           new_cart_item = $('#'+ cart_item.id );
           new_cart_item.find('#item_id').val(cart_item.id);
-          new_cart_item.find('#header_text').html('<b>' + cart_item.order_id + '</b> - ' + cart_item.items_json.length + ' artículos  - ' + cart_item.date_created + ' | ' + cart_item.status  );
-          // new_cart_item.find('#info').text(json_dumps(cart_item));
+          header = '<b>' + cart_item.order_id + '</b> - ' + cart_item.items_json.length + ' artículos  - ' + cart_item.date_created + ' | ' + cart_item.status
+          if (cart_item.payment_json.status == 'approved'){
+            header += ' | Pagada'
+          }
+          new_cart_item.find('#header_text').html(header);
+          new_cart_item.find('#info_state').text(cart_item.info_state);
 
           if (cart_item.status != 'Solicitud') {
             new_cart_item.find('.delete-item').css('display','none');

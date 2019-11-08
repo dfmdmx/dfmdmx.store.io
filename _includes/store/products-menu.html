@@ -1,42 +1,51 @@
 <style>
-  .product-link a {
-    color: #484848;
+  .product-box {
+    padding:10px;
   }
-  .product-link a:visited {
-    color: #484848;
+  .product-box:hover {
+    background-color: #eeeeee;
   }
+  .product-box a {
+    color: #434343;
+  }
+  .product-box a:visited {
+    color: #434343;
+  }
+
 </style>
 
 {% capture binderPath %}/assets/binder/{{ page.date | date: "%Y-%m-%d" }}-{{ page.title | slugify }}/{% endcapture %}
 {% assign group = page.title | slugify %}
 
-<div class='image-gallery'>
-  <div class='pure-g'>
-  {% for product in site.products %}
-    {% if product.group == group %}
-      {% capture filename %}/assets/binder/{{ product.date | date: "%Y-%m-%d" }}-{{ product.title | slugify }}/fotos/main{% endcapture %}
-      {% for file in site.static_files %}
-        {% if file.path contains filename %}
-          {% assign filepath = file.path %}
-          {% break %}
-        {% endif %}
-      {% endfor %}
+<div class='pure-g'>
+{% for product in site.products %}
+  {% if product.group == group %}
+    {% capture filename %}/assets/binder/{{ product.date | date: "%Y-%m-%d" }}-{{ product.title | slugify }}/fotos/main{% endcapture %}
+    {% for file in site.static_files %}
+      {% if file.path contains filename %}
+        {% assign filepath = file.path %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
 
-      <div class="pure-u-1-4 product-link">
-        <a href="{{ product.url }}" class="pure-menu-link">{{ product.title }}
-          <img class='pure-img' src="{{site.data.callback.th-url}}{{ filepath | replace: '/','_' }}" alt="{{ filepath }}" title="{{ filepath }}" />
+    <div class="pure-u-1-4">
+      <div class="product-box">
+        <a href="{{ product.url }}">{{ product.title }}
+        <img class='pure-img' src="{{site.data.callback.th-url}}{{ filepath | replace: '/','_' }}" alt="{{ filepath }}" title="{{ filepath }}" />
         </a>
       </div>
+    </div>
 
-    {% endif %}
+  {% endif %}
 
-    {% if row_count == 5 %}
-      {% assign row_count = 1 %}
-      </div>
-      <div class='pure-g'>
-    {% endif %}
+  {% if row_count == 5 %}
+    {% assign row_count = 1 %}
+    </div>
+    <div class='pure-g'>
+  {% endif %}
 
-    {% assign img_count =  1 %}
-    {% assign row_count =  1 %}
+  {% assign img_count =  1 %}
+  {% assign row_count =  1 %}
 
-  {% endfor %}
+{% endfor %}
+</div>

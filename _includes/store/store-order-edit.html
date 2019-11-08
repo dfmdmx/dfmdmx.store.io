@@ -239,6 +239,10 @@
         <fieldset class="pure-group">
           <input form='form-store' name="nombre" type="text" class="pure-input-1" placeholder="Nombre">
           <input form='form-store' name="email" type="email" class="pure-input-1" placeholder="Correo electrónico">
+          <br>
+          <label><i class="fas fa-dolly"></i> Envío</label>
+          <input id="carrier" form='form-store' name="carrier" type="text" class="pure-input-1" placeholder="Comapañia">
+          <input id="track_id" form='form-store' name="track_id" type="text" class="pure-input-1" placeholder="Número de rastreo">
         </fieldset>
       </div>
       <div class="pure-u-1-2">
@@ -287,6 +291,7 @@
         update_form(response.address_json);
         update_form(response.contact_json);
         update_form(response.invoice_json);
+        update_form(response.shippment_json);
         update_shipping(response.shipping);
         $('#oid').val(response.id);
         $('#date_created').val(response.date_created);

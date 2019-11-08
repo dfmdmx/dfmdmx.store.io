@@ -186,11 +186,20 @@
   .log-info {
     background-color:#fdfdfd;
     font-size: 11px;
+    white-space: pre-wrap;
+  }
+  .info-state {
+    background-color:#fdfdfd;
+    background-color:transparent;
+    white-space: pre-wrap;
   }
   .log-entry {
     height: 2em;
   }
 </style>
+
+<pre id='info_state' class='info-state'></pre>
+
 <div id='admin_form' class='admin-form'>
   <div class="pure-form pure-form-stacked">
     <fieldset>
@@ -200,17 +209,17 @@
         <div class="pure-u-1 admin-button">
           <small>
           <a onclick="send_mail('orden_recibida');" ><i class="fas fa-at"></i>Orden recibida </a>
-          <a href="goto_edit_order();" ><i class="fas fa-at"></i>Orden activa </a>
-          <a href="goto_edit_order();" ><i class="fas fa-at"></i>Acuse pago </a>
-          <a href="goto_edit_order();" ><i class="fas fa-at"></i>Aviso recoleción </a>
-          <a href="goto_edit_order();" ><i class="fas fa-at"></i>Aviso envio </a>
+          <a onclick="send_mail('orden_activa');" ><i class="fas fa-at"></i>Orden activa </a>
+          <a onclick="send_mail('acuse_pago');" ><i class="fas fa-at"></i>Acuse pago </a>
+          <a onclick="send_mail('aviso_recolecion');" ><i class="fas fa-at"></i>Aviso recoleción </a>
+          <a onclick="send_mail('aviso_envio');" ><i class="fas fa-at"></i>Aviso envio </a>
           <a onclick="goto_edit_order();" class='edit-button'> Editar <i class="fas fa-print"></i></a>
           </small>
         </div>
         <div class="pure-u-1">
           <details>
             <summary class='summary'>
-              Bitacora
+              Bitacora interna
             </summary>
 
             <div class="pure-u-3-4">
@@ -223,6 +232,12 @@
             </div>
 
             <pre id='order_log' class='log-info'></pre>
+          </details>
+          <details>
+            <summary class='summary'>
+              Orden json
+            </summary>
+            <pre id='order_json' class='log-info'></pre>
           </details>
         </div>
         <div class="pure-u-1">
@@ -358,7 +373,10 @@
       <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-user"></i> Contacto</label>
         <span id="nombre" class="pure-input-1" ></span><br>
-        <span id="email"  class="pure-input-1" ></span><br>
+        <span id="email"  class="pure-input-1" ></span><br><br>
+        <label><i class="fas fa-dolly"></i> Envío</label>
+        <small>Compañia:</small> <span id="carrier" class="pure-input-1" ></span><br>
+        <small>No. Rastreo:</small> <span id="track_id"  class="pure-input-1" ></span><br><br>
       </div>
 
       <div class="pure-u-1 pure-u-md-1-2">
@@ -393,7 +411,7 @@ Harco Mexicana S.A.
 HME7607197Y1
 Lago Tláhuac 33, Anahuac,
 Miguel Hidalgo, CDMX, 11320.
-io@dfmd.mx
+hmx@hangarmx.com
 
 Cuenta BBVA: 0443928284
 CLABE  BBVA: 012180004439282840
@@ -413,6 +431,7 @@ CLABE  BBVA: 012180004439282840
       // Activa el menu de edicion
       if (response.admin == 1){
         $('#order_log').text(log_to_txt(response.log_json));
+        $('#order_json').text(json_dumps(response));
         $('#admin_form').css('display','block');
       }
 
@@ -420,6 +439,7 @@ CLABE  BBVA: 012180004439282840
       $('#address_data').text(json_address(response.address_json));
       update_form(response.contact_json);
       update_form(response.invoice_json);
+      update_form(response.shippment_json);
       update_shipping(response.shipping);
       $('#date_created').text(response.date_created);
       $('#date_delivery').text(response.date_delivery);
@@ -428,6 +448,7 @@ CLABE  BBVA: 012180004439282840
       $('#order_webid').text(response.order_id);
       $('#discount').val(response.discount);
       $('#addressed_to').text(response.addressed_to);
+      $('#info_state').text(response.info_state);
       if (response.title) {
         $('#title').text(response.title);
       }else{
@@ -510,6 +531,7 @@ CLABE  BBVA: 012180004439282840
     $('#print_button').css('display','none');
     $('#admin_form').css('display','none');
     $('#script-mercadopago').css('display','none');
+    $('#info_state').css('display','none');
     $('footer').css('display','none');
     $('.site-header').css('display','none');
     print();
