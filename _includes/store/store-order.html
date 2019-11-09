@@ -94,36 +94,11 @@
     margin-bottom:5px;
     font:400 14px/1.5 "Montserrat", sans-serif
   }
-  .item-view_supplement{
-    text-align:right;
-  }
-  .suplemento {
-    margin-right: 60px;
-    height: 1.8em;
-    width: auto;
-    float: right;
-    text-align:middle;
-  }
-  .cantidad {
-    margin-left: 20px;
-    height: 1.8em;
-    width: 80px;
-    float: right;
-    text-align: right;
-  }
-  .precio {
-    margin-left: 20px;
-    height: 1.8em;
-    width: 90px;
-    float: right;
-    text-align:middle;
-  }
   .logo {
     margin-left: 20px;
     height: 1.8em;
     width:20px;
     float: right;
-    text-align:middle;
   }
   .link-button {
     margin-left:10px;
@@ -193,6 +168,36 @@
   }
   .log-entry {
     height: 2em;
+  }
+  .view-container{
+    float:right;
+    font-size: 12px;
+  }
+  .view-container-title{
+    float:right;
+    font-size: 12px;
+    margin-bottom:14px;
+  }
+  .suplemento {
+    height: 1.8em;
+    width: 110px;
+    float:right;
+  }
+  .cantidad {
+    margin-left: 2px;
+    margin-right: 2px;
+    height: 1.8em;
+    width: 60px;
+    float:right;
+    text-align:right;
+  }
+  .precio {
+    margin-left: 2px;
+    margin-right: 14px;
+    height: 1.8em;
+    width: 90px;
+    float:right;
+    text-align:right;
   }
 </style>
 
@@ -301,11 +306,22 @@
 
 <div class="pure-form pure-form-stacked">
   <fieldset>
-    <legend>Productos</legend>
+    <legend>Productos
+    </legend>
     <div class="pure-g">
-      <div class="pure-u-1">
-        <details id='pid-1' class='cart-item'>
 
+      <div class="pure-u-1">
+        <div class='view-container-title'>
+          <div id='view_price' class='precio'>x &nbsp;&nbsp;&nbsp;&nbsp; precio)</div>
+          <div id='view_qty' class='cantidad'>(cantidad</div>
+          <div id='view_supplement' class='suplemento'>suplemento  &nbsp;&nbsp;  + </div>
+        </div>
+        <br>
+      </div>
+
+      <div class="pure-u-1">
+
+        <details id='pid-1' class='cart-item'>
           <input type='hidden' id='qty' class='qty-input' >
           <input type='hidden' id='price_supplement' class='qty-input'>
           <input type='hidden' id='price' class='qty-input'>
@@ -313,6 +329,13 @@
 
           <summary class='summary'>
             <h id='header_text'><b>Servicio</b>Nombre del articulo</h>
+
+            <div class='view-container'>
+              <div id='view_price' class='precio'></div>
+              <div id='view_qty' class='cantidad'></div>
+              <div id='view_supplement' class='suplemento'></div>
+            </div>
+
             <pre id='item_comment' class="pure-input-1 comment-input"></pre>
             <pre id='item_data' class="pure-input-1 data-input"></pre>
             <span  class='pure-input-1 item-total'><div id='item_total' class='move-right'></div></span>
@@ -561,7 +584,14 @@ CLABE  BBVA: 012180004439282840
       new_cart_item.find('#item_comment').text(cart_item.comment);
     }
     new_cart_item.find('#item_data').text(json_data(cart_item.data_json));
-    new_cart_item.find('#info').text(json_order_item(cart_item));
+    
+    var json_order = json_order_item(cart_item);
+    if (json_order != '') {
+      new_cart_item.find('#info').text(json_order);
+    }else{
+      new_cart_item.find('#info').css('display','none');
+    }
+
     if (cart_item.file_url != null) {
       new_cart_item.find('#download-link').prop('href',cart_item.file_url);
     }else{
