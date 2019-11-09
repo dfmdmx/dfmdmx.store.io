@@ -13,9 +13,6 @@
   });
 </script>
 
-
-<!-- Mastercard	5031 7557 3453 0604	123	11/25 -->
-
 <!-- ---------includes--------- -->
 {% include utils/messages.html %}
 {% include store/form-store.html method='store_edit_order' %}
@@ -82,6 +79,7 @@
     border: 0px;
     width:auto;
     margin-bottom: 1px;
+    white-space: pre-wrap;
   }
   .summary {
     height: auto;
@@ -128,7 +126,7 @@
     text-align:middle;
   }
   .link-button {
-    margin-left:30px;
+    margin-left:10px;
   }
   .logo-header{
     float:right;
@@ -252,19 +250,22 @@
 <div class="pure-g">
   <div class="pure-u-1">
     <fieldset class="pure-group">
-
       ID: <span id ='order_webid' class="pure-input-1"></span>
+      <a id='print_button' onclick="print_order(this);" class='link-button'> Imprimir <i class="fas fa-print"></i></a>
       <div class="logo-header">
         <img src="/assets/images/logo_hangarmx_black.svg">
       </div>
-      <a id='print_button' onclick="print_order(this);" class='link-button'> Imprimir <i class="fas fa-print"></i></a>
-      <br><br>
+    </fieldset>
+  </div>
+  <div class="pure-u-1">
+    <fieldset class="pure-group">
       <div id="payment" class='payment'>
         <a id='mp-button' href="/"><button class="pure-button pure-button-primary">Pagar <i class="fas fa-credit-card"></i></button></a>
       </div>
       <span id='mp-status' class='mp-status'></span>
-
     </fieldset>
+  </div>
+  <div class="pure-u-1">
     <fieldset class="pure-group">
       <h4 id ='title' class="pure-input-1"></h4>
       <pre id='description' class="pure-input-1 transparent"></pre>
@@ -275,19 +276,19 @@
 
 <div class="pure-form pure-form-stacked">
   <fieldset>
-    <legend>Información</legend>
+    <legend>Orden</legend>
     <div class="pure-g">
 
-      <div class="pure-u-1-2">
+      <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-receipt"></i> Datos</label>
-        Solicita: <b><span id ='addressed_to' class="pure-input-1"></span></b><br><br>
+        Solicita: <b><span id ='addressed_to' class="pure-input-1"></span></b><br>
         Correo: <span id ='user_email' class="pure-input-1"></span><br>
         Razón social: <span id ='razon_social' class="pure-input-1"></span><br>
         RFC: <span id ='rfc' class="pure-input-1"></span><br>
       </div>
-      <div class="pure-u-1-2">
+      <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-list-ul"></i> Estado</label>
-        Estado: <b><span id ='status' class="pure-input-1"></span></b><br><br>
+        Estado: <b><span id ='status' class="pure-input-1"></span></b><br>
         Fecha:  <span id ='date_created' class="pure-input-1"></span><br>
         Fecha entrega: <span id ='date_delivery' class="pure-input-1"></span><br>
       </div>
@@ -298,7 +299,35 @@
 
 <br>
 
-<div class="pure-form">
+<div class="pure-form pure-form-stacked">
+  <fieldset>
+    <legend>Productos</legend>
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <details id='pid-1' class='cart-item'>
+
+          <input type='hidden' id='qty' class='qty-input' >
+          <input type='hidden' id='price_supplement' class='qty-input'>
+          <input type='hidden' id='price' class='qty-input'>
+          <input type='hidden' id='price_factor' class='qty-input'>
+
+          <summary class='summary'>
+            <h id='header_text'><b>Servicio</b>Nombre del articulo</h>
+            <pre id='item_comment' class="pure-input-1 comment-input"></pre>
+            <pre id='item_data' class="pure-input-1 data-input"></pre>
+            <span  class='pure-input-1 item-total'><div id='item_total' class='move-right'></div></span>
+          </summary>
+          <pre class='item-info' id='info'></pre>
+          <div id='download-cont' class="download-link"><a id='download-link' href='/'>Descargar <i class="far fa-file-archive"></i>.zip</a></div>
+        </details>
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+
+
+<!-- <div class="pure-form">
   <legend>Productos
 
     <span class='precio'>precio unit. )</span>
@@ -333,7 +362,7 @@
       </fieldset>
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="pure-form">
   <legend>Totales</legend>
@@ -373,17 +402,17 @@
       <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-user"></i> Contacto</label>
         <span id="nombre" class="pure-input-1" ></span><br>
-        <span id="email"  class="pure-input-1" ></span><br><br>
-        <label><i class="fas fa-dolly"></i> Envío</label>
-        <small>Compañia:</small> <span id="carrier" class="pure-input-1" ></span><br>
-        <small>No. Rastreo:</small> <span id="track_id"  class="pure-input-1" ></span><br><br>
+        <span id="email"  class="pure-input-1" ></span><br>
+        <label><i class="fas fa-map-marked-alt"></i> Dirección</label>
+        <pre id='address_data' class="pure-input-1 notes"></pre>
       </div>
 
       <div class="pure-u-1 pure-u-md-1-2">
-        <label><i class="fas fa-map-marked-alt"></i> Dirección</label>
-        <pre id='address_data' class="pure-input-1 notes"></pre><br>
+        <label><i class="fas fa-dolly"></i> Envío</label>
+        <input disabled id="workshop" type="radio" name="shipping" value="workshop"> <i class="fas fa-map-marker-alt"></i> Recojer en planta<br>
         <input disabled id="delivery" type="radio" name="shipping" value="delivery"> <i class="fas fa-truck"></i> Envio a domicilio<br>
-        <input disabled id="workshop" type="radio" name="shipping" value="workshop"> <i class="fas fa-map-marker-alt"></i> Recojer en planta
+        <small>Compañia:</small> <span id="carrier" class="pure-input-1" ></span><br>
+        <small>No. Rastreo:</small> <span id="track_id"  class="pure-input-1" ></span><br>
       </div>
 
     </div>
@@ -391,34 +420,49 @@
 </div>
 
 <div class="pure-form pure-form-stacked">
-    <legend>Notas</legend>
+  <fieldset>
+    <legend>Anexo</legend>
     <div class="pure-g">
-      <div class="pure-u-1">
-        <label><i class="fas fa-receipt"></i> Comentarios</label>
-        <fieldset class="pure-group">
-          <pre id='notes' class="pure-input-1 notes"></pre>
-          <pre class="pure-input-1 notes">
+
+      <div class="pure-u-1 pure-u-md-1-2">
+        <label><i class="fas fa-receipt"></i> Notas</label>
+        <pre id='notes' class="pure-input-1 notes"></pre>
+        <pre class="pure-input-1 notes">
 Precios en pesos mexicanos.
 No incluye flete a menos que se indique en alguna partida.
-          </pre>
-        </fieldset>
+        </pre>
       </div>
-      <div class="pure-u-1">
-        <label><i class="fas fa-list-ul"></i> Empresa</label>
-        <fieldset class="pure-group">
+    </div>
+  </fieldset>
+</div>
+
+
+
+<div class="pure-form pure-form-stacked">
+  <fieldset>
+    <legend>Información</legend>
+    <div class="pure-g">
+
+      <div class="pure-u-1 pure-u-md-1-2">
+        <label><i class="fas fa-receipt"></i> Empresa</label>
           <pre class="pure-input-1 notes">
 Harco Mexicana S.A.
 HME7607197Y1
 Lago Tláhuac 33, Anahuac,
 Miguel Hidalgo, CDMX, 11320.
 hmx@hangarmx.com
-
+          </pre>
+      </div>
+      <div class="pure-u-1 pure-u-md-1-2">
+        <label><i class="fas fa-list-ul"></i> Metodos</label>
+        <pre class="pure-input-1 notes">
 Cuenta BBVA: 0443928284
 CLABE  BBVA: 012180004439282840
-          </pre>
-        </fieldset>
+        </pre>
       </div>
+
     </div>
+  </fieldset>
 </div>
 
 <input id='oid' type='hidden' value=''>
@@ -434,7 +478,6 @@ CLABE  BBVA: 012180004439282840
         $('#order_json').text(json_dumps(response));
         $('#admin_form').css('display','block');
       }
-
       $('#oid').val(response.id);
       $('#address_data').text(json_address(response.address_json));
       update_form(response.contact_json);
@@ -496,7 +539,50 @@ CLABE  BBVA: 012180004439282840
       }
     })
   })
+  function update_cart_item(cart_item,order_id,show_prices){
 
+    var cart_item_container = $('#pid-1')
+    cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
+    new_cart_item = $('#'+ cart_item.id );
+    new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>      ' + cart_item.layout);
+    new_cart_item.find('#qty').val(cart_item.qty);
+    new_cart_item.find('#price').val(cart_item.price);
+    new_cart_item.find('#price_factor').val(cart_item.price_factor);
+    new_cart_item.find('#price_supplement').val(cart_item.price_supplement);
+    new_cart_item.find('#view_qty').text(cart_item.qty);
+    if (show_prices){
+      new_cart_item.find('#view_price').text(formatCurrency(cart_item.price*cart_item.price_factor));
+      if (cart_item.price_supplement) {
+        new_cart_item.find('#view_supplement').text(formatCurrency(cart_item.price_supplement));
+      }else{
+        new_cart_item.find('#view_supplement').text('');
+      }
+      calculate_item_total(new_cart_item);
+      new_cart_item.find('#item_comment').text(cart_item.comment);
+    }
+    new_cart_item.find('#item_data').text(json_data(cart_item.data_json));
+    new_cart_item.find('#info').text(json_order_item(cart_item));
+    if (cart_item.file_url != null) {
+      new_cart_item.find('#download-link').prop('href',cart_item.file_url);
+    }else{
+      new_cart_item.find('#download-cont').css('display','none');
+    }
+    new_cart_item.css('display','block');
+  }
+  function calculate_item_total(element){
+    details = $(element.closest('details'));
+    var item_id = details.find('#item_id').val();
+    var qty = details.find('#qty').val();
+    var price = details.find('#price').val();
+    var price_factor = details.find('#price_factor').val();
+    var price_supplement = details.find('#price_supplement').val();
+    var total = qty * price * price_factor
+    if (price_supplement){
+      total += parseFloat(price_supplement)
+    }
+    details.find('#item_total').text(formatCurrency(total));
+
+  }
   function order_log(){
     var order_id = $('#oid').val();
     var log_entry = $('#log-entry').val();
@@ -549,50 +635,6 @@ CLABE  BBVA: 012180004439282840
     address += json_data.colonia + '   ' + json_data.municipio + '\n'  ;
     address += json_data.estado + '   ' + json_data.cp + '\n'  ;
   	return address
-  }
-  function update_cart_item(cart_item,order_id,show_prices){
-
-    var cart_item_container = $('#pid-1')
-    cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
-    new_cart_item = $('#'+ cart_item.id );
-    new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>      ' + cart_item.layout);
-    new_cart_item.find('#qty').val(cart_item.qty);
-    new_cart_item.find('#price').val(cart_item.price);
-    new_cart_item.find('#price_factor').val(cart_item.price_factor);
-    new_cart_item.find('#price_supplement').val(cart_item.price_supplement);
-    new_cart_item.find('#view_qty').text(cart_item.qty);
-    if (show_prices){
-      new_cart_item.find('#view_price').text(formatCurrency(cart_item.price*cart_item.price_factor));
-      if (cart_item.price_supplement) {
-        new_cart_item.find('#view_supplement').text(formatCurrency(cart_item.price_supplement));
-      }else{
-        new_cart_item.find('#view_supplement').text('');
-      }
-      calculate_item_total(new_cart_item);
-      new_cart_item.find('#item_comment').text(cart_item.comment);
-    }
-    new_cart_item.find('#item_data').text(json_data(cart_item.data_json));
-    new_cart_item.find('#info').text(json_order_item(cart_item));
-    if (cart_item.file_url != null) {
-      new_cart_item.find('#download-link').prop('href',cart_item.file_url);
-    }else{
-      new_cart_item.find('#download-cont').css('display','none');
-    }
-    new_cart_item.css('display','block');
-  }
-  function calculate_item_total(element){
-    details = $(element.closest('details'));
-    var item_id = details.find('#item_id').val();
-    var qty = details.find('#qty').val();
-    var price = details.find('#price').val();
-    var price_factor = details.find('#price_factor').val();
-    var price_supplement = details.find('#price_supplement').val();
-    var total = qty * price * price_factor
-    if (price_supplement){
-      total += parseFloat(price_supplement)
-    }
-    details.find('#item_total').text(formatCurrency(total));
-
   }
   function update_total(){
     var total = 0;

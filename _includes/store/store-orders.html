@@ -6,12 +6,11 @@
 
   .delete-item {
     margin-top: .3em;
-    margin-right: 40px;
     float:right;
     font-size: 12px;
   }
   .details-item {
-    margin-top: .3em;
+    margin-top: .2em;
     float:right;
     font-size: 12px;
   }
@@ -24,12 +23,15 @@
     display: none;
   }
   .summary {
-    min-height: 2em;
     height: auto;
   }
   .info-state {
     background-color:#fdfdfd;
     white-space: pre-wrap;
+    margin-bottom: 2px;
+  }
+  .summary-info{
+    margin-bottom:48px;
   }
 </style>
 
@@ -46,10 +48,12 @@
 
           <summary class='summary'><h id='header_text'></h>
             <a onclick="go_to_order(this);" class='details-item'> Detalles <i class="fas fa-external-link-alt"></i></a>
-            <a onclick="remove_order_item(this);" class='delete-item'>Cancelar <i class="fas fa-trash"></i></a>
-          </summary>
 
-          <pre id='info_state' class='info-state'></pre>
+          </summary>
+          <div class="summary-info">
+            <pre id='info_state' class='info-state'></pre>
+            <a onclick="remove_order_item(this);" class='delete-item'>Cancelar <i class="fas fa-trash"></i></a>
+          </div>
         </details>
 
       </fieldset>

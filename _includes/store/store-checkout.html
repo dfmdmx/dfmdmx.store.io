@@ -5,8 +5,7 @@
 
 <style>
   .delete-item {
-    margin-top: .3em;
-    margin-right: 20px;
+    margin-top: .1em;
     float:right;
     font-size: 12px;
   }
@@ -24,13 +23,18 @@
     float: right;
   }
   .summary {
-    min-height: 2em;
+    min-height: 2.1em;
     height:auto;
   }
   .item-info{
     white-space: pre-wrap;
+    margin-bottom: 2px;
     background-color:#fdfdfd;
   }
+  .summary-info{
+    margin-bottom:48px;
+  }
+
 </style>
 
 <div class="pure-form">
@@ -41,19 +45,17 @@
       <fieldset>
 
         <details id='pid-1' class='cart-item'>
-
           <input id='item_id' form='form-store' type='hidden' value='' name='items_id'>
-
           <summary class='summary'><h id='header_text'><b>Servicio</b>Nombre del articulo</h>
             <input required id='qty' onchange="edit_item_qty(this)" class='qty-input' type='number' name='qty' value='1' min='1' max='99'>
-            <a onclick="remove_cart_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a>
           </summary>
-
-          <pre class='item-info' id='info'></pre>
+          <div class="summary-info">
+            <pre class='item-info' id='info'></pre>
+            <a onclick="remove_cart_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a>
+          </div>
         </details>
 
       </fieldset>
-
     </div>
   </div>
 </div>
