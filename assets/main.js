@@ -16,7 +16,9 @@ function json_item(cart_item){
 	}
 	return info
 }
-
+function json_data(json_data){
+	return 'Información:\n' + JSON.stringify(json_data, null, '  ').replace('[\n', '').replace('[', '').replace(']', '').replace(/"/g, '').replace(/,/g, '').replace(/,/g, '').replace(/{\n/g, '').replace(/}/g, '')
+}
 function json_order_item(cart_item){
 	var info = ''
 	if ($.isEmptyObject(cart_item.info_json) != true) {
@@ -170,5 +172,5 @@ function formatCurrency(total) {
 }
 
 function parseCurrency(currency) {
-    return parseFloat(currency.replace(',','').replace('$',''))
+    return parseFloat(currency.replace(/,/g, '').replace('$', ''))
 }

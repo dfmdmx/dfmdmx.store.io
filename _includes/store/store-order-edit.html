@@ -5,7 +5,7 @@
 
 <style>
   .delete-item {
-    margin-top: .3em;
+    margin-top: 1px;
     font-size: 12px;
   }
   .add-item {
@@ -13,7 +13,7 @@
     font-size: 12px;
   }
   .cart-item {
-    margin-bottom: 12px;
+    margin-bottom: 24px;
     display: none;
   }
   .send-button {
@@ -27,10 +27,12 @@
   }
   .item-total {
     margin-top: 3px;
-    float: right;
+    text-align:right;
+    margin-bottom: 5px;
   }
   .totales {
     margin-left: 20px;
+    margin-top: 2px;
   }
   .totales-texto {
     float: right;
@@ -40,7 +42,7 @@
     height: 3em;
   }
   .summary {
-    height: 7em;
+    height: auto;
   }
   .button-add {
       background: transparent;
@@ -55,36 +57,63 @@
   .pure-form textarea:not([type])[disabled] {
     color: #404040;
   }
-  .suplemento {
-    margin-right: 60px;
-    height: 1.8em;
-    width: auto;
-    float: right;
-    text-align:middle;
-  }
-  .cantidad {
-    margin-left: 20px;
-    height: 1.8em;
-    width: 80px;
-    float: right;
-    text-align: right;
-  }
-  .precio {
-    margin-left: 20px;
-    height: 1.8em;
-    width: 90px;
-    float: right;
-    text-align:middle;
-  }
-  .factor {
-    margin-left: 20px;
-    height: 1.8em;
-    width: 80px;
-    float: right;
-    text-align: right;
-  }
   .link-button {
     margin-left:30px;
+  }
+  .view-container{
+    height: 2.25em;
+    font-size: 13px;
+    margin-bottom:3px;
+  }
+  .view-container-title{
+    float:right;
+    font-size: 12px;
+    margin-bottom:14px;
+  }
+  .suplemento {
+    height: 1.8em;
+    width: 90px;
+    float:right;
+  }
+  .cantidad {
+    margin-left: 2px;
+    margin-right: 2px;
+    height: 1.8em;
+    width: 60px;
+    float:right;
+    text-align:right;
+  }
+  .precio {
+    margin-left: 2px;
+    margin-right: 14px;
+    height: 1.8em;
+    width: 90px;
+    float:right;
+    text-align:right;
+  }
+  .factor {
+    margin-left: 2px;
+    margin-right: 2px;
+    height: 1.8em;
+    width: 60px;
+    float:right;
+    text-align:right;
+  }
+  .info{
+    margin-bottom:3px;
+  }
+  .data-input {
+    margin-top: 0px;
+    padding:0px;
+    height: auto;
+    font:400 12px "Montserrat", sans-serif;
+    background: transparent;
+    border: 0px;
+    width:auto;
+    margin-bottom: 5px;
+  }
+  .container-prices{
+
   }
 </style>
 
@@ -105,7 +134,7 @@
 <div class="pure-form pure-form-stacked">
     <legend>Información</legend>
     <div class="pure-g">
-      <div class="pure-u-1-2">
+      <div class="pure-u-1-1 pure-u-md-1-2">
         <label><i class="fas fa-receipt"></i> Datos</label>
         <fieldset class="pure-group">
           <input id ='addressed_to' form='form-store' name="addressed_to" type="text" class="pure-input-1" placeholder="Atención">
@@ -114,8 +143,8 @@
           <input id ='rfc' form='form-store' name="rfc" type="text" class="pure-input-1" placeholder="RFC">
         </fieldset>
       </div>
-      <div class="pure-u-1-4"></div>
-      <div class="pure-u-1-4">
+      <div class="pure-u-1-1 pure-u-md-1-4"></div>
+      <div class="pure-u-1-1 pure-u-md-1-4">
         <label><i class="fas fa-list-ul"></i> Estado</label>
         <fieldset class="pure-group">
           <select name="status" id="status" form='form-store' class="pure-input-1">
@@ -127,7 +156,7 @@
           </select>
         </fieldset>
       </div>
-      <div class="pure-u-1-2">
+      <div class="pure-u-1-1 pure-u-md-1-2">
         <label><i class="fas fa-receipt"></i> Datos</label>
         <fieldset class="pure-group">
           <input id ='date_created' form='form-store' name="date_created" type="text" class="pure-input-1" placeholder="Fecha">
@@ -169,7 +198,49 @@
 
 <br>
 
-<div class="pure-form">
+<div class="pure-form pure-form-stacked">
+  <fieldset>
+    <legend>Productos
+    </legend>
+    <div class="pure-g">
+
+      <div class="pure-u-1">
+        <div class='view-container-title'>
+          <p>  suplemento + ( factor * cantidad * precio) </p>
+        </div>
+        <br>
+      </div>
+
+      <div class="pure-u-1">
+
+        <details id='pid-1' class='cart-item'>
+
+          <input id='item_id'  type='hidden' value='' name='item_id'>
+          <input id='order_id' type='hidden' value='' name='order_id'>
+
+          <summary class='summary'>
+            <h id='header_text'><b>Servicio</b>Nombre del articulo</h>
+            <pre id='item_data' class="pure-input-1 data-input"></pre>
+            <textarea id='item_comment' name="item_comment" class="pure-input-1 comment-input" onchange="edit_order_item(this)" placeholder="Comment"></textarea>
+            <p class='view-container'>
+              <input id='price' onchange="edit_order_item(this)" class='precio' type='number' name='price' value='1' min='1' max='9999999'>
+              <input id='qty' onchange="edit_order_item(this)" class='cantidad' type='number' name='qty' value='1' min='1' max='999'>
+              <input id='price_factor' onchange="edit_order_item(this)" class='factor' type='number' name='price_factor' step='0.1' value='1' min='1' max='999'>
+              <input id='price_supplement' onchange="edit_order_item(this)" class='suplemento' type='number' name='price_supplement' value='0' min='0' max='999'>
+            </p>
+            <p id='item_total' class='item-total'> Total </p>
+
+          </summary>
+          <pre id='info' class='info'></pre>
+          <a onclick="remove_order_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a>
+
+        </details>
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+<!-- <div class="pure-form">
   <legend>Productos
     <span class='precio'>precio unit. )</span>
     <span class='factor'>factor</span>
@@ -198,35 +269,36 @@
       </fieldset>
     </div>
   </div>
-</div>
+</div> -->
 
-<div class="pure-form">
-  <legend>Totales</legend>
-  <div class="pure-g">
-    <div class="pure-u-1-2">
-      <fieldset>
-        <label>Descuento % </label>
-        <input id='discount' onchange="update_total()" class='totales' form='form-store' name="discount" type='number' min='0' max='100'>
-      </fieldset>
-    </div>
-    <div class="pure-u-1-4">
-      <fieldset>
-        <span class='totales-texto'>Subtotal:</span><br>
-        <span id='total_descuento_text' class='totales-texto'>Descuento:</span><br>
-        <span class='totales-texto'>IVA 16%:</span><br>
-        <span class='totales-texto'>Total:</span><br>
-      </fieldset>
-    </div>
-    <div class="pure-u-1-4">
-      <fieldset>
-        <span id='subtotal' class='totales'></span><br>
-        <span id='total_descuento' class='totales'></span><br>
-        <span id='total_iva' class='totales'></span><br>
-        <span id='total' class='totales'></span><br>
-      </fieldset>
-    </div>
 
-  </div>
+<div class="pure-form pure-form-stacked">
+
+    <legend>Totales</legend>
+    <div class="pure-g">
+      <div class="pure-u-1-3 pure-u-md-1-2">
+
+          <label>Descuento % </label>
+          <input id='discount' onchange="update_total()" class='totales' form='form-store' name="discount" type='number' min='0' max='100'>
+
+      </div>
+      <div class="pure-u-1-3 pure-u-md-1-4">
+        <fieldset>
+          <span class='totales-texto'>Subtotal:</span><br>
+          <span id='total_descuento_text' class='totales-texto'>Descuento:</span><br>
+          <span class='totales-texto'>IVA 16%:</span><br>
+          <span class='totales-texto'>Total:</span><br>
+        </fieldset>
+      </div>
+      <div class="pure-u-1-3 pure-u-md-1-4">
+        <fieldset>
+          <span id='subtotal' class='totales'></span><br>
+          <span id='total_descuento' class='totales'></span><br>
+          <span id='total_iva' class='totales'></span><br>
+          <span id='total' class='totales'></span><br>
+        </fieldset>
+      </div>
+    </div>
 </div>
 
 <br>
@@ -234,7 +306,7 @@
 <div class="pure-form pure-form-stacked">
     <legend>Entrega</legend>
     <div class="pure-g">
-      <div class="pure-u-1-2">
+      <div class="pure-u-1-1 pure-u-md-1-2">
         <label><i class="fas fa-user"></i> Contacto</label>
         <fieldset class="pure-group">
           <input form='form-store' name="nombre" type="text" class="pure-input-1" placeholder="Nombre">
@@ -245,7 +317,7 @@
           <input id="track_id" form='form-store' name="track_id" type="text" class="pure-input-1" placeholder="Número de rastreo">
         </fieldset>
       </div>
-      <div class="pure-u-1-2">
+      <div class="pure-u-1-1 pure-u-md-1-2">
         <label><i class="fas fa-map-marked-alt"></i> Dirección</label>
         <fieldset class="pure-group">
             <input form='form-store' name="calle" class="pure-input-1" placeholder="Calle" >
@@ -257,8 +329,8 @@
             <input form='form-store' name="cp" class="pure-input-1" placeholder="CP" >
         </fieldset>
         <fieldset class="somespace">
-          <input id="delivery" form='form-store' type="radio" name="shipping" value="delivery"> <i class="fas fa-truck"></i> Envio a domicilio &nbsp;
-          <input id="workshop" form='form-store' type="radio" name="shipping" value="workshop"> <i class="fas fa-map-marker-alt"></i> Recojer en planta &nbsp;
+          <input  id="workshop" type="radio" name="shipping" value="workshop" form='form-store'> <i class="fas fa-map-marker-alt"></i> Recojer en planta<br>
+          <input  id="delivery" type="radio" name="shipping" value="delivery" form='form-store'> <i class="fas fa-truck"></i> Envio a domicilio<br>
         </fieldset>
       </div>
     </div>
@@ -324,6 +396,7 @@
     new_cart_item.find('#item_id').val(cart_item.id);
     new_cart_item.find('#order_id').val(order_id);
     new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>      ' + cart_item.layout);
+    new_cart_item.find('#item_data').text(json_data(cart_item.data_json));
     new_cart_item.find('#qty').val(cart_item.qty);
     new_cart_item.find('#price').val(cart_item.price);
     new_cart_item.find('#price_factor').val(cart_item.price_factor);
