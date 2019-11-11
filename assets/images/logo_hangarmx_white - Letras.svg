@@ -26,7 +26,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.70710678"
-     inkscape:cx="320.086"
+     inkscape:cx="577.47287"
      inkscape:cy="235.73283"
      inkscape:document-units="mm"
      inkscape:current-layer="g3647"
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -57,23 +57,17 @@
     <g
        id="g3647"
        transform="translate(-3.4575871,-1.495127)">
-      <g
-         aria-label="HMX"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:87.88452911px;line-height:1.25;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.19711328"
-         id="text821">
-        <path
-           d="m 17.840475,221.16304 h 7.206532 v 0.61519 q -0.527307,0.52731 -0.703076,1.1425 -0.08788,0.61519 -0.08788,2.10923 v 19.51036 h 21.443825 v -23.37728 h 7.206532 v 0.61519 q -0.527308,0.52731 -0.703077,1.1425 -0.08788,0.61519 -0.08788,2.10923 V 275.9151 H 45.611987 V 249.81339 H 24.256046 v 26.10171 h -6.415571 z"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;fill:#ffffff;fill-opacity:1;stroke-width:2.19711328"
-           id="path818" />
-        <path
-           d="m 60.991779,275.9151 v -54.75206 h 4.833649 l 13.534218,26.80478 13.797871,-26.89267 h 4.65788 v 54.83995 h -5.800379 v -41.30573 l -11.864411,22.05902 h -2.372883 l -11.07345,-21.79536 v 41.04207 z"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;fill:#ffffff;fill-opacity:1;stroke-width:2.19711328"
-           id="path820" />
-        <path
-           d="m 104.93404,275.9151 14.94037,-27.94728 -14.67671,-26.89267 h 6.59134 l 11.51287,20.82864 11.3371,-20.82864 h 6.15192 l -13.88575,26.80479 15.55556,28.03516 h -6.94288 l -12.12807,-21.70748 -11.77652,21.70748 z"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;fill:#ffffff;fill-opacity:1;stroke-width:2.19711328"
-           id="path822" />
-      </g>
+      <text
+         id="text821"
+         y="275.9151"
+         x="13.446249"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:87.88452911px;line-height:1.25;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.19711328;"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;fill:#ffffff;stroke-width:2.19711328;fill-opacity:1;"
+           y="275.9151"
+           x="13.446249"
+           id="tspan819"
+           sodipodi:role="line">HMX</tspan></text>
       <g
          style="stroke:#fefefe;stroke-width:0.97667456;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          transform="matrix(1.0238825,0,0,1.0238825,-9.1177517,90.501355)"
