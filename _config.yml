@@ -25,11 +25,11 @@ disqus:
   shortname: hangarmx
   comments: false
 
-tawk: false
+tawk: true
 
 
 # social links
-# twitter_username: utitanka
+twitter_username: MxHangar
 # github_username:  dfmdmx
 rss: rss
 # flickr_username: jekyll
