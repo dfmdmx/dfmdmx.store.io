@@ -115,8 +115,8 @@
 <!-- The modal loading -->
 <div id="myModal" class="modal">
   <div class="modal-content">
-    <p>Conectando con el satélite hmx . . .<br>
-    <a onclick='location.reload();' class='return-link'>(Recargar manualmente)</a>
+    <p><span id='modal-message'>Conectando con el Satélite HMX . . .</span><br>
+    <a onclick='location.reload();' class='return-link'>(Recarga manual)</a>
     </p>
   </div>
 </div>
@@ -131,6 +131,9 @@
     }else{
       $(modal).stop().fadeOut(200);
     }
+  }
+  function loading_message(message){
+    $(modal).find('#modal-message').text(message);
   }
 
   var cart_token = getCookie('cart_token');

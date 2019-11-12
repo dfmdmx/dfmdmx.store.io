@@ -92,9 +92,13 @@ function makeCall(form_data,callback){
 				loading(false);
 				callback.resolve(data);
 			},
-			error: function(){
-				loading(false);
-				callback.reject();
+			error: function(jqXHR){
+				if (jqXHR.status == 0){
+					loading_message('Satélite HMX fuera de alcance, recarga manual necesaria.')
+				}else{
+					loading(false);
+					callback.reject();
+				}
 			},
 			dataFilter: function(data){
 				data = JSON.parse(data);
