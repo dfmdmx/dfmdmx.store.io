@@ -1,5 +1,5 @@
 function json_dumps(json_data){
-	return JSON.stringify(json_data, null, '  ').replace('[\n', '').replace('[', '').replace(']', '').replace(/"/g, '').replace(/,/g, '').replace(/,/g, '').replace(/{/g, '').replace(/}/g, '')
+	return JSON.stringify(json_data, null, '  ').replace('[\n', '').replace('[', '').replace(']', '').replace(/"/g, '').replace(/,/g, '').replace(/,/g, '').replace(/{/g, '').replace(/}/g, '').replace(/^.*\n/g,"")
 }
 
 function json_item(cart_item){

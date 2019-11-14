@@ -1,0 +1,454 @@
+<!-- ---------includes--------- -->
+{% include utils/dialogs.html %}
+<!-- ---------includes--------- -->
+
+<style>
+  .delete-item {
+    margin-top: .5em;
+    font-size: 12px;
+  }
+  .edit-button {
+    margin-top: 1px;
+    font-size: 12px;
+    float:right;
+  }
+  .add-item {
+    margin-left: 20px;
+    font-size: 12px;
+  }
+  .cart-item {
+    margin-bottom: 24px;
+    display: none;
+  }
+  .new-item {
+    margin-bottom: 24px;
+    display: block;
+  }
+  .new-item h{
+    letter-spacing:normal;
+  }
+  .new-item summary{
+    height:1.8em;
+  }
+  .send-button {
+    width : 100% ;
+    line-height: 1.3em;
+  }
+  .qty-input {
+    margin-left: 20px;
+    height: 1.8em;
+    float: right;
+  }
+  .totales {
+    margin-left: 20px;
+    margin-top: 2px;
+  }
+  .totales-texto {
+    float: right;
+  }
+  .comment-input {
+    margin-top: 3px;
+    height:10em;
+    font-family: 'Inconsolata', monospace;
+    font-size:13px;
+  }
+  .summary {
+    height: auto;
+    margin-bottom:20px;
+  }
+  .button-add {
+      background: transparent;
+      height: 2.25em;
+  }
+  .pure-form input:not([type])[disabled] {
+    color: #404040;
+  }
+  .pure-form select:not([type])[disabled] {
+    color: #404040;
+  }
+  .pure-form textarea:not([type])[disabled] {
+    color: #404040;
+  }
+  .link-button {
+    margin-left:30px;
+  }
+  .view-container{
+    float:right;
+    height: 2.25em;
+    font-size: 13px;
+    margin-bottom:3px;
+  }
+  .header-container{
+    float:right;
+    height: 2.25em;
+    font-size: 13px;
+    margin-bottom:16px;
+    text-align:middle;
+  }
+  .header-container-edit{
+    float:right;
+    font-size: 13px;
+    text-align:middle;
+  }
+  .view-container-title{
+    float:right;
+    font-size: 12px;
+    margin-bottom:14px;
+  }
+  .suplemento {
+    height: 1.8em;
+    width: 90px;
+    float:right;
+  }
+  .cantidad {
+    margin-left: 2px;
+    margin-right: 2px;
+    height: 1.8em;
+    width: 60px;
+    float:right;
+    text-align:center;
+  }
+  .precio {
+    margin-left: 2px;
+    margin-right: 14px;
+    height: 1.8em;
+    width: 90px;
+    float:right;
+    text-align:right;
+  }
+  .factor {
+    margin-left: 2px;
+    margin-right: 2px;
+    height: 1.8em;
+    width: 60px;
+    float:right;
+    text-align:right;
+  }
+  .total {
+    margin-top: .5em;
+    margin-left: 15px;
+    text-align:left;
+    height: 1.8em;
+    width: 90px;
+    float: right;
+  }
+  .total-header {
+
+    margin-left: 15px;
+    text-align:left;
+    height: 1.8em;
+    width: 90px;
+    float: right;
+  }
+  .info{
+    margin-bottom:3px;
+    background-color:#fdfdfd;
+    background-color:transparent;
+    white-space: pre-wrap;
+  }
+  .data-input {
+    margin-top: 0px;
+    padding:0px;
+    height: auto;
+    font-family: 'Inconsolata', monospace;
+    background: transparent;
+    border: 0px;
+    width:auto;
+    margin-bottom: 5px;
+  }
+  .path-container{
+    margin-top:3px;
+    margin-bottom:3px;
+    font:400 12px "Montserrat", sans-serif;
+  }
+  .edit-buttons-container{
+    margin-top: 3px;
+    margin-bottom: 120px;
+    height:2em;
+  }
+  .input-container{
+    margin-top: 3px;
+    margin-bottom: 10px;
+    height:2em;
+  }
+  .product-details{
+    width:180px;
+    float:left;
+    font:400 11px "Montserrat", sans-serif;
+  }
+  .product-slash{
+    float: left;
+    font: 400 18px "Montserrat", sans-serif;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .delete-button {
+    margin-top: 1px;
+    font-size: 12px;
+    background: #e5e5e5;
+    margin-right:30px;
+    float:right;
+  }
+  .message-text {
+    margin-top: 6px;
+    font-size: 13px;
+    margin-right:30px;
+    float:right;
+    color: #707070
+  }
+
+</style>
+
+<div class="pure-form pure-form-stacked">
+  <fieldset>
+    <legend>Nuevo producto</legend>
+    <div class="pure-g">
+      <details id='new_product' class='new-item'>
+        <summary>
+        <h>Registro manual de producto</h>
+        </summary>
+        <form id='new_product_form'>
+          <div class="pure-u-1">
+            <div class='header-container-edit'>
+              <span class='cantidad'> stock </span>
+              <span class='total-header'> total </span>
+              <span class='precio'> precio </span>
+              <span class='factor'> factor </span>
+            </div>
+          </div>
+          <div class="pure-u-1">
+            <div class='view-container'>
+              <input id='stock' class='cantidad' type='number' name='stock' value='0' min='1' max='999'>
+              <span id='item_total' class='total'></span>
+              <input id='price' onchange="calculate_item_total(this)" class='precio' type='number' name='price' value='1' min='1' max='9999999'>
+              <input id='price_factor' onchange="calculate_item_total(this)" class='factor' type='number' name='price_factor' step='0.1' value='1' min='1' max='999'>
+            </div>
+          </div>
+          <div class="pure-u-1">
+            <div class='input-container'>
+              <input id='layout' class='product-details' type='text' name='layout' placeholder='layout'><span class='product-slash'>/</span>
+              <input id='group' class='product-details' type='text' name='group' placeholder='group'><span class='product-slash'>/</span>
+              <input id='type' class='product-details' type='text' name='type' placeholder='type'>
+            </div>
+            <textarea id='edit_data_json' name="edit_data_json" class="pure-input-1 comment-input" placeholder="Product data"></textarea>
+          </div>
+          <div class="pure-u-1">
+            <div class='edit-buttons-container'>
+              <button onclick='new_product(this)' class="pure-button pure-button-primary edit-button">Guardar <i class="fas fa-save"></i></button>
+              <div id="message_new_product" class="message-text"></div>
+            </div>
+          </div>
+        </form>
+        </details>
+    </div>
+  </fieldset>
+</div>
+
+
+<div class="pure-form pure-form-stacked">
+  <fieldset>
+    <legend>Productos</legend>
+    <div class="pure-g">
+
+      <div class="pure-u-1">
+        <div class='header-container'>
+          <span class='cantidad'> stock </span>
+          <span class='total-header'> total </span>
+          <span class='precio'> precio </span>
+          <span class='factor'> factor </span>
+        </div>
+      </div>
+
+      <div class="pure-u-1">
+
+        <details id='pid-1' class='cart-item'>
+
+          <input id='product_id'  type='hidden' value='' name='product_id'>
+
+          <summary class='summary'>
+            <h id='header_text'><b>Servicio</b>Nombre del articulo</h>
+            <div class='view-container'>
+              <input id='stock' class='cantidad' type='number' name='stock' value='0' min='1' max='999'>
+              <span id='item_total' class='total'></span>
+              <input id='price' onchange="calculate_item_total(this)" class='precio' type='number' name='price' value='1' min='1' max='9999999'>
+              <input id='price_factor' onchange="calculate_item_total(this)" class='factor' type='number' name='price_factor' step='0.1' value='1' min='1' max='999'>
+            </div>
+            <div id='text_path' class='path-container'></div>
+            <pre id='item_data' class="pure-input-1 data-input"></pre>
+          </summary>
+          <div class='input-container'>
+            <input id='layout' class='product-details' type='text' name='layout'><span class='product-slash'>/</span>
+            <input id='group' class='product-details' type='text' name='group'><span class='product-slash'>/</span>
+            <input id='type' class='product-details' type='text' name='type'>
+          </div>
+          
+          <textarea id='edit_data_json' name="edit_data_json" class="pure-input-1 comment-input" placeholder="Product data"></textarea>
+          <div class='edit-buttons-container'>
+            <button onclick='edit_product(this)' class="pure-button pure-button-primary edit-button">Guardar <i class="fas fa-save"></i></button>
+            <button onclick='remove_product(this)' class="pure-button delete-button">Borrar <i class="fas fa-trash"></i></button>
+            <div id="message_text" class="message-text"></div>
+          </div>
+          <!-- <pre id='info' class='info'></pre> -->
+        </details>
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+<script>
+  $(document).ready(function () {
+    set_data_json_dummy();
+    current_user.always(function(){
+      var method = 'store_products';
+      var payload = false
+      remoteCall(method,payload,false).done(function(response){
+        cart_items = response.products;
+        var cart_item;
+        for (var i = 0; i < cart_items.length; i++) {
+          cart_item = cart_items[i];
+          update_cart_item(cart_item);
+        }
+      })
+    })
+  })
+
+  function update_cart_item(cart_item,create_new=true){
+    if (create_new) {
+      var cart_item_container = $('#pid-1')
+      cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
+    };
+
+    new_cart_item = $('#'+ cart_item.id );
+    new_cart_item.find('#item_id').val(cart_item.id);
+    new_cart_item.find('#stock').val(cart_item.stock);
+    new_cart_item.find('#price').val(cart_item.price);
+    new_cart_item.find('#price_factor').val(cart_item.price_factor);
+    new_cart_item.find('#edit_data_json').val(JSON.stringify(cart_item.data_json, null, '  '));
+    new_cart_item.find('#layout').val(cart_item.layout);
+    new_cart_item.find('#group').val(cart_item.group);
+    new_cart_item.find('#type').val(cart_item.type);
+    new_cart_item.find('#message_text').attr('id','message_'+cart_item.id);
+
+    new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>      ' + cart_item.layout);
+    new_cart_item.find('#item_data').text(json_dumps(cart_item.data_json));
+    new_cart_item.find('#text_path').text(cart_item.layout +' / '+ cart_item.group +' / '+ cart_item.type +' / '+ cart_item.md5);
+    calculate_item_total(new_cart_item);
+    new_cart_item.find('#info').text(json_dumps(cart_item));
+    new_cart_item.css('display','block');
+  }
+
+  function calculate_item_total(element){
+    details = $(element.closest('details'));
+    var item_id = details.find('#item_id').val();
+    var price = details.find('#price').val();
+    var price_factor = details.find('#price_factor').val();
+    var total = price * price_factor
+    details.find('#item_total').text(formatCurrency(total));
+  }
+
+  function remove_product(element){
+    event.preventDefault();
+    details = element.closest('details');
+    id = $(details).prop('id');
+    current_user.always(function(){
+      var method = 'store_product_delete';
+      var payload = {'product_id':id};
+      showOkCancelDialog('Borrar elemento','Se elimiará de forma permanente.').done(function(){
+        remoteCall(method,payload,false).done(function(response){
+          details.remove();
+        });
+      });
+    })
+  }
+
+  function set_data_json_dummy(){
+    return $('#new_product').find('#edit_data_json').val(JSON.stringify({'nombre':'valor','nombre_2':'valor_2'}, null, '  '))
+  }
+
+  function new_product(element){
+    event.preventDefault();
+    details = $(element.closest('details'));
+    var id = details.prop('id');
+    try {
+      var data_json = $.parseJSON(details.find('#edit_data_json').val())
+    }catch(err){
+      $('#message_new_product').text('Error en la sintaxis JSON, entrada no guardada.');
+      return;
+    }
+
+    console.log(data_json)
+    current_user.always(function(){
+      var payload = {
+        'price': details.find('#price').val(),
+        'price_factor': details.find('#price_factor').val(),
+        'stock': details.find('#stock').val(),
+        'layout': details.find('#layout').val(),
+        'group': details.find('#group').val(),
+        'type': details.find('#type').val(),
+        'data_json': data_json,
+      }
+
+      var method = 'store_product_new';
+      remoteCall(method,payload,false).done(function(response){
+        update_cart_item(response.product);
+        $('#new_product_form').trigger('reset');
+        set_data_json_dummy();
+        $('#message_new_product').text('Nuevo producto gurdado');
+      }).fail(function(){
+        $('#message_new_product').text('No se pudo guardar el producto');
+        })
+    })
+  }
+
+  function edit_product(element){
+    event.preventDefault();
+    details = $(element.closest('details'));
+    var id = details.prop('id');
+    try {
+      var data_json = $.parseJSON(details.find('#edit_data_json').val())
+    }catch(err){
+      $('#message_'+id).text('Error en la sintaxis JSON, entrada no guardada.');
+      return;
+    }
+
+    console.log(data_json)
+    current_user.always(function(){
+      var payload = {
+        'id': id,
+        'price': details.find('#price').val(),
+        'price_factor': details.find('#price_factor').val(),
+        'stock': details.find('#stock').val(),
+        'layout': details.find('#layout').val(),
+        'group': details.find('#group').val(),
+        'type': details.find('#type').val(),
+        'data_json': data_json,
+      }
+
+      var method = 'store_product_edit';
+      remoteCall(method,payload,false).done(function(response){
+        update_cart_item(response.product,false);
+        $('#message_'+id).text('Producto actualizado con éxito');
+      }).fail(function(){
+        $('#message_'+id).text('No se pudo actualizar el producto');
+        })
+    })
+  }
+
+  function parse_cart_item(cart_item){
+    delete cart_item.payload_json['item_type'];
+    delete cart_item.payload_json['cart_token'];
+    var json_info = {'Información':cart_item.payload_json};
+    if (cart_item.files_json) {
+      var filenames = []
+      for (var e = 0; e < cart_item.files_json.length; e++) {
+        console.log(cart_item.files_json[e]['filename']);
+        filenames.push(cart_item.files_json[e]['filename']);
+      }
+      json_info['Archivos'] = filenames;
+
+    }
+    return JSON.stringify(json_info, null, '  ').replace('[\n', '').replace(']', '').replace(/"/g, '').replace('_json', '').replace(/,/g, '').replace(/,/g, '').replace(/{/g, '').replace(/}/g, '');
+  }
+
+</script>

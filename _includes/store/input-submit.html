@@ -7,6 +7,12 @@
     margin-top:.7em;
     margin-left:20px;
   }
+  .product-info{
+    margin-left:20px;
+    color: #434343;
+    vertical-align: bottom;
+    font-family: 'Inconsolata', monospace;
+  }
 </style>
 
 <div class="pure-form">
@@ -18,9 +24,10 @@
     <div class="pure-u-1-2">
       <input class='add-qty' form='form-store' type='number' name='qty' value='1' min='1' max='99'>
     </div>
-    <!-- <div class="pure-u-1-2">
-      <button onclick="query_product()" class="pure-button">Calcular estimado <i class="fas fa-calculator"></i></button>
-    </div> -->
+    <div class="pure-u-1">
+      <button onclick="query_product()" class="pure-button">Consultar inventario <i class="fas fa-calculator"></i></button>
+      <span id='product_info' class='product-info'></span>
+    </div>
     <div class="pure-u-1">
       <p id="message-text"></p>
     </div>
@@ -28,7 +35,6 @@
 </div>
 
 <script>
-
   // $(document).ready(function () {
   //   query_product();
   // });
@@ -38,8 +44,7 @@
       var payload = form_store.serializeFormJSON();
       payload['cart_token'] = cart_token;
       remoteCall(method,payload,false).done(function(response){
-        var product =  response.product;
-        console.log(product);
+        $('#product_info').text(response.product.md5 +' | disponibles: '+response.product.stock);
       }).fail(function(){
         console.log('satetilite malfunction');
       });

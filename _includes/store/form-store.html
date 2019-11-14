@@ -17,7 +17,6 @@
   form_store.on('submit', function( event ) {
     event.preventDefault();
     current_user.always(function(user){
-      query_product();
       var method = '{{include.method}}';
       var payload = form_store.serializeFormJSON();
       payload['cart_token'] = cart_token;
@@ -41,7 +40,6 @@
           }else{
             location.replace(document.location.href.replace('order-edit','order'));
           }
-
         }
       }).fail(function(){
         messageAlert('Upps... algo no esta bien.');

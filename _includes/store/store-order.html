@@ -83,6 +83,7 @@
   }
   .summary {
     height: auto;
+    margin-bottom:25px;
   }
   .button-add {
       background: transparent;
@@ -180,7 +181,7 @@
   .view-container-title{
     float:right;
     font-size: 12px;
-    margin-bottom:14px;
+    margin-bottom:18px;
   }
   .suplemento {
     height: 1.8em;
@@ -202,6 +203,11 @@
     width: 90px;
     float:right;
     text-align:right;
+  }
+  .path-container{
+    margin-top:3px;
+    margin-bottom:3px;
+    font:400 12px "Montserrat", sans-serif;
   }
 
 </style>
@@ -340,7 +346,7 @@
               <div id='view_qty' class='cantidad'></div>
               <div id='view_supplement' class='suplemento'></div>
             </div>
-
+            <div id='text_path' class='path-container'></div>
             <pre id='item_comment' class="pure-input-1 comment-input"></pre>
             <pre id='item_data' class="pure-input-1 data-input"></pre>
             <span  class='pure-input-1 item-total'><div id='item_total' class='move-right'></div></span>
@@ -539,6 +545,7 @@ CLABE  BBVA: 012180004439282840
     new_cart_item.find('#price_factor').val(cart_item.price_factor);
     new_cart_item.find('#price_supplement').val(cart_item.price_supplement);
     new_cart_item.find('#view_qty').text(cart_item.qty);
+    new_cart_item.find('#text_path').text(cart_item.layout +' / '+ cart_item.group +' / '+ cart_item.type +' / '+ cart_item.pid);
     if (show_prices){
       new_cart_item.find('#view_price').text(formatCurrency(cart_item.price*cart_item.price_factor));
       if (cart_item.price_supplement) {
