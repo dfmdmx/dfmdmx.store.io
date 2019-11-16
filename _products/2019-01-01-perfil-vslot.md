@@ -8,4 +8,4 @@ comments: false
 V-Slot OpenSource
 
 {% include utils/image-gallery.html name='fotos' %}
-{% include store_products/perfil-aluminio-extruido.html %}
+{% include store_products/perfil-vslot.html %}
