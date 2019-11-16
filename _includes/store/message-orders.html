@@ -1,0 +1,49 @@
+<style>
+  #info_message{
+    display:none;
+  }
+  .info-message {
+    background-color:#b9e2ff;
+    border-radius:5px;
+    padding:20px;
+  }
+  .close-cross{
+    float:right;
+    height: 14px;
+    margin:10px;
+  }
+</style>
+
+<div class="pure-g">
+  <div class="pure-u-1">
+    <a onclick='close_info_message();' id='open_close_info' class='close-cross'><i class="fas fa-compress-arrows-alt"></i></a>
+    <div id="info_message" class='info-message'>
+      <h4 id="message-text">Revisa el estado de tus pedidos. </h4>
+      <ul>
+        <li>Una vez que tengamos tu cotización lista te avisaremos por correo y aparecerá como <strong>Activa</strong>.</li>
+        <li>Puedes pagar en línea, depositando en tindas de autoservicio o con transferencia bancaria.</li>
+        <li>Cuando esté listo tu pedido te avisaremos por correo y aparecerá como <strong>Completado</strong>.</li>
+        <li>Si solicitaste tu entrega a domicilio, te adjuntaremos la guía de rastreo y datos de la compañia de mensajería.</li>
+      </ul>
+      <small>Si vas a realizar el pago con transferencia electronica por favor envianos el comprobante a hmx@hangarmx.com junto con tu número de pedido. Los pagos en línea se procesan en automático.</small>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    if (getCookie('message_orders') != 'false'){
+      $('#info_message').css('display','block');
+    }
+  });
+  function close_info_message(){
+    $('#info_message').css('display','none');
+    $('#open_close_info').attr('onclick','open_info_message();');
+    setCookie('message_orders','false',90)
+  }
+  function open_info_message(){
+    $('#info_message').css('display','block');
+    $('#open_close_info').attr('onclick','close_info_message();');
+    setCookie('message_orders','',90)
+  }
+</script>

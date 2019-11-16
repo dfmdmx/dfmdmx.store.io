@@ -1,6 +1,9 @@
 ---
 layout: page
-title: Historial
+title: Pedidos
 permalink: /orders
 ---
+
+
+{% include store/message-orders.html %}
 {% include store/store-orders.html %}

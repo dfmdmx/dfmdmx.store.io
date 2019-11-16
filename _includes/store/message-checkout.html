@@ -1,0 +1,48 @@
+<style>
+  #info_message{
+    display:none;
+  }
+  .info-message {
+    background-color:#b9e2ff;
+    border-radius:5px;
+    padding:20px;
+  }
+  .close-cross{
+    float:right;
+    height: 14px;
+    margin:10px;
+  }
+</style>
+
+<div class="pure-g">
+  <div class="pure-u-1">
+    <a onclick='close_info_message();' id='open_close_info' class='close-cross'><i class="fas fa-compress-arrows-alt"></i></a>
+    <div id="info_message" class='info-message'>
+      <h4 id="message-text">Realiza tu soclicitud y en unos momentos estará lista tu cotización. </h4>
+      <ul>
+        <li>Te avisaremos por correo en cuanto tengamos el total de tus productos y servicios.</li>
+        <li>También puedes ver el estado del pedido en la seccion de <em>pedidos</em>.</li>
+        <li>El pago lo puedes hacer en línea, depositando en tindas de autoservicio o con transferencia bancaria.</li>
+        <li>Cuentas con el respaldo de <strong>MercadoPago</strong> y <strong>MercadoEnvio</strong> para todas tus órdenes.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    if (getCookie('message_checkout') != 'false'){
+      $('#info_message').css('display','block');
+    }
+  });
+  function close_info_message(){
+    $('#info_message').css('display','none');
+    $('#open_close_info').attr('onclick','open_info_message();');
+    setCookie('message_checkout','false',90)
+  }
+  function open_info_message(){
+    $('#info_message').css('display','block');
+    $('#open_close_info').attr('onclick','close_info_message();');
+    setCookie('message_checkout','',90)
+  }
+</script>
