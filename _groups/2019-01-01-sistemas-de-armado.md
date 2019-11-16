@@ -1,6 +1,6 @@
 ---
 layout: group
-admin: true
+admin: false
 comments: false
 ---
 
