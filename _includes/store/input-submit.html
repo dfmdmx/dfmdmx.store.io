@@ -6,9 +6,9 @@
   .add-qty{
     margin-top:.7em;
     margin-left:20px;
+    height: 2.15em;
   }
   .product-info{
-    margin-left:20px;
     color: #434343;
     vertical-align: bottom;
     font-family: 'Inconsolata', monospace;
@@ -24,9 +24,11 @@
     <div class="pure-u-1-2">
       <input class='add-qty' form='form-store' type='number' name='qty' value='1' min='1' max='99'>
     </div>
-    <div class="pure-u-1">
+    <!-- <div class="pure-u-1-4">
       <button onclick="query_product()" class="pure-button">Consultar inventario <i class="fas fa-calculator"></i></button>
-      <span id='product_info' class='product-info'></span>
+    </div> -->
+    <div class="pure-u-3-4">
+      <p id='product_info' class='product-info'></p>
     </div>
     <div class="pure-u-1">
       <p id="message-text"></p>
@@ -44,7 +46,18 @@
       var payload = form_store.serializeFormJSON();
       payload['cart_token'] = cart_token;
       remoteCall(method,payload,false).done(function(response){
-        $('#product_info').text(response.product.md5 +' | disponibles: '+response.product.stock);
+        var price = response.product.price_factor*response.product.price;
+        if (price) {
+          price_text = formatCurrency(price)
+        }else{
+          price_text = 'Por solicitud'
+        }
+
+        var p = '<b>Información:</b><br>';
+        p+= 'Pid: ' + response.product.md5 + '<br>';
+        p+= 'Precio unitário: ' + price_text + '<br>';
+        p+= 'Almacén: ' + response.product.stock + '<br>';
+        $('#product_info').html(p);
       }).fail(function(){
         console.log('satetilite malfunction');
       });
