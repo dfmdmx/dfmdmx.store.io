@@ -400,8 +400,8 @@
 
       <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-dolly"></i> Envío</label>
-        <input disabled id="workshop" type="radio" name="shipping" value="workshop"> <i class="fas fa-map-marker-alt"></i> Recojer en planta<br>
-        <input disabled id="delivery" type="radio" name="shipping" value="delivery"> <i class="fas fa-truck"></i> Envio a domicilio<br>
+        <input disabled id="workshop" type="radio" name="shipping" value="workshop"> <i class="fas fa-map-marker-alt"></i> Recoger en planta<br>
+        <input disabled id="delivery" type="radio" name="shipping" value="delivery"> <i class="fas fa-truck"></i> Envío a domicilio<br>
         <small>Compañia:</small> <span id="carrier" class="pure-input-1" ></span><br>
         <small>No. Rastreo:</small> <span id="track_id"  class="pure-input-1" ></span><br>
       </div>
@@ -439,6 +439,7 @@ No incluye flete a menos que se indique en alguna partida.
           <pre class="pure-input-1 notes">
 Harco Mexicana S.A.
 HME7607197Y1
+
 Lago Tláhuac 33, Anahuac,
 Miguel Hidalgo, CDMX, 11320.
 hmx@hangarmx.com
@@ -450,8 +451,8 @@ hmx@hangarmx.com
 Harco Mexicana S.A.
 Cuenta BBVA: 0443928284
 CLABE  BBVA: 012180004439282840
- -  Usa el id de tu orden como referencía.
- -  Envía una copia de tu comprobante junto con el id de tu orden a: hmx@hangarmx.com.
+
+Envíanos el comprobante junto con el número de ordern a: hmx@hangarmx.com. De ser posible utiliza ese número como referencia de la transacción.
         </pre>
       </div>
 
@@ -505,13 +506,13 @@ CLABE  BBVA: 012180004439282840
       // Activa y desactiva el boton y el estado de pago
       var status = '';
       if (response.payment_json.status == 'approved'){
-        status = 'Pago aprovado'
+        status = 'Pago aprobado'
       };
       if (response.payment_json.status == 'pending'){
         status = 'Pago pendiente'
         $('#payment').css('display','unset');
       };
-      if (response.status == 'Activa' && response.mp_json.preference){
+      if (response.status == 'Activa' && response.mp_json.preference && response.payment_json.status != 'approved' ){
         $('#mp-button').attr("href",response.mp_json.preference.sandbox_init_point);
         $('#mp-button').css('display','unset');
       }
@@ -595,7 +596,7 @@ CLABE  BBVA: 012180004439282840
         remoteCall(method,payload,false).done(function(response){
           $('#log-entry').val('');
           $('#order_log').text(log_to_txt(response.order.log_json));
-          messageInfo('¡Bitacora actualizada!');
+          messageInfo('¡Bitácora actualizada!');
         }).fail(function(){
           messageAlert('Upps... algo no esta bien.');
         })

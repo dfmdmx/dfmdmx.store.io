@@ -1,10 +1,10 @@
 ---
 layout: page
-title: Consulta de orden
+title: Consulta
 permalink: /order-query/
 ---
 
-### Ingresa tu orden id
+### Ingresa tu número de orden
 
 {% include store/order-query.html %}
 
