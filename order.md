@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Cotización
+title: Orden
 permalink: /order
 ---
+
 {% include store/store-order.html %}

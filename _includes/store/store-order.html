@@ -305,7 +305,7 @@
       </div>
       <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-list-ul"></i> Pago en linea</label>
-        <a id="payment" id='mp-button' href="/"><button class="pure-button pure-button-primary">Realizar pago <i class="fas fa-credit-card"></i></button></a>
+        <a class='payment' id='mp-button' href="/"><button class="pure-button pure-button-primary">Realizar pago <i class="fas fa-credit-card"></i></button></a>
         <span id='mp-status' class='mp-status'></span>
       </div>
 
@@ -506,14 +506,14 @@ CLABE  BBVA: 012180004439282840
       var status = '';
       if (response.payment_json.status == 'approved'){
         status = 'Pago aprovado'
-      }else if (response.payment_json.status == 'pending'){
+      };
+      if (response.payment_json.status == 'pending'){
         status = 'Pago pendiente'
         $('#payment').css('display','unset');
-      }else {
-        if (response.status == 'Activa' && response.mp_json.preference){
-          $('#mp-button').attr("href",response.mp_json.preference.sandbox_init_point);
-          $('#payment').css('display','unset');
-        }
+      };
+      if (response.status == 'Activa' && response.mp_json.preference){
+        $('#mp-button').attr("href",response.mp_json.preference.sandbox_init_point);
+        $('#mp-button').css('display','unset');
       }
       $('#mp-status').text(status);
 

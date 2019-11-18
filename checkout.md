@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Orden
+title: Generar orden
 permalink: /checkout/
 ---
 

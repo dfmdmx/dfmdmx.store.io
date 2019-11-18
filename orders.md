@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Pedidos
+title: Mis Órdenes
 permalink: /orders
 ---
 
