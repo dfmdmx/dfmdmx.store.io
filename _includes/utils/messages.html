@@ -5,6 +5,16 @@
   color: #489900;
   font-family: 'Inconsolata', monospace;
   font-size: 18px;
+  vertical-align:middle;
+}
+.message-info a {
+  margin-left:10px;
+  color: #111;
+  font-family: 'Inconsolata', monospace;
+  font-size: 12px;
+}
+.message-info a:visited {
+  color: #111;
 }
 .message-alert {
   margin:10px;
@@ -27,6 +37,11 @@ function messageInfo(txt){
   $('#message-text').removeClass();
   $('#message-text').addClass('message-info')
   $('#message-text').text(txt);
+}
+function messageHTML(txt){
+  $('#message-text').removeClass();
+  $('#message-text').addClass('message-info')
+  $('#message-text').html(txt);
 }
 
 </script>
