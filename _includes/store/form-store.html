@@ -22,14 +22,8 @@
       payload['cart_token'] = cart_token;
       remoteCall(method,payload,upload_files).done(function(response){
         if (method == 'store_form_order')  {
-            if (user)  {
-              window.location.replace("/orders");
-            }else{
-              showOkDialog('¡Gracias!','Nos pondremos en contacto contigo por correo.').done(function(){
-                setCookie('session_token','',-1000);
-                window.location.replace("/");
-              });
-            }
+          setCookie('active_order',response.order.id,1);
+          window.location.replace("/order");
         }else{
           if (method != 'store_edit_order')  {
             messageInfo('¡Listo!');

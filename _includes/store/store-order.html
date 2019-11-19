@@ -33,9 +33,7 @@
     display: none;
   }
   .send-button {
-    margin-left: 20px;
-    margin-top: .4em;
-    width : 100% ;
+    margin-left: 5px;
     line-height: 1em;
   }
   .item-total {
@@ -103,6 +101,7 @@
   }
   .link-button {
     font-size: 12px;
+    float:right;
   }
   .logo-header{
     float:right;
@@ -117,9 +116,8 @@
     font-size: 16px;
   }
   .mp-status {
-    color: #828282;
     paddin-top:3px;
-    margin-left:15px;
+    margin-left:17px;
     vertical-align: middle;
     font-family: 'Inconsolata', monospace;
     font-size: 18px;
@@ -163,7 +161,6 @@
     background-color:#fdfdfd;
     font-size: 11px;
     white-space: pre-wrap;
-    width:100%;
   }
   .info-state {
     background-color:#fdfdfd;
@@ -209,12 +206,21 @@
     margin-bottom:3px;
     font:400 12px "Montserrat", sans-serif;
   }
+  .mp-image{
+    height:1.5em;
+    filter: invert(1);
+    margin-right:.5em;
+  }
+  .webuser-info{
+    margin-bottom:30px;
+  }
 
 </style>
 
 <div class='webuser-info' id='webuser_info'>
+  <a id='print_button' onclick="print_order(this);" class='link-button'> Imprimir <i class="fas fa-print"></i></a><br>
   <pre id='info_state' class='info-state'></pre>
-  <a id='print_button' onclick="print_order(this);" class='link-button'> Imprimir <i class="fas fa-print"></i></a>
+  {% include store/message-orders.html %}
 </div>
 
 <div id='admin_form' class='admin-form'>
@@ -230,31 +236,29 @@
           <a onclick="send_mail('acuse_pago');" ><i class="fas fa-at"></i>Acuse pago </a>
           <a onclick="send_mail('aviso_recolecion');" ><i class="fas fa-at"></i>Aviso recoleción </a>
           <a onclick="send_mail('aviso_envio');" ><i class="fas fa-at"></i>Aviso envio </a>
-          <a onclick="goto_edit_order();" class='edit-button'> Editar <i class="fas fa-print"></i></a>
           </small>
+          <button onclick="goto_edit_order();" class="pure-button pure-button-primary edit-button ">Editar <i class="fas fa-print"></i></button>
         </div>
         <div class="pure-u-1">
           <details>
-            <summary class='summary'>
-              Bitacora interna
+            <summary>
+              Orden JSON
             </summary>
-
+            <pre id='order_json' class='log-info'></pre>
+          </details>
+          <details open>
+            <summary>
+              Bitácora interna
+            </summary>
             <div class="pure-u-3-4">
               <fieldset class="pure-group">
                 <input id='log-entry' name="title" type="text" class="pure-input-1 log-entry" placeholder="Entrada manual">
               </fieldset>
             </div>
             <div class="pure-u-1-5">
-              <button onclick='order_log()' class="pure-button send-button">Registrar <i class="fas fa-shopping-cart"></i></button>
+              <button onclick='order_log()' class="pure-button send-button transparent">Registrar <i class="fas fa-stream"></i></button>
             </div>
-
             <pre id='order_log' class='log-info'></pre>
-          </details>
-          <details>
-            <summary class='summary'>
-              Orden json
-            </summary>
-            <pre id='order_json' class='log-info'></pre>
           </details>
         </div>
         <div class="pure-u-1">
@@ -303,9 +307,10 @@
         Fecha:  <span id ='date_created' class="pure-input-1"></span><br>
         Fecha entrega: <span id ='date_delivery' class="pure-input-1"></span><br>
       </div>
-      <div class="pure-u-1 pure-u-md-1-2">
-        <label><i class="fas fa-list-ul"></i> Pago en linea</label>
-        <a class='payment' id='mp-button' href="/"><button class="pure-button pure-button-primary">Realizar pago <i class="fas fa-credit-card"></i></button></a>
+      <div class="pure-u-1">
+        <label><i class="fas fa-credit-card"></i> Pago</label>
+        <span id='mp-text'></span>
+        <a class='payment' id='mp-button' href="/"><button class="pure-button pure-button-primary"><img class='mp-image' src="/assets/images/mp_horizontal_blanco.png"> Realizar pago</button></a>
         <span id='mp-status' class='mp-status'></span>
       </div>
 
@@ -506,15 +511,18 @@ Envíanos el comprobante junto con el número de ordern a: hmx@hangarmx.com. De 
       // Activa y desactiva el boton y el estado de pago
       var status = '';
       if (response.payment_json.status == 'approved'){
-        status = 'Pago aprobado'
+        status = '- PAGO APROBADO'
       };
       if (response.payment_json.status == 'pending'){
-        status = 'Pago pendiente'
+        status = '- PAGO PENDIENTE'
         $('#payment').css('display','unset');
       };
       if (response.status == 'Activa' && response.mp_json.preference && response.payment_json.status != 'approved' ){
         $('#mp-button').attr("href",response.mp_json.preference.sandbox_init_point);
         $('#mp-button').css('display','unset');
+        $('#mp-text').text('');
+      }else if (response.status == 'Solicitud' || response.status == 'Procesando'){
+        $('#mp-text').text('Calculando...');
       }
       $('#mp-status').text(status);
 
@@ -532,6 +540,10 @@ Envíanos el comprobante junto con el número de ordern a: hmx@hangarmx.com. De 
       }
       if (show_prices){
         update_total();
+      }else{
+        $("#subtotal").html('<small>Calculando...</small>');
+        $("#total_iva").html('<small>Calculando...</small>');
+        $("#total").html('<small>Calculando...</small>');
       }
     })
   })

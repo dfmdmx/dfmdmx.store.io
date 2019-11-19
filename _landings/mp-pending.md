@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Mercadopago
+title: MercadoPago
 permalink: /mp-pending/
 ---
 
