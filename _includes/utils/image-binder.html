@@ -1,7 +1,7 @@
 {% if include.imageFile %}
-  {% capture imagePath %}{{ site.url }}/assets/{{include.imageFile}}{% endcapture %}
+  {% capture imagePath %}/assets/{{include.imageFile}}{% endcapture %}
 {% else %}
-  {% capture imagePath %}{{ site.url }}/assets/binder/{{ page.date | date: "%Y-%m-%d" }}-{{ page.title | slugify }}/{{ include.name }}{% endcapture %}
+  {% capture imagePath %}/assets/binder/{{ page.date | date: "%Y-%m-%d" }}-{{ page.title | slugify }}/{{ include.name }}{% endcapture %}
 {% endif %}
 <div class='image-binder'>
   {% if include.caption %}
