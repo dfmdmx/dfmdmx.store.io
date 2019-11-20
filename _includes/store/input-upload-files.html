@@ -46,6 +46,8 @@
 </div>
 <script>
 
+  var allowed_extensions = [];
+
   var upload_files = [];
   var upload_files_string = '';
 
@@ -55,9 +57,18 @@
   		var upload_file;
   		for (var i = 0; i < files.length; i++) {
   			upload_file = files[i];
-        upload_files.push(upload_file)
-        var filename = '&nbsp; ~/' + upload_file.name + '<br>';
-        upload_files_string += filename;
+
+        var e = upload_file.name.split('.');
+        var ext = e[e.length-1];
+        console.log(upload_file.name);
+        if (allowed_extensions.includes(ext) == false){
+          upload_files.push(upload_file)
+          var filename = '&nbsp; ~/' + upload_file.name + '<br>';
+          upload_files_string += filename;
+        }else{
+          var filename = '&nbsp; ~/' + upload_file.name + '<b> |Formato incorrecto</b><br>';
+          upload_files_string += filename;
+        }
   		}
       $('#file-name-container').html(upload_files_string);
   	}
