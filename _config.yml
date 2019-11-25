@@ -27,18 +27,19 @@ disqus:
 
 tawk: true
 
-
 # social links
 twitter_username: MxHangar
-# github_username:  dfmdmx
+whatsapp_username: '525587976314'
 rss: rss
+#facebook_username: '5587976314'
+#instagram_username: '5587976314'
 # flickr_username: jekyll
+# github_username:  dfmdmx
 # instagram_username: jekyll
 # linkedin_username: jekyll
 # pinterest_username: jekyll
 # youtube_username: jekyll
 # googleplus_username: +jekyll
-
 # Mastodon instances
 # mastodon:
 # - username: jekyll
