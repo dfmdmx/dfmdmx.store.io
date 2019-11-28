@@ -233,6 +233,7 @@
               <input id='type' class='product-details' type='text' name='type' placeholder='type'>
             </div>
             <textarea id='edit_data_json' name="edit_data_json" class="pure-input-1 comment-input" placeholder="Product data"></textarea>
+            <textarea id='edit_package_json' name="edit_package_json" class="pure-input-1 comment-input" placeholder="Package data"></textarea>
           </div>
           <div class="pure-u-1">
             <div class='edit-buttons-container'>
@@ -285,6 +286,8 @@
           </div>
 
           <textarea id='edit_data_json' name="edit_data_json" class="pure-input-1 comment-input" placeholder="Product data"></textarea>
+          <textarea id='edit_package_json' name="edit_package_json" class="pure-input-1 comment-input" placeholder="Package data"></textarea>
+
           <div class='edit-buttons-container'>
             <button onclick='edit_product(this)' class="pure-button pure-button-primary edit-button">Guardar <i class="fas fa-save"></i></button>
             <button onclick='remove_product(this)' class="pure-button delete-button">Borrar <i class="fas fa-trash"></i></button>
@@ -326,6 +329,7 @@
     new_cart_item.find('#price').val(cart_item.price);
     new_cart_item.find('#price_factor').val(cart_item.price_factor);
     new_cart_item.find('#edit_data_json').val(JSON.stringify(cart_item.data_json, null, '  '));
+    new_cart_item.find('#edit_package_json').val(JSON.stringify(cart_item.package_json, null, '  '));
     new_cart_item.find('#layout').val(cart_item.layout);
     new_cart_item.find('#group').val(cart_item.group);
     new_cart_item.find('#type').val(cart_item.type);
@@ -364,7 +368,8 @@
   }
 
   function set_data_json_dummy(){
-    return $('#new_product').find('#edit_data_json').val(JSON.stringify({'nombre':'valor','nombre_2':'valor_2'}, null, '  '))
+    $('#new_product').find('#edit_data_json').val(JSON.stringify({'nombre':'valor','nombre_2':'valor_2'}, null, '  '))
+    $('#new_product').find('#edit_package_json').val(JSON.stringify({"largo": 0,"ancho": false,"alto": 0,"peso": 0,"apilable": false,"caja": false }, null, '  '))
   }
 
   function new_product(element){
@@ -373,6 +378,7 @@
     var id = details.prop('id');
     try {
       var data_json = $.parseJSON(details.find('#edit_data_json').val())
+      var package_json = $.parseJSON(details.find('#edit_package_json').val())
     }catch(err){
       $('#message_new_product').text('Error en la sintaxis JSON, entrada no guardada.');
       return;
@@ -388,6 +394,7 @@
         'group': details.find('#group').val(),
         'type': details.find('#type').val(),
         'data_json': data_json,
+        'package_json': package_json,
       }
 
       var method = 'store_product_new';
@@ -395,7 +402,7 @@
         update_cart_item(response.product);
         $('#new_product_form').trigger('reset');
         set_data_json_dummy();
-        $('#message_new_product').text('Nuevo producto gurdado');
+        $('#message_new_product').text('Nuevo producto guardado');
       }).fail(function(){
         $('#message_new_product').text('No se pudo guardar el producto');
         })
@@ -407,7 +414,8 @@
     details = $(element.closest('details'));
     var id = details.prop('id');
     try {
-      var data_json = $.parseJSON(details.find('#edit_data_json').val())
+      var data_json = $.parseJSON(details.find('#edit_data_json').val());
+      var package_json = $.parseJSON(details.find('#edit_package_json').val())
     }catch(err){
       $('#message_'+id).text('Error en la sintaxis JSON, entrada no guardada.');
       return;
@@ -424,6 +432,7 @@
         'group': details.find('#group').val(),
         'type': details.find('#type').val(),
         'data_json': data_json,
+        'package_json': package_json,
       }
 
       var method = 'store_product_edit';

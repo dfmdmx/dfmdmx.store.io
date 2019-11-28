@@ -23,7 +23,6 @@
     float: right;
   }
   .summary {
-    min-height: 2.1em;
     height:auto;
   }
   .item-info{
@@ -34,6 +33,22 @@
   .summary-info{
     margin-bottom:48px;
   }
+  .data-input {
+    margin-top: 0px;
+    padding:0px;
+    height: auto;
+    font-family: 'Inconsolata', monospace;
+    background: transparent;
+    border: 0px;
+    width:auto;
+    margin-bottom: 5px;
+  }
+  .path-container{
+    margin-top:3px;
+    margin-bottom:3px;
+    padding-top: 10px;
+    font:400 12px "Montserrat", sans-serif;
+  }
 </style>
 
 <div class="pure-form">
@@ -43,10 +58,12 @@
     <div class="pure-u-1">
       <fieldset>
 
-        <details open id='pid-1' class='cart-item'>
+        <details id='pid-1' class='cart-item'>
           <input id='item_id' form='form-store' type='hidden' value='' name='items_id'>
           <summary class='summary'><h id='header_text'><b>Servicio</b>Nombre del articulo</h>
             <input required id='qty' onchange="edit_item_qty(this)" class='qty-input' type='number' name='qty' value='1' min='1' max='99'>
+            <div id='text_path' class='path-container'></div>
+            <pre id='item_data' class="pure-input-1 data-input"></pre>
           </summary>
           <div class="summary-info">
             <pre class='item-info' id='info'></pre>
@@ -90,8 +107,15 @@
           new_cart_item.find('#item_id').val(cart_item.id);
           new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>      ' + cart_item.layout);
           new_cart_item.find('#qty').val(cart_item.qty);
-          new_cart_item.find('#info').text(json_item(cart_item));
           new_cart_item.css('display','block');
+          new_cart_item.find('#item_data').text(json_dumps(cart_item.data_json));
+          new_cart_item.find('#text_path').text(cart_item.layout +' / '+ cart_item.group +' / '+ cart_item.type +' / '+ cart_item.pid);
+          var json_order = json_item(cart_item);
+          if (json_order != '') {
+            new_cart_item.find('#info').text(json_order);
+          }else{
+            new_cart_item.find('#info').css('display','none');
+          }
         }
       })
     })

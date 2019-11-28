@@ -13,6 +13,9 @@
     vertical-align: bottom;
     font-family: 'Inconsolata', monospace;
   }
+  .produtc-price{
+    margin-top:20px;
+  }
 </style>
 
 <div class="pure-form">
@@ -24,43 +27,13 @@
     <div class="pure-u-1-2">
       <input class='add-qty' form='form-store' type='number' name='qty' value='1' min='1' max='99'>
     </div>
-    <!-- <div class="pure-u-1-4">
-      <button onclick="query_product()" class="pure-button">Consultar inventario <i class="fas fa-calculator"></i></button>
-    </div> -->
-    <!-- <div class="pure-u-3-4">
-      <p id='product_info' class='product-info'></p>
-    </div> -->
     <div class="pure-u-1">
       <div id="message-text"></div>
     </div>
+
+    <div class="pure-u-1 produtc-price">
+      <!-- <button onclick="query_product()" class="pure-button">Consultar inventario <i class="fas fa-calculator"></i></button> -->
+      <p id='product_info' class='product-info'></p>
+    </div>
   </div>
 </div>
-
-<script>
-  // $(document).ready(function () {
-  //   query_product();
-  // });
-  function query_product(){
-    current_user.always(function(user){
-      var method = 'store_product_query';
-      var payload = form_store.serializeFormJSON();
-      payload['cart_token'] = cart_token;
-      remoteCall(method,payload,false).done(function(response){
-        var price = response.product.price_factor*response.product.price;
-        if (price) {
-          price_text = formatCurrency(price)
-        }else{
-          price_text = 'Por solicitud'
-        }
-
-        var p = '<b>Información:</b><br>';
-        p+= 'Pid: ' + response.product.md5 + '<br>';
-        p+= 'Precio unitário: ' + price_text + '<br>';
-        p+= 'Almacén: ' + response.product.stock + '<br>';
-        $('#product_info').html(p);
-      }).fail(function(){
-        console.log('satetilite malfunction');
-      });
-    });
-  }
-</script>
