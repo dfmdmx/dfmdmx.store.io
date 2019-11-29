@@ -13,27 +13,84 @@
     vertical-align: bottom;
     font-family: 'Inconsolata', monospace;
   }
-  .produtc-price{
-    margin-top:20px;
+  .product-price{
+    margin-top:.7em;
+    float:right;
+    font-family: 'Inconsolata', monospace;
+    font-size:19px;
   }
 </style>
 
 <div class="pure-form">
   <legend>Todo listo</legend>
   <div class="pure-g">
-    <div class="pure-u-1-2">
+    <div class="pure-u-1 pure-u-md-1-2">
       <button id='button-submit' form='form-store' type="submit" class="pure-button send-button pure-button-primary">Agregar <i class="fas fa-shopping-cart"></i></button>
     </div>
-    <div class="pure-u-1-2">
-      <input class='add-qty' form='form-store' type='number' name='qty' value='1' min='1' max='99'>
+    <div class="pure-u-1-2 pure-u-md-1-4">
+      <input id='qty' class='add-qty' form='form-store' type='number' name='qty' value='1' min='1' max='99'>
     </div>
+    <div class="pure-u-1-2 pure-u-md-1-4">
+      <div id='price' class='product-price'>Total</div>
+    </div>
+
     <div class="pure-u-1">
       <div id="message-text"></div>
     </div>
 
-    <div class="pure-u-1 produtc-price">
-      <!-- <button onclick="query_product()" class="pure-button">Consultar inventario <i class="fas fa-calculator"></i></button> -->
-      <p id='product_info' class='product-info'></p>
-    </div>
+    <!-- <div class="pure-u-1">
+      <pre id='product_info'></pre>
+    </div> -->
+
   </div>
 </div>
+
+<script>
+
+var product = $.Deferred()
+var is_product = false;
+
+function set_product_info(item){
+  var qty = $('#qty').val()
+  $('#price').text(formatCurrency((item.price_web * qty),'mxn'));
+  $('#product_info').text(json_dumps(item));
+}
+
+function update_product(){
+  current_user.always(function(user){
+    var method = 'store_product_query';
+    var payload = form_store.serializeFormJSON();
+    remoteCall(method,payload,false).done(function(response){
+      set_product_info(response.product);
+      product.resolve(response.product).promise();
+    }).fail(function(){
+      console.log('satetilite malfunction');
+
+      product.reject(false).promise();
+
+    });
+  });
+}
+
+$(document).ready(function () {
+  var layout = $('#item_layout').val();
+  is_product = layout == 'product' || layout == 'service'
+  if (is_product){
+    update_product();
+    product.done(function(product){
+      $('#item_pid').val(product.md5);
+    });
+    var form_inputs = $("[form='form-store']")
+    form_inputs.each(function(e){
+      input = form_inputs[e];
+      $(input).on('change',function(){
+        update_product();
+      })
+    });
+
+  }else{
+    product.reject(false).promise();
+  }
+});
+
+</script>

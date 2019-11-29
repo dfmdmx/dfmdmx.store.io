@@ -32,6 +32,7 @@
             if (upload_files.length != 0){
               reset_files();
             }
+            update_product();
           }else{
             location.replace(document.location.href.replace('order-edit','order'));
           }
@@ -41,49 +42,5 @@
       });
     });
   });
-
-
-  var product = $.Deferred()
-  var is_product = false;
-
-  function update_product(){
-    current_user.always(function(user){
-      var method = 'store_product_query';
-      var payload = form_store.serializeFormJSON();
-      remoteCall(method,payload,false).done(function(response){
-        console.log(response.product);
-        product.resolve(response.product).promise();
-      }).fail(function(){
-        console.log('satetilite malfunction');
-        product.reject(false).promise();
-
-      });
-    });
-  }
-
-  $(document).ready(function () {
-    var layout = $('#item_layout').val();
-    is_product = layout == 'product' || layout == 'service'
-    if (is_product){
-      update_product();
-      product.done(function(product){
-        $('#item_pid').val(product.md5);
-      });
-      var form_inputs = $("[form='form-store']")
-      form_inputs.each(function(e){
-        input = form_inputs[e];
-        $(input).on('change',function(){
-          update_product();
-        })
-      });
-
-    }else{
-      product.reject(false).promise();
-    }
-  });
-
-
-
-
 
 </script>

@@ -206,6 +206,11 @@
     margin-bottom:3px;
     font:400 12px "Montserrat", sans-serif;
   }
+  .float-container{
+    float:right;
+    text-align:left;
+    width: 100%;
+  }
   .mp-image{
     height:1.5em;
     filter: invert(1);
@@ -214,14 +219,16 @@
   .webuser-info{
     margin-bottom:30px;
   }
+  .freight-img{
+    width: 24px;
+    display: inline-block;
+    margin-left: 10px;
+  }
+  .light-font{
+    font:400 12px "Montserrat", sans-serif;
+  }
 
 </style>
-
-<div class='webuser-info' id='webuser_info'>
-  <a id='print_button' onclick="print_order(this);" class='link-button'> Imprimir <i class="fas fa-print"></i></a><br>
-  <pre id='info_state' class='info-state'></pre>
-  {% include store/message-orders.html %}
-</div>
 
 <div id='admin_form' class='admin-form'>
   <div class="pure-form pure-form-stacked">
@@ -269,6 +276,15 @@
   </div>
 </div>
 
+<!-- <div class="pure-form pure-form-stacked">
+  <div class="pure-g">
+    <div class="pure-u-1">
+      {% include store/message-orders.html %}
+      <a id='print_button' onclick="print_order(this);" class='link-button'> Imprimir <i class="fas fa-print"></i></a><br>
+    </div>
+  </div>
+</div> -->
+
 <div class="pure-form pure-form-stacked">
 <div class="pure-g">
   <div class="pure-u-1">
@@ -287,6 +303,11 @@
     </fieldset>
   </div>
 </div>
+</div>
+
+<div class='webuser-info' id='webuser_info'>
+  <pre id='info_state' class='info-state'></pre>
+
 </div>
 
 <div class="pure-form pure-form-stacked">
@@ -322,36 +343,72 @@
 
 <div class="pure-form pure-form-stacked">
   <fieldset>
-    <legend>Productos
-    </legend>
     <div class="pure-g">
-
       <div class="pure-u-1">
-        <div class='view-container-title'>
-          <div class='precio'>x &nbsp;&nbsp;&nbsp;&nbsp; precio)</div>
-          <div class='cantidad'>(cantidad</div>
-          <div class='suplemento'>suplemento  &nbsp;&nbsp;  + </div>
-        </div>
-        <br>
+        <legend>Servicios
+          <div class='view-container-title'>
+            <div class='precio'>x &nbsp;&nbsp;&nbsp;&nbsp; precio)</div>
+            <div class='cantidad'>(cantidad</div>
+            <div class='suplemento'>servicio  &nbsp;&nbsp;  + </div>
+          </div>
+        </legend>
       </div>
 
       <div class="pure-u-1">
-
-        <details id='pid-1' class='cart-item'>
+        <details id='sid-1' class='cart-item'>
           <input type='hidden' id='qty' class='qty-input' >
           <input type='hidden' id='price_supplement' class='qty-input'>
           <input type='hidden' id='price' class='qty-input'>
           <input type='hidden' id='price_factor' class='qty-input'>
-
           <summary class='summary'>
             <h id='header_text'><b>Servicio</b>Nombre del articulo</h>
-
             <div class='view-container'>
               <div id='view_price' class='precio'></div>
               <div id='view_qty' class='cantidad'></div>
               <div id='view_supplement' class='suplemento'></div>
             </div>
-            <div id='text_path' class='path-container'></div>
+            <div class='float-container'>
+              <div id='text_path' class='path-container'></div>
+            </div>
+            <pre id='item_comment' class="pure-input-1 comment-input"></pre>
+            <pre id='item_data' class="pure-input-1 data-input"></pre>
+            <span  class='pure-input-1 item-total'><div id='item_total' class='move-right'></div></span>
+          </summary>
+          <pre class='item-info' id='info'></pre>
+          <div id='download-cont' class="download-link"><a id='download-link' href='/'>Descargar <i class="far fa-file-archive"></i>.zip</a></div>
+        </details>
+      </div>
+    </div>
+  </fieldset>
+</div>
+<div class="pure-form pure-form-stacked">
+  <fieldset>
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <legend>Productos
+          <div class='view-container-title'>
+            <div class='precio'>x &nbsp;&nbsp;&nbsp;&nbsp; precio)</div>
+            <div class='cantidad'>(cantidad</div>
+            <div class='suplemento'>suplemento  &nbsp;&nbsp;  + </div>
+          </div>
+        </legend>
+      </div>
+      <div class="pure-u-1">
+        <details id='pid-1' class='cart-item'>
+          <input type='hidden' id='qty' class='qty-input' >
+          <input type='hidden' id='price_supplement' class='qty-input'>
+          <input type='hidden' id='price' class='qty-input'>
+          <input type='hidden' id='price_factor' class='qty-input'>
+          <summary class='summary'>
+            <h id='header_text'><b>Servicio</b>Nombre del articulo</h>
+            <div class='view-container'>
+              <div id='view_price' class='precio'></div>
+              <div id='view_qty' class='cantidad'></div>
+              <div id='view_supplement' class='suplemento'></div>
+            </div>
+            <div class='float-container'>
+              <div id='text_path' class='path-container'></div>
+            </div>
             <pre id='item_comment' class="pure-input-1 comment-input"></pre>
             <pre id='item_data' class="pure-input-1 data-input"></pre>
             <span  class='pure-input-1 item-total'><div id='item_total' class='move-right'></div></span>
@@ -366,7 +423,7 @@
 
 <div class="pure-form pure-form-stacked">
     <input type='hidden' id='discount' val=''>
-    <legend>Totales</legend>
+    <legend>Total</legend>
     <div class="pure-g">
       <div class="pure-u-1-4 pure-u-md-1-2"></div>
       <div class="pure-u-1-3 pure-u-md-1-4">
@@ -388,29 +445,28 @@
     </div>
 </div>
 
-<br>
-
 <div class="pure-form pure-form-stacked">
   <fieldset>
     <legend>Entrega</legend>
     <div class="pure-g">
-
       <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-user"></i> Contacto</label>
-        <span id="nombre" class="pure-input-1" ></span><br>
-        <span id="email"  class="pure-input-1" ></span><br>
+        <span class='light-font'>
+          <span id="nombre" class="pure-input-1" ></span><br>
+          <span id="email"  class="pure-input-1" ></span><br>
+        </span>
         <label><i class="fas fa-map-marked-alt"></i> Dirección</label>
         <pre id='address_data' class="pure-input-1 notes"></pre>
       </div>
-
       <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-dolly"></i> Envío</label>
-        <input disabled id="workshop" type="radio" name="shipping" value="workshop"> <i class="fas fa-map-marker-alt"></i> Recoger en planta<br>
-        <input disabled id="delivery" type="radio" name="shipping" value="delivery"> <i class="fas fa-truck"></i> Envío a domicilio<br>
-        <small>Compañia:</small> <span id="carrier" class="pure-input-1" ></span><br>
-        <small>No. Rastreo:</small> <span id="track_id"  class="pure-input-1" ></span><br>
+        <span class='light-font'>
+          <input disabled form='form-store' type="radio" name="shipping" value="workshop"><span class='freight-img'><i class="fas fa-map-marker-alt"></i></span> Recoger en planta<br>
+          <input disabled form='form-store' type="radio" name="shipping" value="delivery" checked><span class='freight-img'><i class="fas fa-truck"></i></span> Envío a domicilio <strong>FedEx</strong><br>
+        </span>
+        <br>
+        <pre id='shippment_data' class="pure-input-1 notes"></pre>
       </div>
-
     </div>
   </fieldset>
 </div>
@@ -425,7 +481,6 @@
         <pre id='notes' class="pure-input-1 notes"></pre>
         <pre class="pure-input-1 notes">
 Precios en pesos mexicanos.
-No incluye flete a menos que se indique en alguna partida.
         </pre>
       </div>
     </div>
@@ -438,14 +493,13 @@ No incluye flete a menos que se indique en alguna partida.
   <fieldset>
     <legend>Información</legend>
     <div class="pure-g">
-
       <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-receipt"></i> Empresa</label>
           <pre class="pure-input-1 notes">
 Harco Mexicana S.A.
 HME7607197Y1
 
-Lago Tláhuac 33, Anahuac,
+Lago Tláhuac 33, Anáhuac,
 Miguel Hidalgo, CDMX, 11320.
 hmx@hangarmx.com
           </pre>
@@ -457,7 +511,7 @@ Harco Mexicana S.A.
 Cuenta BBVA: 0443928284
 CLABE  BBVA: 012180004439282840
 
-Envíanos el comprobante junto con el número de ordern a: hmx@hangarmx.com. De ser posible utiliza ese número como referencia de la transacción.
+Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De ser posible utiliza ese número como referencia de la transacción.
         </pre>
       </div>
 
@@ -482,7 +536,7 @@ Envíanos el comprobante junto con el número de ordern a: hmx@hangarmx.com. De 
       $('#address_data').text(json_address(response.address_json));
       update_form(response.contact_json);
       update_form(response.invoice_json);
-      update_form(response.shippment_json);
+      $('#shippment_data').text(json_dumps(response.shippment_json));
       update_shipping(response.shipping);
       $('#date_created').text(response.date_created);
       $('#date_delivery').text(response.date_delivery);
@@ -532,12 +586,24 @@ Envíanos el comprobante junto con el número de ordern a: hmx@hangarmx.com. De 
       if (response.status != 'Solicitud' && response.status != 'Procesando') {
         show_prices = true;
       }
-      cart_items = response.items_json;
+
       var cart_item;
-      for (var i = 0; i < cart_items.length; i++) {
-        cart_item = cart_items[i]
-        update_cart_item(cart_item,response.id,show_prices);
+      if (response.services_json){
+        cart_items = response.services_json;
+        for (var i = 0; i < cart_items.length; i++) {
+          cart_item = cart_items[i]
+          update_cart_item(cart_item,response.id,show_prices,'#sid-1');
+        }
       }
+
+      if (response.products_json){
+        cart_items = response.products_json;
+        for (var i = 0; i < cart_items.length; i++) {
+          cart_item = cart_items[i]
+          update_cart_item(cart_item,response.id,show_prices,'#pid-1');
+        }
+      }
+
       if (show_prices){
         update_total();
       }else{
@@ -547,10 +613,10 @@ Envíanos el comprobante junto con el número de ordern a: hmx@hangarmx.com. De 
       }
     })
   })
-  function update_cart_item(cart_item,order_id,show_prices){
+  function update_cart_item(cart_item,order_id,show_prices,details_id){
 
-    var cart_item_container = $('#pid-1')
-    cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
+    var cart_item_container = $(details_id);
+    cart_item_container.clone().attr('id',cart_item.id).insertAfter(cart_item_container);
     new_cart_item = $('#'+ cart_item.id );
     new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>      ' + cart_item.layout);
     new_cart_item.find('#qty').val(cart_item.qty);

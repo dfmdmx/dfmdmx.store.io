@@ -6,7 +6,6 @@
 <style>
   .delete-item {
     margin-top: .1em;
-    float:right;
     font-size: 12px;
   }
   .cart-item {
@@ -17,11 +16,7 @@
     width : 100% ;
     line-height: 1.3em;
   }
-  .qty-input {
-    margin-left: 20px;
-    height: 1.8em;
-    float: right;
-  }
+
   .summary {
     height:auto;
   }
@@ -46,23 +41,48 @@
   .path-container{
     margin-top:3px;
     margin-bottom:3px;
-    padding-top: 10px;
+    width:100%;
     font:400 12px "Montserrat", sans-serif;
+  }
+  .view-container{
+    float:right;
+    font-size: 12px;
+  }
+  .float-container{
+    float:right;
+    text-align:left;
+    width: 100%;
+  }
+  .product-price{
+    float:right;
+    margin-left:40px;
+    font-family: 'Inconsolata', monospace;
+    font-size:14px;
+  }
+  .qty-input {
+    float:right;
+    margin-left: 20px;
+    height: 1.8em;
   }
 </style>
 
 <div class="pure-form">
-
-  <legend>Productos</legend>
+  <legend>Servicios</legend>
   <div class="pure-g">
     <div class="pure-u-1">
       <fieldset>
-
-        <details id='pid-1' class='cart-item'>
+        <details id='sid-1' class='cart-item'>
           <input id='item_id' form='form-store' type='hidden' value='' name='items_id'>
-          <summary class='summary'><h id='header_text'><b>Servicio</b>Nombre del articulo</h>
-            <input required id='qty' onchange="edit_item_qty(this)" class='qty-input' type='number' name='qty' value='1' min='1' max='99'>
-            <div id='text_path' class='path-container'></div>
+          <input id='price_web' type='hidden' value='' name='price_web'>
+          <summary class='summary'>
+            <h id='header_text'><b>Servicio</b>Nombre del articulo</h>
+            <div class='view-container'>
+              <input required id='qty' onchange="edit_item_qty(this)" class='qty-input' type='number' name='qty' value='1' min='1' max='99'>
+              <div id='price' class='product-price'>Total</div>
+            </div>
+            <div class='float-container'>
+              <div id='text_path' class='path-container'></div>
+            </div>
             <pre id='item_data' class="pure-input-1 data-input"></pre>
           </summary>
           <div class="summary-info">
@@ -70,7 +90,35 @@
             <a onclick="remove_cart_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a>
           </div>
         </details>
+      </fieldset>
+    </div>
+  </div>
+</div>
 
+<div class="pure-form">
+  <legend>Productos</legend>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <fieldset>
+        <details id='pid-1' class='cart-item'>
+          <input id='item_id' form='form-store' type='hidden' value='' name='items_id'>
+          <input id='price_web' type='hidden' value='' name='price_web'>
+          <summary class='summary'>
+            <h id='header_text'><b>Servicio</b>Nombre del articulo</h>
+            <div class='view-container'>
+              <input required id='qty' onchange="edit_item_qty(this)" class='qty-input' type='number' name='qty' value='1' min='1' max='99'>
+              <div id='price' class='product-price'>Total</div>
+            </div>
+            <div class='float-container'>
+              <div id='text_path' class='path-container'></div>
+            </div>
+            <pre id='item_data' class="pure-input-1 data-input"></pre>
+          </summary>
+          <div class="summary-info">
+            <pre class='item-info' id='info'></pre>
+            <a onclick="remove_cart_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a>
+          </div>
+        </details>
       </fieldset>
     </div>
   </div>
@@ -81,8 +129,8 @@
 <div class="pure-form">
   <legend>Todo listo</legend>
   <div class="pure-g">
-    <div class="pure-u-1-2">
-      <button form='form-store' type="submit" class="pure-button send-button pure-button-primary">Crear orden <i class="fas fa-receipt"></i></button>
+    <div class="pure-u-1 pure-u-md-1-2">
+      <button form='form-store' type="submit" class="pure-button send-button pure-button-primary">Calcular orden <i class="fas fa-receipt"></i></button>
     </div>
     <div class="pure-u-1">
       <p id="message-text"></p>
@@ -92,31 +140,37 @@
 
 <script>
 
+  function set_cart_containers(cart_items,container_id){
+    var cart_item;
+    var cart_item_container = $(container_id)
+    for (var i = 0; i < cart_items.length; i++) {
+      cart_item = cart_items[i]
+      cart_item_container.clone().attr('id',cart_item.id).insertAfter($(container_id));
+      new_cart_item = $('#'+ cart_item.id );
+      new_cart_item.find('#item_id').val(cart_item.id);
+      new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>');
+      new_cart_item.find('#qty').val(cart_item.qty);
+      new_cart_item.find('#price_web').val(cart_item.price_web);
+      new_cart_item.find('#price').text(formatCurrency(cart_item.price_web*cart_item.qty,'mxn'));
+      new_cart_item.css('display','block');
+      new_cart_item.find('#item_data').text(json_dumps(cart_item.data_json));
+      new_cart_item.find('#text_path').text(cart_item.layout +' / '+ cart_item.group +' / '+ cart_item.type +' / '+ cart_item.pid);
+      var json_order = json_item(cart_item);
+      if (json_order != '') {
+        new_cart_item.find('#info').text(json_order);
+      }else{
+        new_cart_item.find('#info').css('display','none');
+      }
+    }
+  }
+
   $(document).ready(function () {
     current_user.always(function(){
       var method = 'store_cart_items';
       var payload = {'cart_token':cart_token}
       remoteCall(method,payload,false).done(function(response){
-        cart_items = response.cart_items;
-        var cart_item;
-        var cart_item_container = $('#pid-1')
-        for (var i = 0; i < cart_items.length; i++) {
-          cart_item = cart_items[i]
-          cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
-          new_cart_item = $('#'+ cart_item.id );
-          new_cart_item.find('#item_id').val(cart_item.id);
-          new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>      ' + cart_item.layout);
-          new_cart_item.find('#qty').val(cart_item.qty);
-          new_cart_item.css('display','block');
-          new_cart_item.find('#item_data').text(json_dumps(cart_item.data_json));
-          new_cart_item.find('#text_path').text(cart_item.layout +' / '+ cart_item.group +' / '+ cart_item.type +' / '+ cart_item.pid);
-          var json_order = json_item(cart_item);
-          if (json_order != '') {
-            new_cart_item.find('#info').text(json_order);
-          }else{
-            new_cart_item.find('#info').css('display','none');
-          }
-        }
+        set_cart_containers(response.services,'#sid-1')
+        set_cart_containers(response.products,'#pid-1')
       })
     })
   })
@@ -141,11 +195,14 @@
     details = element.closest('details');
     var id = $(details).prop('id');
     var qty = $(details).find('#qty').val();
+    var price = $(details).find('#price_web').val()
     current_user.always(function(){
       var method = 'store_edit_item_qty';
       var payload = {'cart_item':id,'qty':qty};
-      remoteCall(method,payload,false).fail(function(){
-        messageAlert('Upps... algo no esta bien.');
+      remoteCall(method,payload,false).done(function(){
+        $(details).find('#price').text(formatCurrency(price*qty,'mxn'));
+        }).fail(function(){
+          messageAlert('Upps... algo no esta bien.');
         })
     })
   }

@@ -166,15 +166,19 @@ function logout() {
   });
 }
 
-function formatCurrency(total) {
+function formatCurrency(total,currency=false) {
     var neg = false;
     if(total < 0) {
         neg = true;
         total = Math.abs(total);
     }
-    return (neg ? "-$" : '$') + parseFloat(total, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString();
+    var parsedTotal = (neg ? "-$" : '$') + parseFloat(total, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString();
+		if (currency){
+			parsedTotal +=  ' ' + currency
+		}
+		return parsedTotal
 }
 
 function parseCurrency(currency) {
-    return parseFloat(currency.replace(/,/g, '').replace('$', ''))
+    return parseFloat(currency.split(' ')[0].replace(/,/g, '').replace('$', ''))
 }

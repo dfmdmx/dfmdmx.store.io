@@ -33,6 +33,9 @@
   .summary-info{
     margin-bottom:38px;
   }
+  .light-font{
+    font:400 12px "Montserrat", sans-serif;
+  }
 </style>
 
 <div class="pure-form">
@@ -41,14 +44,10 @@
   <div class="pure-g">
     <div class="pure-u-1">
       <fieldset>
-
         <details id='pid-1' class='cart-item'>
-
           <input id='item_id' form='form-store' type='hidden' value='' name='items_id'>
-
           <summary class='summary'><h id='header_text'></h>
             <a onclick="go_to_order(this);" class='details-item'> Detalles <i class="fas fa-external-link-alt"></i></a>
-
           </summary>
           <div class="summary-info">
             <pre id='info_state' class='info-state'></pre>
@@ -79,10 +78,16 @@
           cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
           new_cart_item = $('#'+ cart_item.id );
           new_cart_item.find('#item_id').val(cart_item.id);
-          header = '<b>' + cart_item.order_id + '</b> - ' + cart_item.items_json.length + ' artículos  - ' + cart_item.date_created + ' | ' + cart_item.status
+          if (cart_item.services_json){var no_services=cart_item.services_json.length}else{var no_services=0};
+          if (cart_item.products_json){var no_products=cart_item.products_json.length}else{var no_products=0};
+          header = '<b>' + cart_item.order_id + '</b><span class="light-font">'
+          header += ' | ' + cart_item.date_created
+          header += ' | ' + no_services + ' servicios - ' + no_products + ' productos'
+          header += ' | ' + cart_item.status
           if (cart_item.payment_json.status == 'approved'){
             header += ' | Pagada'
           }
+          header += '<span>'
           new_cart_item.find('#header_text').html(header);
           new_cart_item.find('#info_state').text(cart_item.info_state);
 
