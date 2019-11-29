@@ -43,10 +43,10 @@
     text-align:right;
   }
   .totales {
-    margin-left: 20px;
+    padding-left: 20px !important;
   }
   .totales-texto {
-    float: right;
+    text-align: right;
   }
   .comment-input {
     margin-top: 3px;
@@ -101,7 +101,7 @@
   }
   .link-button {
     font-size: 12px;
-    float:right;
+    float:left;
   }
   .logo-header{
     float:right;
@@ -238,11 +238,16 @@
 
         <div class="pure-u-1 admin-button">
           <small>
-          <a onclick="send_mail('orden_recibida');" ><i class="fas fa-at"></i>Orden recibida </a>
-          <a onclick="send_mail('orden_activa');" ><i class="fas fa-at"></i>Orden activa </a>
-          <a onclick="send_mail('acuse_pago');" ><i class="fas fa-at"></i>Acuse pago </a>
-          <a onclick="send_mail('aviso_recolecion');" ><i class="fas fa-at"></i>Aviso recoleción </a>
-          <a onclick="send_mail('aviso_envio');" ><i class="fas fa-at"></i>Aviso envio </a>
+          <a onclick="send_mail('orden_recibida');" ><i class="fas fa-at"></i> Orden recibida </a>
+          <a onclick="send_mail('orden_activa');" ><i class="fas fa-at"></i> Orden activa </a>
+          <a onclick="send_mail('acuse_pago');" ><i class="fas fa-at"></i> Acuse pago </a>
+          <a onclick="send_mail('aviso_recolecion');" ><i class="fas fa-at"></i> Aviso recoleción </a>
+          <a onclick="send_mail('aviso_envio');" ><i class="fas fa-at"></i> Aviso envio </a>
+          </small>
+          <br>
+          <small>
+          <a onclick="approve_payment('banktransfer');" ><i class="fas fa-check-square"></i> Aprobar pago con transferencia </a>
+          <a onclick="approve_payment('cash');" ><i class="fas fa-check-square"></i> Aprobar pago en efectivo </a>
           </small>
           <button onclick="goto_edit_order();" class="pure-button pure-button-primary edit-button ">Editar <i class="fas fa-print"></i></button>
         </div>
@@ -276,38 +281,30 @@
   </div>
 </div>
 
-<!-- <div class="pure-form pure-form-stacked">
-  <div class="pure-g">
-    <div class="pure-u-1">
-      {% include store/message-orders.html %}
-      <a id='print_button' onclick="print_order(this);" class='link-button'> Imprimir <i class="fas fa-print"></i></a><br>
-    </div>
-  </div>
-</div> -->
+<div class='webuser-info' id='webuser_info'>
+  {% include store/message-orders.html %}
+  <pre id='info_state' class='info-state'></pre>
+  <!-- <a id='print_button' onclick="print_order(this);" class='link-button'> Imprimir <i class="fas fa-print"></i></a> -->
+</div>
 
 <div class="pure-form pure-form-stacked">
-<div class="pure-g">
-  <div class="pure-u-1">
-      <div class="logo-header">
-        <img src="/assets/images/logo_hangarmx_black.svg"><br>
-        ID: <span id ='order_webid' class="pure-input-1"></span>
-      </div>
+  <div class="pure-g">
+    <div class="pure-u-1">
+        <div class="logo-header">
+          <img src="/assets/images/logo_hangarmx_black.svg"><br>
+          ID: <span id ='order_webid' class="pure-input-1"></span>
+        </div>
 
+    </div>
+    <div class="pure-u-1 payment-container">
+    </div>
+    <div class="pure-u-1">
+      <fieldset class="pure-group">
+        <h4 id ='title' class="pure-input-1"></h4>
+        <pre id='description' class="pure-input-1 transparent"></pre>
+      </fieldset>
+    </div>
   </div>
-  <div class="pure-u-1 payment-container">
-  </div>
-  <div class="pure-u-1">
-    <fieldset class="pure-group">
-      <h4 id ='title' class="pure-input-1"></h4>
-      <pre id='description' class="pure-input-1 transparent"></pre>
-    </fieldset>
-  </div>
-</div>
-</div>
-
-<div class='webuser-info' id='webuser_info'>
-  <pre id='info_state' class='info-state'></pre>
-
 </div>
 
 <div class="pure-form pure-form-stacked">
@@ -341,7 +338,7 @@
 
 <br>
 
-<div class="pure-form pure-form-stacked">
+<div id='services_container' class="pure-form pure-form-stacked">
   <fieldset>
     <div class="pure-g">
       <div class="pure-u-1">
@@ -353,7 +350,6 @@
           </div>
         </legend>
       </div>
-
       <div class="pure-u-1">
         <details id='sid-1' class='cart-item'>
           <input type='hidden' id='qty' class='qty-input' >
@@ -381,7 +377,8 @@
     </div>
   </fieldset>
 </div>
-<div class="pure-form pure-form-stacked">
+
+<div id='products_container' class="pure-form pure-form-stacked">
   <fieldset>
     <div class="pure-g">
       <div class="pure-u-1">
@@ -422,24 +419,25 @@
 </div>
 
 <div class="pure-form pure-form-stacked">
-    <input type='hidden' id='discount' val=''>
     <legend>Total</legend>
     <div class="pure-g">
       <div class="pure-u-1-4 pure-u-md-1-2"></div>
       <div class="pure-u-1-3 pure-u-md-1-4">
-        <fieldset>
-          <span class='totales-texto'>Subtotal:</span><br>
-          <span id='total_descuento_text' class='totales-texto'>-</span><br>
-          <span class='totales-texto'>IVA 16%:</span><br>
-          <span class='totales-texto'>Total:</span><br>
+        <fieldset class='totales-texto'>
+          <span >Subtotal:</span><br>
+          <span id='total_descuento_text' ><br></span>
+          <span id='total_envio_text' ><br></span>
+          <span >IVA 16%:</span><br><br>
+          <span>Total:</span><br>
         </fieldset>
       </div>
       <div class="pure-u-1-3 pure-u-md-1-4">
-        <fieldset>
-          <span id='subtotal' class='totales'></span><br>
-          <span id='total_descuento' class='totales'></span><br>
-          <span id='total_iva' class='totales'></span><br>
-          <span id='total' class='totales'></span><br>
+        <fieldset class='totales'>
+          <span id='subtotal'></span><br>
+          <span id='total_descuento'><br></span>
+          <span id='total_envio'><br></span>
+          <span id='total_iva'></span><br><br>
+          <span id='total'></span><br>
         </fieldset>
       </div>
     </div>
@@ -461,8 +459,8 @@
       <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-dolly"></i> Envío</label>
         <span class='light-font'>
-          <input disabled form='form-store' type="radio" name="shipping" value="workshop"><span class='freight-img'><i class="fas fa-map-marker-alt"></i></span> Recoger en planta<br>
-          <input disabled form='form-store' type="radio" name="shipping" value="delivery" checked><span class='freight-img'><i class="fas fa-truck"></i></span> Envío a domicilio <strong>FedEx</strong><br>
+          <input disabled form='form-store' type="radio" name="shipping" id="workshop" value="workshop"><span class='freight-img'><i class="fas fa-map-marker-alt"></i></span> Recoger en planta<br>
+          <input disabled form='form-store' type="radio" name="shipping" id="delivery" value="delivery" checked><span class='freight-img'><i class="fas fa-truck"></i></span> Envío a domicilio <strong>FedEx</strong><br>
         </span>
         <br>
         <pre id='shippment_data' class="pure-input-1 notes"></pre>
@@ -486,8 +484,6 @@ Precios en pesos mexicanos.
     </div>
   </fieldset>
 </div>
-
-
 
 <div class="pure-form pure-form-stacked">
   <fieldset>
@@ -543,7 +539,6 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
       $('#status').text(response.status);
       $('#user_email').text(response.user_email);
       $('#order_webid').text(response.order_id);
-      $('#discount').val(response.discount);
       $('#addressed_to').text(response.addressed_to);
       $('#info_state').text(response.info_state);
       if (response.title) {
@@ -576,7 +571,7 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
         $('#mp-button').css('display','unset');
         $('#mp-text').text('');
       }else if (response.status == 'Solicitud' || response.status == 'Procesando'){
-        $('#mp-text').text('Calculando...');
+        $('#mp-text').text('Calculando ...');
       }
       $('#mp-status').text(status);
 
@@ -594,7 +589,7 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
           cart_item = cart_items[i]
           update_cart_item(cart_item,response.id,show_prices,'#sid-1');
         }
-      }
+      }else{$('#services_container').hide()}
 
       if (response.products_json){
         cart_items = response.products_json;
@@ -602,15 +597,16 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
           cart_item = cart_items[i]
           update_cart_item(cart_item,response.id,show_prices,'#pid-1');
         }
+      }else{$('#products_container').hide()}
+
+      if (response.shipping == 'delivery'){
+        var shippment_cost = response.shippment_json.precio_estimado;
+      }else{
+        var shippment_cost = false;
       }
 
-      if (show_prices){
-        update_total();
-      }else{
-        $("#subtotal").html('<small>Calculando...</small>');
-        $("#total_iva").html('<small>Calculando...</small>');
-        $("#total").html('<small>Calculando...</small>');
-      }
+      update_total(response.discount,show_prices,shippment_cost);
+
     })
   })
   function update_cart_item(cart_item,order_id,show_prices,details_id){
@@ -695,6 +691,20 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
       });
     })
   }
+  function approve_payment(payment_method){
+    var order_id = $('#oid').val();
+    current_user.always(function(){
+      var method = 'store_approve_payment';
+      var payload = {'order_id':order_id,'payment_method':payment_method};
+      showOkCancelDialog('Aprobar pago','Metodo: ' + payment_method).done(function(){
+        remoteCall(method,payload,false).done(function(response){
+          location.reload();
+        }).fail(function(){
+          messageAlert('Upps... algo no esta bien.');
+        })
+      });
+    })
+  }
   function print_order(element){
     $('#webuser_info').css('display','none');
     $('#admin_form').css('display','none');
@@ -714,10 +724,9 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
     address += json_data.estado + '   ' + json_data.cp + '\n'  ;
   	return address
   }
-  function update_total(){
+  function update_total(discount,show_prices,shippment_cost){
     var total = 0;
     var iva = .16;
-    var discount = parseFloat($('#discount').val());
     var total_discount = 0;
     var total_iva = 0;
     var subtotal = 0;
@@ -734,20 +743,29 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
       total = subtotal;
     };
 
+    total += shippment_cost;
     total_iva = total * iva;
     total += total_iva;
 
     $("#subtotal").text(formatCurrency(subtotal));
     $("#total_iva").text(formatCurrency(total_iva));
-    $("#total").text(formatCurrency(total));
+    $("#total").text(formatCurrency(total,'MXN'));
 
     if (discount) {
-      $("#total_descuento").text(formatCurrency(total_discount));
-      $("#total_descuento_text").text('Descuento ' + discount + '%:' );
+      $("#total_descuento").html(formatCurrency(total_discount)+'<br>');
+      $("#total_descuento_text").html('Descuento ' + discount + '%:<br>' );
     } else {
-      $("#total_descuento").text('-');
-      $("#total_descuento_text").text('-');
+      $("#total_descuento").remove();
+      $("#total_descuento_text").remove();
     }
+    if (shippment_cost) {
+      $("#total_envio").html(formatCurrency(shippment_cost)+'<br>');
+      $("#total_envio_text").html('Envío:<br>' );
+    } else {
+      $("#total_envio").remove();
+      $("#total_envio_text").remove();
+    }
+
   }
   function update_shipping(method){
     $('#'+method).attr("checked","checked");

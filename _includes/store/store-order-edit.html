@@ -115,6 +115,22 @@
     width:auto;
     margin-bottom: 5px;
   }
+  .move-right{
+    float:right;
+    font-size:11px;
+  }
+  .comment-input {
+    margin-top: 3px;
+    height:6em;
+    font-family: 'Inconsolata', monospace;
+    font-size:13px;
+  }
+  .shippment-input {
+    margin-top: 3px;
+    height:22em;
+    font-family: 'Inconsolata', monospace;
+    font-size:13px;
+  }
 
 </style>
 
@@ -201,24 +217,12 @@
 
 <div class="pure-form pure-form-stacked">
   <fieldset>
-    <legend>Productos
-    </legend>
+    <legend>Servicios <span class='move-right'> servicio + ( factor * cantidad * precio) </span></legend>
     <div class="pure-g">
-
       <div class="pure-u-1">
-        <div class='view-container-title'>
-          <p>  suplemento + ( factor * cantidad * precio) </p>
-        </div>
-        <br>
-      </div>
-
-      <div class="pure-u-1">
-
-        <details id='pid-1' class='cart-item'>
-
+        <details id='sid-1' class='cart-item'>
           <input id='item_id'  type='hidden' value='' name='item_id'>
           <input id='order_id' type='hidden' value='' name='order_id'>
-
           <summary class='summary'>
             <h id='header_text'><b>Servicio</b>Nombre del articulo</h>
             <pre id='item_data' class="pure-input-1 data-input"></pre>
@@ -230,47 +234,42 @@
               <input id='price_supplement' onchange="edit_order_item(this)" class='suplemento' type='number' name='price_supplement' value='0' min='0' max='999'>
             </p>
             <p id='item_total' class='item-total'> Total </p>
-
           </summary>
           <pre id='info' class='info'></pre>
           <a onclick="remove_order_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a>
-
         </details>
       </div>
     </div>
   </fieldset>
 </div>
 
-<!-- <div class="pure-form">
-  <legend>Productos
-    <span class='precio'>precio unit. )</span>
-    <span class='factor'>factor</span>
-    <span class='cantidad'>( cantidad</span>
-    <span class='suplemento' >suplemento +</span>
-  </legend>
-  <div class="pure-g">
-    <div class="pure-u-1">
-      <fieldset>
+<div class="pure-form pure-form-stacked">
+  <fieldset>
+    <legend>Productos <span class='move-right'> suplemento + ( factor * cantidad * precio) </span></legend>
+    <div class="pure-g">
+      <div class="pure-u-1">
         <details id='pid-1' class='cart-item'>
           <input id='item_id'  type='hidden' value='' name='item_id'>
           <input id='order_id' type='hidden' value='' name='order_id'>
-          <summary class='summary'><h id='header_text'></h>
-            <input id='price' onchange="edit_order_item(this)" class='precio' type='number' name='price' value='1' min='1' max='9999999'>
-            <input id='price_factor' onchange="edit_order_item(this)" class='factor' type='number' name='price_factor' step='0.1' value='1' min='1' max='99'>
-
-            <input id='qty' onchange="edit_order_item(this)" class='cantidad' type='number' name='qty' value='1' min='1' max='99'>
-            <input id='price_supplement' onchange="edit_order_item(this)" class='suplemento' type='number' name='price_supplement' value='0' min='0' max='99'>
-
-            <textarea   id='item_comment' name="item_comment" class="pure-input-1 comment-input" onchange="edit_order_item(this)" placeholder="Comment"></textarea>
-            <span id='item_total' class='item-total'> Total </span>
-            <a onclick="remove_order_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a>
+          <summary class='summary'>
+            <h id='header_text'><b>Servicio</b>Nombre del articulo</h>
+            <pre id='item_data' class="pure-input-1 data-input"></pre>
+            <textarea id='item_comment' name="item_comment" class="pure-input-1 comment-input" onchange="edit_order_item(this)" placeholder="Comment"></textarea>
+            <p class='view-container'>
+              <input id='price' onchange="edit_order_item(this)" class='precio' type='number' name='price' value='1' min='1' max='9999999'>
+              <input id='qty' onchange="edit_order_item(this)" class='cantidad' type='number' name='qty' value='1' min='1' max='999'>
+              <input id='price_factor' onchange="edit_order_item(this)" class='factor' type='number' name='price_factor' step='0.1' value='1' min='1' max='999'>
+              <input id='price_supplement' onchange="edit_order_item(this)" class='suplemento' type='number' name='price_supplement' value='0' min='0' max='999'>
+            </p>
+            <p id='item_total' class='item-total'> Total </p>
           </summary>
-          <pre id='info'></pre>
+          <pre id='info' class='info'></pre>
+          <a onclick="remove_order_item(this);" class='delete-item'>Borrar <i class="fas fa-trash"></i></a>
         </details>
-      </fieldset>
+      </div>
     </div>
-  </div>
-</div> -->
+  </fieldset>
+</div>
 
 
 <div class="pure-form pure-form-stacked">
@@ -312,10 +311,10 @@
         <fieldset class="pure-group">
           <input form='form-store' name="nombre" type="text" class="pure-input-1" placeholder="Nombre">
           <input form='form-store' name="email" type="email" class="pure-input-1" placeholder="Correo electrónico">
-          <br>
-          <label><i class="fas fa-dolly"></i> Envío</label>
-          <input id="carrier" form='form-store' name="carrier" type="text" class="pure-input-1" placeholder="Comapañia">
-          <input id="track_id" form='form-store' name="track_id" type="text" class="pure-input-1" placeholder="Número de rastreo">
+        </fieldset>
+        <fieldset class="somespace">
+          <input  id="workshop" type="radio" name="shipping" value="workshop" form='form-store'> <i class="fas fa-map-marker-alt"></i> Recojer en planta<br>
+          <input  id="delivery" type="radio" name="shipping" value="delivery" form='form-store'> <i class="fas fa-truck"></i> Envio a domicilio<br>
         </fieldset>
       </div>
       <div class="pure-u-1-1 pure-u-md-1-2">
@@ -329,9 +328,10 @@
             <input form='form-store' name="estado" class="pure-input-1" placeholder="Estado" >
             <input form='form-store' name="cp" class="pure-input-1" placeholder="CP" >
         </fieldset>
+
         <fieldset class="somespace">
-          <input  id="workshop" type="radio" name="shipping" value="workshop" form='form-store'> <i class="fas fa-map-marker-alt"></i> Recojer en planta<br>
-          <input  id="delivery" type="radio" name="shipping" value="delivery" form='form-store'> <i class="fas fa-truck"></i> Envio a domicilio<br>
+          <label><i class="fas fa-dolly"></i> Envío</label>
+          <textarea id='shippment_json' form='form-store' name="shippment_json" class="pure-input-1 shippment-input"  placeholder="Notas"></textarea>
         </fieldset>
       </div>
     </div>
@@ -364,7 +364,6 @@
         update_form(response.address_json);
         update_form(response.contact_json);
         update_form(response.invoice_json);
-        update_form(response.shippment_json);
         update_shipping(response.shipping);
         $('#oid').val(response.id);
         $('#date_created').val(response.date_created);
@@ -377,22 +376,32 @@
         $('#order_webid').text(response.order_id);
         $('#notes').val(response.notes);
         $('#addressed_to').val(response.addressed_to);
+        $('#shippment_json').val(JSON.stringify(response.shippment_json, null, '  '));
 
-        cart_items = response.items_json;
         var cart_item;
-
-        for (var i = 0; i < cart_items.length; i++) {
-          cart_item = cart_items[i]
-          update_cart_item(cart_item,response.id);
+        if (response.services_json){
+          cart_items = response.services_json;
+          for (var i = 0; i < cart_items.length; i++) {
+            cart_item = cart_items[i]
+            update_cart_item(cart_item,response.id,'#sid-1');
+          }
         }
-      update_total();
+        if (response.products_json){
+          cart_items = response.products_json;
+          for (var i = 0; i < cart_items.length; i++) {
+            cart_item = cart_items[i]
+            update_cart_item(cart_item,response.id,'#pid-1');
+          }
+        }
+
+        update_total();
       })
     })
   })
 
-  function update_cart_item(cart_item,order_id){
-    var cart_item_container = $('#pid-1')
-    cart_item_container.clone().attr('id',cart_item.id).insertAfter($('#pid-1'));
+  function update_cart_item(cart_item,order_id,container_id){
+    var cart_item_container = $(container_id)
+    cart_item_container.clone().attr('id',cart_item.id).insertAfter(container_id);
     new_cart_item = $('#'+ cart_item.id );
     new_cart_item.find('#item_id').val(cart_item.id);
     new_cart_item.find('#order_id').val(order_id);

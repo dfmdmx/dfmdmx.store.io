@@ -16,7 +16,6 @@
     width : 100% ;
     line-height: 1.3em;
   }
-
   .summary {
     height:auto;
   }
@@ -142,6 +141,7 @@
 
   function set_cart_containers(cart_items,container_id){
     var cart_item;
+    console.log('id',container_id);
     var cart_item_container = $(container_id)
     for (var i = 0; i < cart_items.length; i++) {
       cart_item = cart_items[i]

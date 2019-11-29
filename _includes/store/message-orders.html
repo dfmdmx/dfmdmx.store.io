@@ -14,15 +14,12 @@
   }
   .close-cross{
     float:right;
-    height: 14px;
-    margin:10px;
-    margin-top:25px;
   }
 </style>
 
 <div class="pure-g">
   <div class="pure-u-1">
-    <a onclick='open_info_message();' id='open_close_info' class='close-cross'><i class="fas fa-expand"></i></a>
+    <a onclick='open_info_message();' id='open_close_info' class='close-cross'><i class="fas fa-info-circle"></i></a>
     <div id="info_message" class='info-message'>
       <h4>Revisa el estado de tus órdenes. </h4>
       <ul>
@@ -42,20 +39,20 @@
     if (getCookie(cookie_name) != 'off'){
       $('#info_message').css('display','block');
       $('#open_close_info').attr('onclick','close_info_message();');
-      $('#open_close_info').html('<i class="fas fa-compress"></i>');
+      $('#open_close_info').html('<i class="fas fa-times-circle"></i>');
       setCookie(cookie_name,'on',90)
     }
   });
   function close_info_message(){
     $('#info_message').css('display','none');
     $('#open_close_info').attr('onclick','open_info_message();');
-    $('#open_close_info').html('<i class="fas fa-expand"></i>');
+    $('#open_close_info').html('<i class="fas fa-info-circle"></i>');
     setCookie(cookie_name,'off',90)
   }
   function open_info_message(){
     $('#info_message').css('display','block');
     $('#open_close_info').attr('onclick','close_info_message();');
-    $('#open_close_info').html('<i class="fas fa-compress"></i>');
+    $('#open_close_info').html('<i class="fas fa-times-circle"></i>');
     setCookie(cookie_name,'on',90)
   }
 </script>
