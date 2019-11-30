@@ -115,12 +115,12 @@
     font-family: 'Inconsolata', monospace;
     font-size: 16px;
   }
-  .mp-status {
+  .payment-status {
     paddin-top:3px;
     margin-left:17px;
     vertical-align: middle;
     font-family: 'Inconsolata', monospace;
-    font-size: 18px;
+    font-size: 16px;
   }
   .payment {
     display: none;
@@ -227,6 +227,9 @@
   .light-font{
     font:400 12px "Montserrat", sans-serif;
   }
+  .loading-price{
+    font:400 12px "Montserrat", sans-serif;
+  }
 
 </style>
 
@@ -235,7 +238,6 @@
     <fieldset>
       <legend>Servicio al cliente</legend>
       <div class="pure-g">
-
         <div class="pure-u-1 admin-button">
           <small>
           <a onclick="send_mail('orden_recibida');" ><i class="fas fa-at"></i> Orden recibida </a>
@@ -294,7 +296,6 @@
           <img src="/assets/images/logo_hangarmx_black.svg"><br>
           ID: <span id ='order_webid' class="pure-input-1"></span>
         </div>
-
     </div>
     <div class="pure-u-1 payment-container">
     </div>
@@ -311,7 +312,6 @@
   <fieldset>
     <legend>Orden</legend>
     <div class="pure-g">
-
       <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-receipt"></i> Datos</label>
         Solicita: <b><span id ='addressed_to' class="pure-input-1"></span></b><br>
@@ -327,11 +327,9 @@
       </div>
       <div class="pure-u-1">
         <label><i class="fas fa-credit-card"></i> Pago</label>
-        <span id='mp-text'></span>
         <a class='payment' id='mp-button' href="/"><button class="pure-button pure-button-primary"><img class='mp-image' src="/assets/images/mp_horizontal_blanco.png"> Realizar pago</button></a>
-        <span id='mp-status' class='mp-status'></span>
+        <span id='payment-status' class='payment-status'></span>
       </div>
-
     </div>
   </fieldset>
 </div>
@@ -474,11 +472,11 @@
     <legend>Anexo</legend>
     <div class="pure-g">
 
-      <div class="pure-u-1 pure-u-md-1-2">
+      <div class="pure-u-1">
         <label><i class="fas fa-receipt"></i> Notas</label>
         <pre id='notes' class="pure-input-1 notes"></pre>
         <pre class="pure-input-1 notes">
-Precios en pesos mexicanos.
+Para compras en línea que contienen solo productos los árticulos normalmente se entregan en un lapso de 3 a 5 días. Dependiendo de la solcitud por lo regular el lapso para entregar los árticulos de las compras en linea con servicios es de 5 a 15 días.
         </pre>
       </div>
     </div>
@@ -557,23 +555,24 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
         $('#notes').css('display','none');
       }
 
-      // Activa y desactiva el boton y el estado de pago
-      var status = '';
-      if (response.payment_json.status == 'approved'){
-        status = '- PAGO APROBADO'
-      };
-      if (response.payment_json.status == 'pending'){
-        status = '- PAGO PENDIENTE'
-        $('#payment').css('display','unset');
-      };
+      var mp_active = false;
       if (response.status == 'Activa' && response.mp_json.preference && response.payment_json.status != 'approved' ){
         $('#mp-button').attr("href",response.mp_json.preference.sandbox_init_point);
         $('#mp-button').css('display','unset');
-        $('#mp-text').text('');
-      }else if (response.status == 'Solicitud' || response.status == 'Procesando'){
-        $('#mp-text').text('Calculando ...');
+        mp_active = true;
       }
-      $('#mp-status').text(status);
+
+      var status = '';
+      if (response.payment_json.status == 'approved'){
+        status = 'Aprobado'
+      }else if (response.payment_json.status == 'pending'){
+        status = 'Pendiente'
+      }
+      if (mp_active == false && response.payment_json.status != 'approved'){
+        $('#payment-status').html('<span class="loading-price">Calculando</span>');
+      }else{
+        $('#payment-status').text(status)
+      }
 
 
       // Mostrar los precios solo cuando esten listos
@@ -595,17 +594,11 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
         cart_items = response.products_json;
         for (var i = 0; i < cart_items.length; i++) {
           cart_item = cart_items[i]
-          update_cart_item(cart_item,response.id,show_prices,'#pid-1');
+          update_cart_item(cart_item,response.id,true,'#pid-1');
         }
       }else{$('#products_container').hide()}
 
-      if (response.shipping == 'delivery'){
-        var shippment_cost = response.shippment_json.precio_estimado;
-      }else{
-        var shippment_cost = false;
-      }
-
-      update_total(response.discount,show_prices,shippment_cost);
+      update_total(response.discount,show_prices,(response.shipping == 'delivery'),response.shippment_json.precio_estimado);
 
     })
   })
@@ -631,6 +624,7 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
       calculate_item_total(new_cart_item);
       new_cart_item.find('#item_comment').text(cart_item.comment);
     }
+
     new_cart_item.find('#item_data').text(json_data(cart_item.data_json));
 
     var json_order = json_order_item(cart_item);
@@ -647,6 +641,7 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
     }
     new_cart_item.css('display','block');
   }
+
   function calculate_item_total(element){
     details = $(element.closest('details'));
     var item_id = details.find('#item_id').val();
@@ -724,7 +719,25 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
     address += json_data.estado + '   ' + json_data.cp + '\n'  ;
   	return address
   }
-  function update_total(discount,show_prices,shippment_cost){
+  function update_total(discount,show_prices,shipping,shippment_cost){
+
+    if (show_prices == false){
+      if (discount) {
+        $("#total_descuento_text").html('Descuento ' + discount + '%:<br>' );
+      } else {
+        $("#total_descuento").remove();
+        $("#total_descuento_text").remove();
+      }
+      if (shipping) {
+        $("#total_envio_text").html('Envío:<br>' );
+      } else {
+        $("#total_envio").remove();
+        $("#total_envio_text").remove();
+      }
+      $("#total").html('<span class="loading-price">Calculando</span><br>');
+      return
+    }
+
     var total = 0;
     var iva = .16;
     var total_discount = 0;
@@ -742,7 +755,6 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
     }else{
       total = subtotal;
     };
-
     total += shippment_cost;
     total_iva = total * iva;
     total += total_iva;
@@ -750,7 +762,6 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
     $("#subtotal").text(formatCurrency(subtotal));
     $("#total_iva").text(formatCurrency(total_iva));
     $("#total").text(formatCurrency(total,'MXN'));
-
     if (discount) {
       $("#total_descuento").html(formatCurrency(total_discount)+'<br>');
       $("#total_descuento_text").html('Descuento ' + discount + '%:<br>' );
@@ -758,14 +769,13 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
       $("#total_descuento").remove();
       $("#total_descuento_text").remove();
     }
-    if (shippment_cost) {
+    if (shipping) {
       $("#total_envio").html(formatCurrency(shippment_cost)+'<br>');
       $("#total_envio_text").html('Envío:<br>' );
     } else {
       $("#total_envio").remove();
       $("#total_envio_text").remove();
     }
-
   }
   function update_shipping(method){
     $('#'+method).attr("checked","checked");
