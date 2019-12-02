@@ -3,6 +3,9 @@
     width : 100% ;
     margin-top:.7em;
   }
+  .go-cart-button {
+    float:right;
+  }
   .add-qty{
     margin-top:.7em;
     margin-left:20px;
@@ -34,7 +37,7 @@
       <div id='price' class='product-price'>Total</div>
     </div>
 
-    <div class="pure-u-1">
+    <div class="pure-u-1 pure-u-md-1-2">
       <div id="message-text"></div>
     </div>
 
@@ -53,7 +56,7 @@ var is_product = false;
 function set_product_info(item){
   var qty = $('#qty').val()
   $('#price').text(formatCurrency((item.price_web * qty),'mxn'));
-  $('#product_info').text(json_dumps(item));
+  $('#md5_pid').text('/ ' + item.md5);
 }
 
 function update_product(){
@@ -65,7 +68,6 @@ function update_product(){
       product.resolve(response.product).promise();
     }).fail(function(){
       console.log('satetilite malfunction');
-
       product.reject(false).promise();
 
     });

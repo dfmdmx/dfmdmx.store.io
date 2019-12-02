@@ -530,7 +530,7 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
       $('#address_data').text(json_address(response.address_json));
       update_form(response.contact_json);
       update_form(response.invoice_json);
-      $('#shippment_data').text(json_dumps(response.shippment_json));
+
       update_shipping(response.shipping);
       $('#date_created').text(response.date_created);
       $('#date_delivery').text(response.date_delivery);
@@ -573,12 +573,16 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
       }else{
         $('#payment-status').text(status)
       }
-
-
       // Mostrar los precios solo cuando esten listos
       var show_prices = false;
       if (response.status != 'Solicitud' && response.status != 'Procesando') {
         show_prices = true;
+      }
+
+      if (response.shipping == 'delivery' && show_prices) {
+        $('#shippment_data').text(json_dumps(response.shippment_json));
+      }else{
+        $('#shippment_data').css('display','none');
       }
 
       var cart_item;

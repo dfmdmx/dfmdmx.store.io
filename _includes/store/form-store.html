@@ -27,7 +27,7 @@
           window.location.replace("/order");
         }else{
           if (method != 'store_edit_order')  {
-            messageHTML('¡Listo! <a href="/order-create"> Continuar a crear orden <i class="fas fa-shopping-cart"></i> </a> ');
+            messageHTML('¡Agregado! <a class="pure-button go-cart-button" href="/order-create"> Continuar a Crear Orden <i class="fas fa-shopping-cart"></i> </a> ');
             form_store.trigger('reset');
             if (upload_files.length != 0){
               reset_files();
