@@ -57,6 +57,7 @@ function set_product_info(item){
   var qty = $('#qty').val()
   $('#price').text(formatCurrency((item.price_web * qty),'mxn'));
   $('#md5_pid').text('/ ' + item.md5);
+  $('#item_pid').val(item.md5);
 }
 
 function update_product(){
@@ -69,7 +70,6 @@ function update_product(){
     }).fail(function(){
       console.log('satetilite malfunction');
       product.reject(false).promise();
-
     });
   });
 }
@@ -80,7 +80,7 @@ $(document).ready(function () {
   if (is_product){
     update_product();
     product.done(function(product){
-      $('#item_pid').val(product.md5);
+      set_product_info(product);
     });
     var form_inputs = $("[form='form-store']")
     form_inputs.each(function(e){
