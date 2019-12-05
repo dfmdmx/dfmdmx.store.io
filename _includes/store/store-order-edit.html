@@ -131,6 +131,11 @@
     font-family: 'Inconsolata', monospace;
     font-size:13px;
   }
+  .update-shippment{
+    float:right;
+    font-family: 'Inconsolata', monospace;
+    font-size:13px;
+  }
 
 </style>
 
@@ -332,6 +337,7 @@
         <fieldset class="somespace">
           <label><i class="fas fa-dolly"></i> Envío</label>
           <textarea id='shippment_json' form='form-store' name="shippment_json" class="pure-input-1 shippment-input"  placeholder="Notas"></textarea>
+          <a onclick="update_shippment();" class='update-shippment'><i class="fas fa-sync-alt"></i> Recalcular envío </a>
         </fieldset>
       </div>
     </div>
@@ -425,7 +431,6 @@
     var price_factor = details.find('#price_factor').val();
     var price_supplement = details.find('#price_supplement').val();
     var total = qty * price * price_factor
-    console.log(total);
     if (price_supplement){
       total += parseFloat(price_supplement)
     }
@@ -513,6 +518,19 @@
         $('#add_item_text').text('md5 invalido');
       })
 
+    })
+  }
+
+  function update_shippment(){
+    var order_id = $('#oid').val();
+    current_user.always(function(){
+      var method = 'store_update_shippment';
+      var payload = {'order_id':order_id};
+      remoteCall(method,payload,false).done(function(response){
+        $('#shippment_json').val(JSON.stringify(response.shippment_json, null, '  '));
+      }).fail(function(){
+        messageAlert('Upps... algo no esta bien.');
+      })
     })
   }
 

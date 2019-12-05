@@ -556,7 +556,7 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
       }
 
       var mp_active = false;
-      if (response.status == 'Activa' && response.mp_json.preference && response.payment_json.status != 'approved' ){
+      if (response.status == 'Activa' && response.mp_json.preference && response.payment_json.status != 'approved'  && !response.shippment_json.error ){
         $('#mp-button').attr("href",response.mp_json.preference.sandbox_init_point);
         $('#mp-button').css('display','unset');
         mp_active = true;
@@ -575,12 +575,20 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
       }
       // Mostrar los precios solo cuando esten listos
       var show_prices = false;
-      if (response.status != 'Solicitud' && response.status != 'Procesando') {
+      if (response.status != 'Solicitud' && response.status != 'Procesando' && !response.shippment_json.error) {
         show_prices = true;
       }
 
       if (response.shipping == 'delivery' && show_prices) {
-        $('#shippment_data').text(json_dumps(response.shippment_json));
+        if (response.shippment_json.tipo_servicio == 'nextday'){
+          var servicio = 'Día siguiente'
+        }else if (response.shippment_json.tipo_servicio == 'standard'){
+          var servicio = 'Terrestre 2-5 días'
+        }else{
+          var servicio = 'Especial'
+        }
+        var data = {'Empresa':response.shippment_json.empresa,'Servicio':servicio,'Guías de rastreo':response.shippment_json.guias_rastreo}
+        $('#shippment_data').text(json_dumps(data));
       }else{
         $('#shippment_data').css('display','none');
       }
@@ -704,6 +712,7 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
       });
     })
   }
+
   function print_order(element){
     $('#webuser_info').css('display','none');
     $('#admin_form').css('display','none');
