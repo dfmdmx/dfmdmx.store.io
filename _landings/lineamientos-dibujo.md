@@ -45,6 +45,11 @@ Si vas a realizar el despiece por tu cuenta, contempla dejar 20mm entre piezas y
 
 {% include utils/image-binder.html imageFile='images/EjemploDespiece.png' caption='Ejemplo lineamiento para despiece' %}
 
+## Cantos PVC
+Para especificar los lados que llevan canto en tus piezas;  En dibujos 2D coloca una línea paralela de color negro a un lado del canto correspondiente. En el caso de mandar tu dibujo en 3D, modela el canto donde se requiera.
+
+{% include utils/image-binder.html imageFile='images/EjemploCanteadoPVC.png' caption='Ejemplo especificación de cantos PVC 2D y 3D' %}
+
 ## Impresión 3D
 ### Archivo digital STL para impresión 3D
 Es importante mandar polígonos u objetos cerrados e incluir en tu diseño las restricciones físicas del tipo de Impresión para evitar deformaciones o puentes de soporte excesivos.  

@@ -65,3 +65,16 @@ blockquote {
 }
 // reCAPTCHA
 .grecaptcha-badge { visibility: hidden; }
+
+// links pero que siempre estan negros
+.title-link{
+  font:400 14px "Montserrat", sans-serif;
+  height:1.5em;
+  margin-bottom:5px;
+}
+.title-link a {
+  color: #111;
+}
+.title-link a:visited{
+  color: #111;
+}

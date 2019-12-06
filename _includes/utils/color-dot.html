@@ -1,0 +1,13 @@
+{% capture dot_id %}_dot{{include.color | replace: '#', ''}}{{include.size}}{%endcapture%}
+<style>
+.{{dot_id}} {
+  height:{{include.size}};
+  width:{{include.size}};
+  background-color: {{include.color}};
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: sub;
+  border: 1px solid gray;
+}
+</style>
+<span class="{{dot_id}}"></span>

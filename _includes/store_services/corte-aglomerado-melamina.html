@@ -25,13 +25,61 @@
 
       <div class="pure-u-1 pure-u-md-1-2">
         <label>Color</label>
-        <input form='form-store' type="radio" name="color" value="BlancoFrosty-Masisa" checked> Blanco Frosty - Masisa <br>
-        <input form='form-store' type="radio" name="color" value="BlancoAbsoluto-Masisa" checked> Blanco Absoluto - Masisa <br>
-        <input form='form-store' type="radio" name="color" value="GrisOxford-Masisa"> Gris Oxford - Masisa <br>
+        <input form='form-store' type="radio" name="color" value="BlancoFrosty-Masisa" checked> {%include utils/color-dot.html size='16px' color='#fcfcfc'%} Blanco Frosty - Masisa<br>
+        <input form='form-store' type="radio" name="color" value="BlancoAbsoluto-Masisa"> {%include utils/color-dot.html size='16px' color='#fafafa'%} Blanco Absoluto - Masisa<br>
+        <input form='form-store' type="radio" name="color" value="GrisOxford-Masisa"> {%include utils/color-dot.html size='16px' color='#bbb'%} Gris Oxford - Masisa<br>
       </div>
 
     </div>
   </fieldset>
+
+  <fieldset>
+    <style>
+      .cubrecantos_data{
+        display:none;
+      }
+    </style>
+    <legend>Postprocesos y acabados</legend>
+    <div class="pure-g">
+      <div class="pure-u-1">
+      <p class='title-link'><a href='/lineamientos-dibujo/#cantos-pvc'>Lineamientos para ubicación de cantos en tu dibujo CAD <i class="fas fa-drafting-compass"></i></a></p>
+      </div>
+      <div class="pure-u-1 pure-u-md-1-3">
+        <label>Acabado de cantos</label>
+        <input onchange='check_options(this)' form='form-store' type="radio" name="info_cubrecantos" value="natural" checked> Natural<br>
+        <input onchange='check_options(this)' form='form-store' type="radio" name="info_cubrecantos" value="pvc"> Cubrecantos PVC<br>
+      </div>
+      <div class="pure-u-1 pure-u-md-1-3 cubrecantos_data">
+        <label>Espesor PVC</label>
+        <input form='form-store' type="radio" name="info_cubrecantos_grosor" value="1"> 1 mm<br>
+        <input form='form-store' type="radio" name="info_cubrecantos_grosor" value="2"> 2 mm<br>
+      </div>
+      <div class="pure-u-1 pure-u-md-1-3 cubrecantos_data">
+        <label>Metros lineales</label>
+        <input form='form-store' type="radio" name="info_cubrecantos_cantidad" value="0-100"> 0 - 100 m<br>
+        <input form='form-store' type="radio" name="info_cubrecantos_cantidad" value="100-300"> 100 - 300 m<br>
+        <input form='form-store' type="radio" name="info_cubrecantos_cantidad" value="300-1000"> + 300 m<br>
+      </div>
+    </div>
+    <script>
+      function check_options(element){
+        var el = $(element)
+        if (el.prop('checked') && el.val() == "natural"){
+          $('.cubrecantos_data').each(function(){
+            $(this).prop('required',false);
+            $(this).hide()
+          })
+        }else if (el.prop('checked') && el.val() == "pvc"){
+          $('.cubrecantos_data').each(function(i){
+            $(this).prop('required',true);
+            $(this).show();
+          })
+        }
+      }
+    </script>
+  </fieldset>
+
 </div>
+
 
 {% include store/input-submit.html %}
