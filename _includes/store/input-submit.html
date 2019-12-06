@@ -22,11 +22,18 @@
     font-family: 'Inconsolata', monospace;
     font-size:19px;
   }
+  .info-service{
+    font-family: 'Inconsolata', monospace;
+    font-size:14px;
+  }
 </style>
 
 <div class="pure-form">
   <legend>Todo listo</legend>
   <div class="pure-g">
+    <div class="pure-u-1" id='info_service'>
+      <span class="info-service">Agrega la cantidad de material que estas contemplando para tu servicio, puede ser aproximada.</span>
+    </div>
     <div class="pure-u-1 pure-u-md-1-2">
       <button id='button-submit' form='form-store' type="submit" class="pure-button send-button pure-button-primary">Agregar <i class="fas fa-shopping-cart"></i></button>
     </div>
@@ -36,8 +43,7 @@
     <div class="pure-u-1-2 pure-u-md-1-4">
       <div id='price' class='product-price'>Total</div>
     </div>
-
-    <div class="pure-u-1 pure-u-md-1-2">
+    <div class="pure-u-1">
       <div id="message-text"></div>
     </div>
 
@@ -92,6 +98,9 @@ $(document).ready(function () {
 
   }else{
     product.reject(false).promise();
+  }
+  if (layout != 'service') {
+    $('#info_service').hide();
   }
 });
 
