@@ -2,6 +2,7 @@
 <style>
 
     .image-gallery  {
+      display: none;
       margin-top: 30px;
       margin-bottom: 30px;
     }
@@ -93,11 +94,14 @@
     $('.image-gallery').find('.imagelink').each(function(){
       images.push(this.src);
     });
-    var payload = {'urls':images}
-    var method = 'crop_images'
-    remoteCall(method,payload,false).done(function(response){
-      }).fail(function(){
-        console.log(method + ' error');
-      })
+    if (images.length > 0) {
+      $('.image-gallery').show();
+      var payload = {'urls':images};
+      var method = 'crop_images';
+      remoteCall(method,payload,false).done(function(response){
+        }).fail(function(){
+          console.log(method + ' error');
+        })
+    }
   });
 </script>

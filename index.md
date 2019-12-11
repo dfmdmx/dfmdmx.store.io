@@ -11,4 +11,4 @@ title: Manufactura digital
 Tienda en línea de productos maquinados en CNC, servicio de corte con router de control numérico e impresión 3D.
 
 
-### ¡Abrimos el 9 de diciembre!
+### ¡Abrimos el 16 de diciembre!

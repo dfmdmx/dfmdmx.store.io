@@ -41,7 +41,7 @@
       <input id='qty' class='add-qty' form='form-store' type='number' name='qty' value='1' min='1' max='99'>
     </div>
     <div class="pure-u-1-2 pure-u-md-1-4">
-      <div id='price' class='product-price'>Total</div>
+      <div id='price' class='product-price'></div>
     </div>
     <div class="pure-u-1">
       <div id="message-text"></div>
@@ -61,7 +61,9 @@ var is_product = false;
 
 function set_product_info(item){
   var qty = $('#qty').val()
-  $('#price').text(formatCurrency((item.price_web * qty),'mxn'));
+  if (item.price_web > 0) {
+    $('#price').text(formatCurrency((item.price_web * qty),'mxn'));
+  }
   $('#md5_pid').text('/ ' + item.md5);
   $('#item_pid').val(item.md5);
 }
