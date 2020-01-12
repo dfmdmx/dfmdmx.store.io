@@ -19,33 +19,34 @@
 
 <div class='pure-g'>
 {% for product in site.products %}
-  {% if product.group == group %}
-    {% capture filename %}/assets/binder/{{ product.date | date: "%Y-%m-%d" }}-{{ product.title | slugify }}/fotos/main{% endcapture %}
-    {% for file in site.static_files %}
-      {% if file.path contains filename %}
-        {% assign filepath = file.path %}
-        {% break %}
-      {% endif %}
-    {% endfor %}
+  {% if product.publish %}
+    {% if product.group == group %}
+      {% capture filename %}/assets/binder/{{ product.date | date: "%Y-%m-%d" }}-{{ product.title | slugify }}/fotos/main{% endcapture %}
+      {% for file in site.static_files %}
+        {% if file.path contains filename %}
+          {% assign filepath = file.path %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
 
-    <div class="pure-u-1-4">
-      <div class="product-box">
-        <a href="{{ product.url }}">{{ product.title }}
-        <img class='pure-img' src="{{site.data.callback.th-url}}{{ filepath | replace: '/','_' }}" alt="{{ filepath }}" title="{{ filepath }}" />
-        </a>
+      <div class="pure-u-1-4">
+        <div class="product-box">
+          <a href="{{ product.url }}">{{ product.title }}
+          <img class='pure-img' src="{{site.data.callback.th-url}}{{ filepath | replace: '/','_' }}" alt="{{ filepath }}" title="{{ filepath }}" />
+          </a>
+        </div>
       </div>
-    </div>
 
+    {% endif %}
+
+    {% if row_count == 5 %}
+      {% assign row_count = 1 %}
+      </div>
+      <div class='pure-g'>
+    {% endif %}
+
+    {% assign img_count =  1 %}
+    {% assign row_count =  1 %}
   {% endif %}
-
-  {% if row_count == 5 %}
-    {% assign row_count = 1 %}
-    </div>
-    <div class='pure-g'>
-  {% endif %}
-
-  {% assign img_count =  1 %}
-  {% assign row_count =  1 %}
-
 {% endfor %}
 </div>

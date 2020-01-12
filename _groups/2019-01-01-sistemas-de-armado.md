@@ -1,7 +1,6 @@
 ---
 layout: group
-admin: false
-comments: false
+publish: true
 ---
 
 ### OpenBuilds

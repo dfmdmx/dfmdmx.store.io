@@ -14,14 +14,5 @@ layout: default
     {{ content }}
   </div>
 
-  {%- if page.comments -%}
-    {%- if site.disqus.shortname -%}
-    <details>
-    <summary> <b> Preguntas y comentarios </b> </summary>
-      {%- include disqus_comments.html -%}
-    </details>
-    {%- endif -%}
-  {%- endif -%}
-
   <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
 </article>

@@ -1,6 +1,7 @@
 ---
 layout: product
 group: sistemas-de-armado
+publish: false
 comments: false
 ---
 
@@ -11,7 +12,6 @@ comments: false
 >“ V-Slot Linear Rails are precise, easy to work with and allows you unlimited design control through it's modular nature."
 
 Much like working with lumber, you can cut V-Slot on a chop saw (using a metal blade) or even use a hacksaw. From there, you simply use a screw driver to make the connections.
-
 
 {% include utils/image-gallery.html name='fotos' %}
 {% include store_products/perfil-vslot.html %}
