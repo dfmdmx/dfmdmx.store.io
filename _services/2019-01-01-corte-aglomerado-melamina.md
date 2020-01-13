@@ -1,7 +1,7 @@
 ---
 layout: service
 group: corte-cnc
-publish: true
+publish: false
 comments: true
 ---
 
