@@ -76,8 +76,10 @@
 <header class="site-header" role="banner">
 
   <div class="wrapper">
+
+    <!-- Not used minima theme default index
     {%- assign default_paths = site.pages | map: "path" -%}
-    {%- assign page_paths = site.header_pages | default: default_paths -%}
+    {%- assign page_paths = site.header_pages | default: default_paths -%} -->
 
     <div class="title-header">
       <a href="/"><img id="logo-image" class="logo-image" src="/assets/images/logo_hangarmx_white.svg"></a>
@@ -91,6 +93,7 @@
 
     <div class="pure-menu pure-menu-horizontal custom-menu">
         <ul class="pure-menu-list">
+            {% if site.show_services %}
             <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
                 <a href="#" id="menuLink1" class="pure-menu-link">Servicios</a>
                 <ul class="pure-menu-children">
@@ -101,7 +104,9 @@
                   {% endfor %}
                 </ul>
             </li>
-            <!-- <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            {% endif %}
+            {% if site.show_products %}
+            <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
                 <a href="#" id="menuLink1" class="pure-menu-link">Productos</a>
                 <ul class="pure-menu-children">
                   {% for group in site.groups %}
@@ -110,7 +115,8 @@
                     {% endif %}
                   {% endfor %}
                 </ul>
-            </li> -->
+            </li>
+            {% endif %}
         </ul>
     </div>
   </div>

@@ -1,8 +1,8 @@
 ---
 layout: group
-publish: false
+publish: true
 ---
 
-### OpenBuilds
+### Unidades de servicio
 
 {% include store/products-menu.html %}

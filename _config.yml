@@ -20,11 +20,16 @@ collections:
     output: true
   landings:
     output: true
+#Header menu activations
+show_services: true
+show_products: false
 
+# Comments login
 disqus:
   shortname: hangarmx
   comments: false
 
+# Live chat active
 tawk: true
 
 # social links
@@ -53,11 +58,10 @@ instagram_username: _hangarmx
 # refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
 minima:
   date_format: "%b %-d, %Y"
-
 # If you want to link only specific pages in your header, uncomment
 # this and add the path to the pages in order as they should show up
 header_pages:
-  - checkout.md
+#  - checkout.md
 #  - software.md
 #  - gallery.md
 #  - about.md
