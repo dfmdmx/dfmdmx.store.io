@@ -111,7 +111,7 @@
                 <ul class="pure-menu-children">
                   {% for group in site.groups %}
                     {% if group.publish or jekyll.environment == 'production' %}
-                      <li class="pure-menu-item"><a href="{{ group.url }}" class="pure-menu-link">{{ group.title }}</a></li>
+                      <li class="pure-menu-item"><a href="{{ group.url }}" class="pure-menu-link">{{ jekyll.environment }}</a></li>
                     {% endif %}
                   {% endfor %}
                 </ul>
