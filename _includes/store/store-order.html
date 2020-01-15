@@ -566,7 +566,8 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
       var mp_active = false;
       if (response.status == 'Activa' && response.mp_json.preference && response.payment_json.status != 'approved'  && !response.shippment_json.error ){
         console.log(response.mp_json.preference);
-        $('#mp-button').attr("href",response.mp_json.preference.sandbox_init_point);
+        // $('#mp-button').attr("href",response.mp_json.preference.sandbox_init_point);
+        $('#mp-button').attr("href",response.mp_json.preference.init_point);
         $('#mp-button').css('display','unset');
         mp_active = true;
       }
