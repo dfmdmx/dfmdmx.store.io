@@ -22,7 +22,7 @@ collections:
     output: true
 #Header menu activations
 show_services: true
-show_products: false
+show_products: true
 
 # Comments login
 disqus:
