@@ -151,7 +151,7 @@
       new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>');
       new_cart_item.find('#qty').val(cart_item.qty);
       new_cart_item.find('#price_web').val(cart_item.price_web);
-      if (json_order != '') {
+      if (cart_item.price_web > 0) {
         new_cart_item.find('#price').text(formatCurrency(cart_item.price_web*cart_item.qty,'mxn'));
       }
       new_cart_item.css('display','block');
