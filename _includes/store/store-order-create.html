@@ -151,7 +151,9 @@
       new_cart_item.find('#header_text').html('<b>' + cart_item.type + '</b>');
       new_cart_item.find('#qty').val(cart_item.qty);
       new_cart_item.find('#price_web').val(cart_item.price_web);
-      new_cart_item.find('#price').text(formatCurrency(cart_item.price_web*cart_item.qty,'mxn'));
+      if (json_order != '') {
+        new_cart_item.find('#price').text(formatCurrency(cart_item.price_web*cart_item.qty,'mxn'));
+      }
       new_cart_item.css('display','block');
       new_cart_item.find('#item_data').text(json_dumps(cart_item.data_json));
       new_cart_item.find('#text_path').text(cart_item.layout +' / '+ cart_item.group +' / '+ cart_item.type +' / '+ cart_item.pid);
