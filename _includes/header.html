@@ -98,7 +98,7 @@
                 <a href="#" id="menuLink1" class="pure-menu-link">Servicios</a>
                 <ul class="pure-menu-children">
                   {% for service in site.services %}
-                    {% if service.publish or jekyll.environment == 'production' %}
+                    {% if service.publish or jekyll.environment != 'production' %}
                       <li class="pure-menu-item"><a href="{{ service.url }}" class="pure-menu-link">{{ service.title }}</a></li>
                     {% endif %}
                   {% endfor %}
@@ -110,7 +110,7 @@
                 <a href="#" id="menuLink1" class="pure-menu-link">Productos</a>
                 <ul class="pure-menu-children">
                   {% for group in site.groups %}
-                    {% if group.publish or jekyll.environment == 'production' %}
+                    {% if group.publish or jekyll.environment != 'production' %}
                       <li class="pure-menu-item"><a href="{{ group.url }}" class="pure-menu-link">{{ jekyll.environment }}</a></li>
                     {% endif %}
                   {% endfor %}
