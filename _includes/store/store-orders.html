@@ -91,7 +91,7 @@
           new_cart_item.find('#header_text').html(header);
           new_cart_item.find('#info_state').text(cart_item.info_state);
 
-          if (cart_item.status != 'Solicitud') {
+          if (cart_item.status == 'Solicitud' || (cart_item.status == 'Activa' && cart_item.payment_json.status == 'approved' )) {
             new_cart_item.find('.delete-item').css('display','none');
           }
           new_cart_item.css('display','block');
@@ -109,9 +109,10 @@
     current_user.always(function(){
       var method = 'store_remove_order';
       var payload = {'order_item':id};
-      showOkCancelDialog('Borrar orden','La orden se elimiará de forma permanente.').done(function(){
+      showOkCancelDialog('Cancelar orden','La orden se cancelará de forma permanente.').done(function(){
         remoteCall(method,payload,false).done(function(response){
-          details.remove();
+          // details.remove();
+          location.reload();
         })
       })
     })
