@@ -269,6 +269,10 @@
           <a onclick="approve_payment('banktransfer');" ><i class="fas fa-check-square"></i> Aprobar pago con transferencia </a>
           <a onclick="approve_payment('cash');" ><i class="fas fa-check-square"></i> Aprobar pago en efectivo </a>
           </small>
+          <br>
+          <small>
+          <a onclick="delete_order();" ><i class="fas fa-trash"></i> Eliminar </a>
+          </small>
           <button onclick="goto_edit_order();" class="pure-button pure-button-primary edit-button ">Editar <i class="fas fa-print"></i></button>
         </div>
         <div class="pure-u-1">
@@ -739,6 +743,22 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
     print();
     location.reload();
   }
+
+  function delete_order(element){
+    event.preventDefault();
+    var order_id = $('#oid').val();
+    current_user.always(function(){
+      var method = 'store_delete_order';
+      var payload = {'order_id':order_id};
+      showOkCancelDialog('Eliminar orden','La orden se eliminará de forma permanente.').done(function(){
+        remoteCall(method,payload,false).done(function(response){
+          // details.remove();
+          location.replace('/orders');
+        })
+      })
+    })
+  }
+
   function goto_edit_order(){
     location.replace(document.location.href.replace('order','order-edit'));
   }

@@ -51,7 +51,7 @@
           </summary>
           <div class="summary-info">
             <pre id='info_state' class='info-state'></pre>
-            <a onclick="remove_order_item(this);" class='delete-item'>Cancelar <i class="fas fa-trash"></i></a>
+            <a onclick="cancel_order(this);" class='delete-item'>Cancelar <i class="fas fa-eraser"></i></a>
           </div>
         </details>
 
@@ -102,12 +102,12 @@
     })
   })
 
-  function remove_order_item(element){
+  function cancel_order(element){
     event.preventDefault();
     details = element.closest('details');
     id = $(details).prop('id');
     current_user.always(function(){
-      var method = 'store_remove_order';
+      var method = 'store_cancel_order';
       var payload = {'order_item':id};
       showOkCancelDialog('Cancelar orden','La orden se cancelará de forma permanente.').done(function(){
         remoteCall(method,payload,false).done(function(response){
