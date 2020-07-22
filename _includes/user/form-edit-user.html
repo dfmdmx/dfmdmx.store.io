@@ -20,7 +20,7 @@
 
   <h3 id='email_title'></h3>
   <div class="message"><p id="mdialog"></p></div>
-  <form class="pure-form edit-user">
+  <form id='edit-user' class="pure-form edit-user">
       <fieldset class="pure-group">
           <legend class="pure-input-1-2" >Nombre</legend>
           <input name="name" type="text" class="pure-input-1-2" placeholder="Nombre" >
@@ -66,7 +66,7 @@
 $( ".edit-user" ).on('submit', function( event ) {
   event.preventDefault();
   var method = 'user_edit';
-  var payload = $( ".edit-user" ).serializeFormJSON();
+  var payload = $( "#edit-user" ).serializeFormJSON();
   remoteCall(method,payload,false).done(function(response){
    messageInfo('Cambios guardados.');
   }).fail(function(){
