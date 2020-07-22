@@ -1,19 +1,15 @@
-<!-- includes -->
-{% include utils/messages.html %}
-<!-- includes -->
-
 <style>
-.form-contact {
-  margin-bottom: 20px;
-}
+  .form-container {
+    margin-bottom: 20px;
+  }
+  .comment-container {
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
 </style>
-
-<div class='form-contact'>
-
+<div class='.form-container'>
   <form id="contact" class="pure-form contact">
-
     <div class="pure-u-1 pure-u-md-1-2">
-
       <fieldset class="pure-group pure-form-stacked">
         <label for="about">Tema</label>
         <select id="about" name="about" required>
@@ -24,12 +20,10 @@
           <option>Otros</option>
         </select>
       </fieldset>
-
       <fieldset class="pure-group">
           <input required name="name" type="text" class="pure-input-1" placeholder="Nombre" >
           <input required name="email" type="email" class="pure-input-1" placeholder="Correo electrónico" >
       </fieldset>
-
       <fieldset class="pure-group">
           <input required name="subject" type="text" class="pure-input-1" placeholder="Asunto" >
           <textarea required name="message" class="pure-input-1" placeholder="Mensaje" ></textarea>
@@ -37,18 +31,18 @@
       <button type="submit" class="pure-button pure-input-1 pure-button-primary">Enviar transmisión <i class="fas fa-satellite-dish"></i></button>
     </div>
   </form>
-  <br>
-    <small><b class="overdoingthings">No</b>  almacenamos tus datos.</small><br>
-    <small><b class="overdoingthings">No</b>  enviamos correos con anuncios.</small><br>
+  <div class="pure-u-1 pure-u-md-1-2 comment-container">
+    <small><b>No</b> almacenamos tus datos.</small><br>
+    <small><b>No</b> enviamos correos con anuncios.</small><br>
     <small>Si prefieres contáctanos desde tu servidor de correos.</small><br>
     <a class="u-email" href="mailto:{{ site.email }}"><i class="far fa-envelope"></i> {{ site.email }}</a><br>
   </div>
-
+</div>
 <script>
   $( document ).ready(function() {
     $( "#contact" ).on('submit', function( event ) {
       event.preventDefault();
-      apiCall('mainframe','contactMail',$(this).serializeFormJSON())
+      apiCall('mainframe','contactMail',$(this).serializeFormJSON()).done(function(){$(this).trigger('reset');});
       });
   });
 </script>

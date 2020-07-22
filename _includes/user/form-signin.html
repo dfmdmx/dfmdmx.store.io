@@ -1,29 +1,19 @@
-<!-- includes -->
-{% include utils/messages.html %}
-<!-- includes -->
-
 <style>
   .form-signin {
     margin-bottom: 20px;
   }
-  .overdoingthings {
-    font-family: 'Inconsolata', monospace;
-    font-size: 14px;
-  }
 </style>
-
 <div class='form-signin'>
-  <p id="message-text"></p>
-  <form class="pure-form signin">
+  <form id="signin" class="pure-form signin">
       <fieldset class="pure-group">
           <legend class="pure-input-1-2" >Usuario</legend>
           <input required name="name" type="text" class="pure-input-1-2" placeholder="Nombre" >
           <input required name="email" type="email" class="pure-input-1-2" placeholder="Correo electrónico" >
           <input required name="password" type="password" class="pure-input-1-2" placeholder="Contraseña" >
-          <small><b class="overdoingthings">*</b>  Mínimo ocho caracteres.</small><br>
-          <small><b class="overdoingthings">*</b>  No uses la misma contraseña que en el banco o correo.</small><br>
+          <small><b>*</b>  Mínimo ocho caracteres.</small><br>
+          <small><b>*</b>  No uses la misma contraseña que en el banco o correo.</small><br>
       </fieldset>
-  <small><b>Atención: </b><br>Al registrarte estarás aceptando los <a href='#'>Términos y Condiciones.</a></small><br>
+      <small><b>Atención: </b><br>Al registrarte estarás aceptando los <a href='#'>Términos y Condiciones.</a></small><br>
       <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Registrar <i class="fas fa-users"></i></button>
   </form>
   <br>
@@ -36,25 +26,22 @@
     </div>
   </div>
   <br>
-  <small><b class="overdoingthings">No</b>  almacenamos datos bancarios.</small><br>
-  <small><b class="overdoingthings">No</b>  enviamos correos con anuncios.</small><br>
-  <small><b class="overdoingthings">Si</b>  contestamos correos con dudas.</small><br>
+  <small><b>No</b> almacenamos datos bancarios.</small><br>
+  <small><b>No</b> enviamos correos con anuncios.</small><br>
   <br>
   <a class="u-email" href="mailto:{{ site.email }}"><i class="far fa-envelope"></i> {{ site.email }}</a><br>
 </div>
-
 <script>
   $( document ).ready(function() {
-    $( ".signin" ).on('submit', function( event ) {
+    $( "#signin" ).on('submit', function( event ) {
       event.preventDefault();
-      apiCall('user','signIn',$(this).serializeFormJSON()).done(function(response){ window.location.replace("/login"); })
+      apiCall('user','signIn',$(this).serializeFormJSON()).done(function(response){ window.location.replace("/login"); });
     });
   });
   function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
     apiCall('user','googleLogin',{'id_token':id_token}).done(function(response){
-      var session_token = response.session_token;
-      setCookie('session_token', session_token, 2);
+      setCookie('session_token', response.session_token, 2);
       window.location.replace("/");
     });
   }

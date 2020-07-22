@@ -102,42 +102,56 @@
     cart_token = Math.random().toString(36);
     setCookie('cart_token', cart_token, 2);
   }
+  session_token = getCookie('session_token');
   current_user = $.Deferred()
-  // $(document).ready(function () {
-  //   var session_token = getCookie('session_token')
-  //   if (session_token != '') {
-  //     remoteCall('user_get_current',false,false).done(function(data){
-  //       current_user.resolve(data.user).promise();
-  //
-  //       var username = $('#apiuser');
-  //       username.text(data.user.name.split(' ')[0]);
-  //       username.attr("href","/edit-user");
-  //
-  //       login_button = $('#login-button');
-  //       login_button.html('<i class="fas fa-user-minus"></i>');
-  //       login_button.attr("href","#");
-  //       login_button.click(function () {
-  //         logout();
-  //         $('#orders-button').css('display','none');
-  //       });
-  //
-  //       $('#orders-button').css('display','unset');
-  //       if (data.user.admin) {
-  //         $('#products-button').css('display','unset');
-  //         $('.group-admin').each(function(i,obj){
-  //           $(obj).css('display','unset');
-  //         })
-  //       }
-  //
-  //     }).fail(function(data){
-  //       current_user.reject(false).promise();
-  //       setCookie('session_token','',-1000);
-  //     });
-  //   }else{
-  //     current_user.reject(false).promise();
-  //   }
-  // });
+  $(document).ready(function () {
+    if (session_token != '') {
+      apiCall('user','currentUser',{'session_token':session_token}).done(function(response){
+        current_user.resolve(response.user).promise();
 
+        var username = $('#apiuser');
+        username.text(response.user.name.split(' ')[0]);
+        username.attr("href","/edit-user");
 
+        login_button = $('#login-button');
+        login_button.html('<i class="fas fa-user-minus"></i>');
+        login_button.attr("href","#");
+        login_button.click(function () {
+          logout();
+          $('#orders-button').css('display','none');
+        });
 
+        $('#orders-button').css('display','unset');
+        if (response.user.admin) {
+          $('#products-button').css('display','unset');
+          $('.group-admin').each(function(i,obj){
+            $(obj).css('display','unset');
+          })
+        }
+
+      }).fail(function(){
+        current_user.reject(false).promise();
+        setCookie('session_token','',-1000);
+      });
+    }else{
+      current_user.reject(false).promise();
+    }
+  });
+  function logout() {
+    session_token = getCookie('session_token');
+  	if (session_token == '') { return };
+  	apiCall('user','logOut',{'session_token':session_token}).done(function(){
+  		if ( _environment == 'production') {
+  			gapi.load('auth2', function() {
+  				var auth2 = gapi.auth2.getAuthInstance();
+  				auth2.signOut().then(function (){
+  					//console.log('User signed out.');
+  				})
+  			});
+  		};
+  	}).always(function(){
+    setCookie('session_token','',-1000);
+    window.location.replace("/");
+    });
+  }
 </script>

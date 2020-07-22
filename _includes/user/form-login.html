@@ -1,7 +1,3 @@
-<!-- ---------includes--------- -->
-{% include utils/messages.html %}
-<!-- ---------includes--------- -->
-
 <style>
 .form-login {
   margin-bottom: 20px;
@@ -9,23 +5,16 @@
 .move-right {
   float:right;
 }
-
 .button-transparent {
     background: transparent; /* this is an orange */
 }
 </style>
-
 <div class='form-login'>
-
-  <p id="message-text"></p>
-
-  <form class="pure-form login">
-
+  <form id='login' class="pure-form login">
       <fieldset class="pure-group">
           <input required name="email" type="email" class="pure-input-1-2" placeholder="Correo electrónico" >
           <input required name="password" type="password" class="pure-input-1-2" placeholder="Contraseña" >
       </fieldset>
-
       <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Entrar <i class="fas fa-sign-in-alt"></i></button>
   </form>
   <br>
@@ -33,7 +22,6 @@
     <div class='pure-u-1-2'>
       <span class='move-right'><a class="pure-button button-transparent" href="/change-password">Cambiar constraseña <i class="far fa-envelope"></i></a></span>
       <a href="/signin" class="pure-button pure-button-primary">Abrir cuenta <i class="fas fa-users"></i></a>
-
     </div>
   </div>
   <br>
@@ -45,40 +33,23 @@
       </fieldset>
     </div>
   </div>
-
 </div>
 
-
 <script>
-
-  $( ".login" ).on('submit', function( event ) {
-    event.preventDefault();
-    var method = 'user_login';
-    var payload = $( ".login" ).serializeFormJSON();
-
-    remoteCall(method,payload,false).done(function(data){
-     var session_token = data.session_token;
-     setCookie('session_token', session_token, 2);
-     window.location.replace("/");
-    }).fail(function(){
-     messageAlert('Las credenciales son inválidas.');
+  $( document ).ready(function() {
+    $( "#login" ).on('submit', function( event ) {
+      event.preventDefault();
+      apiCall('user','logIn',$(this).serializeFormJSON()).done(function(response){
+        setCookie('session_token', response.session_token, 2);
+        window.location.replace("/");
+      });
     });
-
   });
-
   function onSignIn(googleUser) {
-
     var id_token = googleUser.getAuthResponse().id_token;
-    var method = 'user_google_login';
-    var payload = {'id_token':id_token};
-    remoteCall(method,payload,false).done(function(response){
-      var session_token = response.session_token;
-      setCookie('session_token', session_token, 2);
+    apiCall('user','googleLogin',{'id_token':id_token}).done(function(response){
+      setCookie('session_token', response.session_token, 2);
       window.location.replace("/");
-    }).fail(function(){
-      messageAlert('Las credenciales son inválidas.');
     });
-
   }
-
 </script>
