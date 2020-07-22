@@ -40,36 +40,9 @@
     font-family: 'Inconsolata', monospace;
     color: #fff;
   }
-  /* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.2); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.modal-content {
-  font-family: 'Inconsolata', monospace;
-  background-color: transparent;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
-  color: #fff;
-  font-size:24px;
-  border: 0px;
-  text-align: center;
-}
-.dontshow{
-  display: none;
-}
+  .dontshow {
+    display: none;
+  }
 
 </style>
 
@@ -122,71 +95,48 @@
   </div>
 </header>
 
-<!-- The modal loading -->
-<div id="myModal" class="modal">
-  <div class="modal-content">
-    <p><span id='modal-message'>Conectando con el Satélite HMX . . .</span><br>
-    <a onclick='location.reload();' class='return-link'>(Recarga manual)</a>
-    </p>
-  </div>
-</div>
 
 <script>
-
-  // The modal loading
-  var modal = document.getElementById("myModal");
-  function loading(active){
-    if (active) {
-      $(modal).stop().fadeIn(800);
-    }else{
-      $(modal).stop().fadeOut(200);
-    }
-  }
-  function loading_message(message){
-    $(modal).find('#modal-message').text(message);
-  }
-
   var cart_token = getCookie('cart_token');
   if (cart_token == '') {
     cart_token = Math.random().toString(36);
     setCookie('cart_token', cart_token, 2);
   }
-
   current_user = $.Deferred()
-  $(document).ready(function () {
-    var session_token = getCookie('session_token')
-    if (session_token != '') {
-      remoteCall('user_get_current',false,false).done(function(data){
-        current_user.resolve(data.user).promise();
-
-        var username = $('#apiuser');
-        username.text(data.user.name.split(' ')[0]);
-        username.attr("href","/edit-user");
-
-        login_button = $('#login-button');
-        login_button.html('<i class="fas fa-user-minus"></i>');
-        login_button.attr("href","#");
-        login_button.click(function () {
-          logout();
-          $('#orders-button').css('display','none');
-        });
-
-        $('#orders-button').css('display','unset');
-        if (data.user.admin) {
-          $('#products-button').css('display','unset');
-          $('.group-admin').each(function(i,obj){
-            $(obj).css('display','unset');
-          })
-        }
-
-      }).fail(function(data){
-        current_user.reject(false).promise();
-        setCookie('session_token','',-1000);
-      });
-    }else{
-      current_user.reject(false).promise();
-    }
-  });
+  // $(document).ready(function () {
+  //   var session_token = getCookie('session_token')
+  //   if (session_token != '') {
+  //     remoteCall('user_get_current',false,false).done(function(data){
+  //       current_user.resolve(data.user).promise();
+  //
+  //       var username = $('#apiuser');
+  //       username.text(data.user.name.split(' ')[0]);
+  //       username.attr("href","/edit-user");
+  //
+  //       login_button = $('#login-button');
+  //       login_button.html('<i class="fas fa-user-minus"></i>');
+  //       login_button.attr("href","#");
+  //       login_button.click(function () {
+  //         logout();
+  //         $('#orders-button').css('display','none');
+  //       });
+  //
+  //       $('#orders-button').css('display','unset');
+  //       if (data.user.admin) {
+  //         $('#products-button').css('display','unset');
+  //         $('.group-admin').each(function(i,obj){
+  //           $(obj).css('display','unset');
+  //         })
+  //       }
+  //
+  //     }).fail(function(data){
+  //       current_user.reject(false).promise();
+  //       setCookie('session_token','',-1000);
+  //     });
+  //   }else{
+  //     current_user.reject(false).promise();
+  //   }
+  // });
 
 
 

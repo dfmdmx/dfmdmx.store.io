@@ -3,13 +3,13 @@
 <!-- ---------includes--------- -->
 
 <style>
-.form-signin {
-  margin-bottom: 20px;
-}
-.overdoingthings {
-  font-family: 'Inconsolata', monospace;
-  font-size: 16px;
-}
+  .form-signin {
+    margin-bottom: 20px;
+  }
+  .overdoingthings {
+    font-family: 'Inconsolata', monospace;
+    font-size: 14px;
+  }
 </style>
 
 <div class='form-signin'>
@@ -43,33 +43,19 @@
   <a class="u-email" href="mailto:{{ site.email }}"><i class="far fa-envelope"></i> {{ site.email }}</a><br>
 </div>
 
-<script src="https://www.google.com/recaptcha/api.js?render={{ site.data.callback.captchakey }}"></script>
 <script>
-
-  $( ".signin" ).on('submit', function( event ) {
-    event.preventDefault();
-    var method = 'user_signin';
-    var payload = $( ".signin" ).serializeFormJSON();
-    remoteCall(method,payload,false).done(function(response){
-     window.location.replace("/login");
-    }).fail(function(){
-     messageAlert('Error: Puede que el correo ya este registrado.');
+  $( document ).ready(function() {
+    $( ".signin" ).on('submit', function( event ) {
+      event.preventDefault();
+      apiCall('user','signIn',$(this).serializeFormJSON()).done(function(response){ window.location.replace("/login"); })
     });
   });
-
   function onSignIn(googleUser) {
-
     var id_token = googleUser.getAuthResponse().id_token;
-    var method = 'user_google_login';
-    var payload = {'id_token':id_token};
-    remoteCall(method,payload,false).done(function(response){
+    apiCall('user','googleLogin',{'id_token':id_token}).done(function(response){
       var session_token = response.session_token;
       setCookie('session_token', session_token, 2);
       window.location.replace("/");
-    }).fail(function(){
-      messageAlert('Las credenciales son inválidas.');
     });
-
   }
-
 </script>

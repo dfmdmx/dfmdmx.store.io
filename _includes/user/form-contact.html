@@ -1,6 +1,6 @@
-<!-- ---------includes--------- -->
+<!-- includes -->
 {% include utils/messages.html %}
-<!-- ---------includes--------- -->
+<!-- includes -->
 
 <style>
 .form-contact {
@@ -9,14 +9,14 @@
 </style>
 
 <div class='form-contact'>
-  <p id="message-text"></p>
-  <form class="pure-form contact">
+
+  <form id="contact" class="pure-form contact">
 
     <div class="pure-u-1 pure-u-md-1-2">
 
       <fieldset class="pure-group pure-form-stacked">
         <label for="about">Tema</label>
-        <select name="about" id="about" required>
+        <select id="about" name="about" required>
           <option>Corte CNC</option>
           <option>Impresión 3D</option>
           <option>Compras</option>
@@ -45,15 +45,10 @@
   </div>
 
 <script>
-  $( ".contact" ).on('submit', function( event ) {
-    event.preventDefault();
-    var method = 'user_contact';
-    var payload = $( ".contact" ).serializeFormJSON();
-    remoteCall(method,payload,false).done(function(response){
-      $( ".contact" ).trigger('reset');
-      messageInfo('¡Gracias! Nos pondremos en contacto por correo a la brevedad.');
-    }).fail(function(){
-      messageAlert('No se pudo enviar el correo.');
-    });
+  $( document ).ready(function() {
+    $( "#contact" ).on('submit', function( event ) {
+      event.preventDefault();
+      apiCall('mainframe','contactMail',$(this).serializeFormJSON())
+      });
   });
 </script>
