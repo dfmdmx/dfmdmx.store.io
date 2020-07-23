@@ -40,7 +40,7 @@
   });
   function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
-    apiCall('user','googleLogin',{'id_token':id_token}).done(function(response){
+    apiCall('user','LogInGoogle',{'id_token':id_token}).done(function(response){
       setCookie('session_token', response.session_token, 2);
       window.location.replace("/");
     });
