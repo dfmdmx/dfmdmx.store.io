@@ -19,6 +19,7 @@
     var _environment = "{{jekyll.environment}}";
   </script>
   {%- if jekyll.environment == 'production' -%}
+    <meta name="google-signin-client_id" content="599160321889-1c4ntq3pmtsh8eur9krqjh6i03jd32cq.apps.googleusercontent.com">
     <script  src="https://apis.google.com/js/platform.js?onload=googleinit" async defer></script>
     <script>
       function googleinit() {
