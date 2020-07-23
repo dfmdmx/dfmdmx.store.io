@@ -141,17 +141,18 @@
     session_token = getCookie('session_token');
   	if (session_token == '') { return };
   	apiCall('user','logOut',{'session_token':session_token}).done(function(){
-  		if ( _environment == 'production') {
+      console.log('Api user signed out.');
+  	}).always(function(){
+      if ( _environment == 'production') {
   			gapi.load('auth2', function() {
   				var auth2 = gapi.auth2.getAuthInstance();
   				auth2.signOut().then(function (){
-  					console.log('User signed out.');
+  					console.log('Google user signed out.');
   				})
   			});
   		};
-  	}).always(function(){
-    setCookie('session_token','',-1000);
-    window.location.replace("/");
+      setCookie('session_token','',-1000);
+      window.location.replace("/");
     });
   }
 </script>
