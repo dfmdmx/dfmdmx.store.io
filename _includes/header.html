@@ -140,14 +140,11 @@
   function logout() {
     session_token = getCookie('session_token');
   	if (session_token == '') { return };
-  	apiCall('user','logOut',{'session_token':session_token}).done(function(){
-      console.log('Api user signed out.');
-  	}).always(function(){
+  	apiCall('user','logOut',{'session_token':session_token}).always(function(){
       if ( _environment == 'production') {
   			gapi.load('auth2', function() {
   				var auth2 = gapi.auth2.getAuthInstance();
   				auth2.signOut().then(function (){
-  					console.log('Google user signed out.');
   				})
   			});
   		};
