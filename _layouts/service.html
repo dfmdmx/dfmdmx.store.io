@@ -13,7 +13,10 @@ layout: default
   <div class="post-content e-content" itemprop="articleBody">
     {% include store/message-service.html %}
     {{ content }}
-    {% include utils/image-gallery.html name='fotos' %}
+
+    <!-- {% include utils/image-gallery.html name='fotos' %} -->
+    Automated Google Image Gallery
+    
     {%- capture form-file -%}store_services/{{ page.title | slugify }}.html{%- endcapture -%}
     {%- include {{form-file}} -%}
   </div>

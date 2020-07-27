@@ -1,7 +1,7 @@
-<!-- ---------includes--------- -->
+<!-- includes -->
 {% include utils/messages.html %}
 {% include utils/dialogs.html %}
-<!-- ---------includes--------- -->
+<!-- includes -->
 
 <form id='form-store'>
   <input form='form-store' type="hidden" name="item_type" value="{{ page.title || slugify }}">
@@ -12,35 +12,28 @@
 
 <script>
 
-  var upload_files = [];
-  var form_store = $( "#form-store" );
 
-  form_store.on('submit', function( event ) {
-    event.preventDefault();
-    current_user.always(function(user){
-      var method = '{{include.method}}';
-      var payload = form_store.serializeFormJSON();
-      payload['cart_token'] = cart_token;
-      remoteCall(method,payload,upload_files).done(function(response){
-        if (method == 'store_form_order')  {
-          setCookie('active_order',response.order.id,1);
-          window.location.replace("/order");
-        }else{
-          if (method != 'store_edit_order')  {
-            messageHTML('¡Agregado! <a class="pure-button go-cart-button" href="/order-create"> Continuar a Crear Orden <i class="fas fa-shopping-cart"></i> </a> ');
-            form_store.trigger('reset');
-            if (upload_files.length != 0){
-              reset_files();
-            }
-            update_product();
-          }else{
-            location.replace(document.location.href.replace('order-edit','order'));
+$(document).ready(function () {
+  var method = '{{include.method}}'.replace('store_','');
+  $( "#form-store" ).on('submit', function( event ) {
+    apiCall('store',method,$(this).serializeFormJSON()).done(function(response){
+      if (method == 'form_order')  {
+        setCookie('active_order',response.order.id,1);
+        window.location.replace("/order");
+      }else{
+        if (method != 'edit_order')  {
+          messageHTML('¡Agregado! <a class="pure-button go-cart-button" href="/order-create"> Continuar a Crear Orden <i class="fas fa-shopping-cart"></i> </a> ');
+          $(this).trigger('reset');
+          if (upload_files.length != 0){
+            reset_files();
           }
+          update_product();
+        }else{
+          location.replace(document.location.href.replace('order-edit','order'));
         }
-      }).fail(function(){
-        messageAlert('Upps... algo no esta bien.');
-      });
+      }
     });
   });
+})
 
 </script>

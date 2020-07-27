@@ -65,14 +65,12 @@ $( document ).ready(function() {
   });
   $( "#edit-user" ).on('submit', function( event ) {
     event.preventDefault();
-    var payload = $(this).serializeFormJSON();
-    payload.session_token = getCookie('session_token');
-    apiCall('user','edit',payload)
+    apiCall('user','edit',$(this).serializeFormJSON(););
   });
   $('#delete_button').click(function () {
     event.preventDefault();
     showOkCancelDialog('Borrar usuario','El usuario se elimiará de forma permanente.').done(function(){
-      apiCall('user','delete',{'session_token':getCookie('session_token')}).done(function(response){
+      apiCall('user','delete',{}).done(function(response){
         setCookie('session_token','',-1000);
         window.location.replace("/");
       });

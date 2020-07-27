@@ -69,16 +69,12 @@ function set_product_info(item){
 }
 
 function update_product(){
-  current_user.always(function(user){
-    var method = 'store_product_query';
-    var payload = form_store.serializeFormJSON();
-    remoteCall(method,payload,false).done(function(response){
-      set_product_info(response.product);
-      product.resolve(response.product).promise();
-    }).fail(function(){
-      console.log('satetilite malfunction');
-      product.reject(false).promise();
-    });
+  apiCall('store','product_query',$('form-store').serializeFormJSON()).done(function(response){
+    set_product_info(response.product);
+    product.resolve(response.product).promise();
+  }).fail(function(){
+    console.log('satetilite malfunction');
+    product.reject(false).promise();
   });
 }
 
