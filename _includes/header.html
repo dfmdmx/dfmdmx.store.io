@@ -108,11 +108,9 @@
     if (session_token != '') {
       apiCall('user','currentUser',{'session_token':session_token}).done(function(response){
         current_user.resolve(response.user).promise();
-
         var username = $('#apiuser');
         username.text(response.user.name.split(' ')[0]);
         username.attr("href","/edit-user");
-
         login_button = $('#login-button');
         login_button.html('<i class="fas fa-user-minus"></i>');
         login_button.attr("href","#");

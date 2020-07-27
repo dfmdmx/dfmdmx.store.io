@@ -49,32 +49,31 @@
 
   </div>
 </div>
-
 <script>
-$( document ).ready(function() {
-  current_user.done(function(current_user){
-    $('#email_title').text(current_user.email)
-    $('input[name=name]').val(current_user.name);
-    $('input[name=rfc]').val(current_user.rfc);
-    $('input[name=razon_social]').val(current_user.razon_social);
-    if (current_user.address) {
-      Object.keys(current_user.address).forEach(function(key) {
-        $('input[name='+key+']').val(current_user.address[key]);
-      });
-    }
-  });
-  $( "#edit-user" ).on('submit', function( event ) {
-    event.preventDefault();
-    apiCall('user','edit',$(this).serializeFormJSON(););
-  });
-  $('#delete_button').click(function () {
-    event.preventDefault();
-    showOkCancelDialog('Borrar usuario','El usuario se elimiará de forma permanente.').done(function(){
-      apiCall('user','delete',{}).done(function(response){
-        setCookie('session_token','',-1000);
-        window.location.replace("/");
+  $( document ).ready(function() {
+    current_user.done(function(user){
+      $('#email_title').text(user.email);
+      $('input[name=name]').val(user.name);
+      $('input[name=rfc]').val(user.rfc);
+      $('input[name=razon_social]').val(user.razon_social);
+      if (user.address){
+        Object.keys(user.address).forEach(function(key) {
+          $('input[name='+key+']').val(user.address[key]);
+        });
+      }
+    });
+    $( "#edit-user" ).on('submit', function(event){
+      event.preventDefault();
+      apiCall('user','edit',$(this).serializeFormJSON());
+    });
+    $('#delete_button').click(function () {
+      event.preventDefault();
+      showOkCancelDialog('Borrar usuario','El usuario se elimiará de forma permanente.').done(function(){
+        apiCall('user','delete',{}).done(function(response){
+          setCookie('session_token','',-1000);
+          window.location.replace("/");
+        });
       });
     });
   });
-});
 </script>
