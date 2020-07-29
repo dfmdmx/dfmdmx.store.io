@@ -1,0 +1,30 @@
+{% assign images = include.images | remove: " " | split: ","%}
+
+{% if include.cols %}
+  {% assign cols = include.cols %}
+{% else %}
+  {% assign cols = 2 %}
+{% endif %}
+
+{% if include.margin %}
+  {% assign tol = include.margin %}
+  {% assign margin = tol | divided_by: 2 %}
+{% else %}
+  {% assign tol = 1 %}
+  {% assign margin = 0.5 %}
+{% endif %}
+
+{% assign total_tolerance = tol | times: cols %}
+{% assign reduced_width = 100 | minus: total_tolerance %}
+{% assign width = reduced_width | divided_by: cols %}
+
+<style>
+  .image-gallery{
+    width: {{width}}%;
+    margin: {{margin}}%;
+    margin-bottom: 15px;
+    float: left;
+</style>
+{% for image in images %}
+  <img class="image-gallery" src="{{image}}" alt="dfmdimage" />
+{% endfor %}

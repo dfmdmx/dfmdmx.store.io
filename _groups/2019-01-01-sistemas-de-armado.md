@@ -1,6 +1,6 @@
 ---
 layout: group
-publish: false
+publish: true
 ---
 
 ### OpenBuilds

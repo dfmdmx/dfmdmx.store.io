@@ -1,12 +1,7 @@
-<!-- ---------includes--------- -->
-{% include store/form-store.html method='store_add_cart_item' %}
-<!-- ---------includes--------- -->
-
 <div class="pure-form pure-form-stacked">
   <fieldset>
     <legend>Especificación del perfil</legend>
     <div class="pure-g">
-
       <div class="pure-u-1 pure-u-md-1-2">
         <label>Dimensiones base del perfil</label>
         <select form='form-store' name="dimensiones" class="pure-input-2-3">
@@ -14,29 +9,23 @@
           <option>20mm-40mm</option>
           <option>20mm-60mm</option>
         </select>
-
         <label>Largo</label>
         <select form='form-store' name="largo" class="pure-input-2-3">
           <option>500mm</option>
           <option>1000mm</option>
           <option>1500mm</option>
         </select>
-
         <label>Unidad</label>
         <select form='form-store' name="unidad" class="pure-input-2-3">
           <option value='pieza'>Pieza</option>
           <option value='caja_10'>Caja 10u</option>
         </select>
       </div>
-
       <div class="pure-u-1 pure-u-md-1-2">
         <label>Acabado</label>
         <input form='form-store' type="radio" name="acabado" value="anodizado_natural" checked> Anodizado natural <br>
         <input form='form-store' type="radio" name="acabado" value="anodizado_negro"> Anodizado negro <br>
       </div>
-
     </div>
   </fieldset>
 </div>
-
-{% include store/input-submit.html %}

@@ -24,7 +24,7 @@
   }
   .info-service{
     font-family: 'Inconsolata', monospace;
-    font-size:14px;
+    font-size:12px;
   }
 </style>
 
@@ -46,11 +46,6 @@
     <div class="pure-u-1">
       <div id="message-text"></div>
     </div>
-
-    <!-- <div class="pure-u-1">
-      <pre id='product_info'></pre>
-    </div> -->
-
   </div>
 </div>
 
@@ -69,7 +64,7 @@ function set_product_info(item){
 }
 
 function update_product(){
-  apiCall('store','product_query',$('form-store').serializeFormJSON()).done(function(response){
+  apiCall('store','product_query',$('#form-store').serializeFormJSON()).done(function(response){
     set_product_info(response.product);
     product.resolve(response.product).promise();
   }).fail(function(){

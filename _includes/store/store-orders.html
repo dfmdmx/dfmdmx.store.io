@@ -1,7 +1,7 @@
-<!-- ---------includes--------- -->
+<!-- includes -->
 {% include utils/messages.html %}
 {% include utils/dialogs.html %}
-<!-- ---------includes--------- -->
+<!-- includes -->
 <style>
 
   .delete-item {
@@ -66,9 +66,7 @@
 
   $(document).ready(function () {
     current_user.done(function(){
-      var method = 'store_orders';
-      var payload = {'cart_token':cart_token}
-      remoteCall(method,payload,false).done(function(response){
+      apiCall('store','orders',{'cart_token':cart_token}).done(function(response){
         cart_items = response.orders;
         var cart_item;
         var cart_item_container = $('#pid-1')
@@ -107,10 +105,8 @@
     details = element.closest('details');
     id = $(details).prop('id');
     current_user.always(function(){
-      var method = 'store_cancel_order';
-      var payload = {'order_item':id};
       showOkCancelDialog('Cancelar orden','La orden se cancelará de forma permanente.').done(function(){
-        remoteCall(method,payload,false).done(function(response){
+        apiCall('store','cancel_order',{'order_item':id}).done(function(response){
           // details.remove();
           location.reload();
         })

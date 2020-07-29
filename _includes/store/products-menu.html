@@ -1,17 +1,22 @@
 <style>
   .product-box {
     padding:10px;
+    color: #434343;
   }
   .product-box:hover {
     background-color: #eeeeee;
   }
-  .product-box a {
-    color: #434343;
-  }
-  .product-box a:visited {
-    color: #434343;
-  }
+  .thumb {
+    display: block;
+    overflow: hidden;
+    height: 100px;
+    margin-top: 8px;
 
+  }
+  .thumb img {
+      display: block;
+      min-height: 100%;
+  }
 </style>
 
 {% capture binderPath %}/assets/binder/{{ page.date | date: "%Y-%m-%d" }}-{{ page.title | slugify }}/{% endcapture %}
@@ -28,17 +33,17 @@
           {% break %}
         {% endif %}
       {% endfor %}
-
       <div class="pure-u-1-4">
-        <div class="product-box">
-          <a href="{{ product.url }}">{{ product.title }}
-          <img class='pure-img' src="{{site.data.callback.th-url}}{{ filepath | replace: '/','_' }}" alt="{{ filepath }}" title="{{ filepath }}" />
-          </a>
-        </div>
+        <a href="{{ product.url }}">
+          <div class="product-box">
+            {{ product.title }}
+            <div class="thumb">
+              <img  src="{{ product.image }}" alt="{{ filepath }}" title="{{ filepath }}" />
+            </div>
+          </div>
+        </a>
       </div>
-
     {% endif %}
-
     {% if row_count == 5 %}
       {% assign row_count = 1 %}
       </div>

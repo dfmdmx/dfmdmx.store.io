@@ -1,7 +1,7 @@
-<!-- ---------includes--------- -->
+<!-- includes -->
 {% include utils/messages.html %}
 {% include store/form-store.html method='store_edit_order' %}
-<!-- ---------includes--------- -->
+<!-- includes -->
 
 <style>
   .delete-item {
@@ -364,7 +364,7 @@
     current_user.always(function(){
       var method = 'store_order';
       var payload = {'order_id':order_id,'action':'edit'}
-      remoteCall(method,payload,false).done(function(order){
+      apiCall('store','order',{'order_id':order_id,'action':'edit'}).done(function(order){
         var response = order.order;
         console.log(response);
         update_form(response.address_json);
@@ -492,10 +492,8 @@
     var item_id = details.find('#item_id').val();
     var order_id = details.find('#order_id').val();
     current_user.always(function(){
-      var method = 'store_remove_order_item';
-      var payload = {'order_id':order_id,'item_id':item_id};
       showOkCancelDialog('Borrar partida','La partida se elimiará de forma permanente.').done(function(){
-        remoteCall(method,payload,false).done(function(response){
+        apiCall('store','remove_order_item',{'order_id':order_id,'item_id':item_id}).done(function(response){
           details.remove();
         })
       });
@@ -510,9 +508,7 @@
     }
     var oid = $('#oid').val();
     current_user.always(function(){
-      var method = 'store_add_order_item';
-      var payload = {'order_id':oid,'md5':md5};
-      remoteCall(method,payload,false).done(function(response){
+      apiCall('store','add_order_item',{'order_id':oid,'md5':md5}).done(function(response){
         update_cart_item(response.cart_item,oid);
       }).fail(function(){
         $('#add_item_text').text('md5 invalido');
@@ -524,9 +520,7 @@
   function update_shippment(){
     var order_id = $('#oid').val();
     current_user.always(function(){
-      var method = 'store_update_shippment';
-      var payload = {'order_id':order_id};
-      remoteCall(method,payload,false).done(function(response){
+      apiCall('store','update_shippment',{'order_id':order_id}).done(function(response){
         $('#shippment_json').val(JSON.stringify(response.shippment_json, null, '  '));
       }).fail(function(){
         messageAlert('Upps... algo no esta bien.');
@@ -548,9 +542,7 @@
     calculate_item_total(element);
 
     current_user.always(function(){
-      var method = 'store_edit_order_item';
-      var payload = {'order_id':order_id,'item_id':item_id,'item_comment':comment,'qty':qty,'price':price,'price_factor':price_factor,'price_supplement':price_supplement};
-      remoteCall(method,payload,false).fail(function(){
+      apiCall('store','edit_order_item',{'order_id':order_id,'item_id':item_id,'item_comment':comment,'qty':qty,'price':price,'price_factor':price_factor,'price_supplement':price_supplement}).fail(function(){
         messageAlert('Upps... algo no esta bien.');
         })
     })

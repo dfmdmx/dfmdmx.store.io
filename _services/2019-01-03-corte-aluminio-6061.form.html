@@ -1,16 +1,7 @@
-<!-- ---------includes--------- -->
-{% include store/form-store.html method='store_add_cart_item' %}
-<!-- ---------includes--------- -->
-
-{% include store/input-general-info.html %}
-{% include store/input-upload-files.html %}
-
 <div class="pure-form pure-form-stacked">
-
   <fieldset>
     <legend>Especificación del material</legend>
     <div class="pure-g">
-
       <div class="pure-u-1 pure-u-md-1-2">
         <label>Alto - Z</label>
         <select form='form-store' name="altura" class="pure-input-2-3">
@@ -18,7 +9,6 @@
           <option>3/16" (4.76mm)</option>
           <option>1/4" (6.35mm)</option>
         </select>
-
         <label>Largo,Ancho - XY</label>
         <select form='form-store' name="dimensiones" class="pure-input-2-3">
           <option>6"-8' (152mm-2440mm)</option>
@@ -26,11 +16,6 @@
           <option>4'-8' (1220mm-2440mm)</option>
         </select>
       </div>
-
     </div>
   </fieldset>
-
 </div>
-
-
-{% include store/input-submit.html %}

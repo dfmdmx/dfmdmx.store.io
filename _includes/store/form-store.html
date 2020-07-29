@@ -14,9 +14,23 @@
 
 
 $(document).ready(function () {
+
+  var cart_token = getCookie('cart_token');
+  if (cart_token == '') {
+    cart_token = Math.random().toString(36);
+    setCookie('cart_token', cart_token, 2);
+  }
   var method = '{{include.method}}'.replace('store_','');
   $( "#form-store" ).on('submit', function( event ) {
-    apiCall('store',method,$(this).serializeFormJSON()).done(function(response){
+    event.preventDefault();
+    var payload = $(this).serializeFormJSON();
+    if ( typeof upload_files !== 'undefined' && upload_files ) {
+      var files = upload_files;
+    } else {
+      var files = false;
+    }
+    payload.cart_token = cart_token;
+    apiCall('store',method,payload,files).done(function(response){
       if (method == 'form_order')  {
         setCookie('active_order',response.order.id,1);
         window.location.replace("/order");

@@ -1,7 +1,7 @@
-<!-- ---------includes--------- -->
+<!-- includes -->
 {% include utils/messages.html %}
 {% include store/form-store.html method='store_form_order' %}
-<!-- ---------includes--------- -->
+<!-- includes -->
 
 <style>
   .delete-item {
@@ -141,7 +141,6 @@
 
   function set_cart_containers(cart_items,container_id){
     var cart_item;
-    console.log('id',container_id);
     var cart_item_container = $(container_id)
     for (var i = 0; i < cart_items.length; i++) {
       cart_item = cart_items[i]
@@ -168,9 +167,7 @@
 
   $(document).ready(function () {
     current_user.always(function(){
-      var method = 'store_cart_items';
-      var payload = {'cart_token':cart_token}
-      remoteCall(method,payload,false).done(function(response){
+      apiCall('store','cart_items',{'cart_token':cart_token}).done(function(response){
         set_cart_containers(response.services,'#sid-1')
         set_cart_containers(response.products,'#pid-1')
       })
@@ -182,10 +179,8 @@
     details = element.closest('details');
     id = $(details).prop('id');
     current_user.always(function(){
-      var method = 'store_remove_cart_item';
-      var payload = {'cart_item':id};
       showOkCancelDialog('Borrar elemento','Se elimiará de forma permanente.').done(function(){
-        remoteCall(method,payload,false).done(function(response){
+        apiCall('store','remove_cart_item',{'cart_item':id}).done(function(response){
           details.remove();
         });
       });
@@ -199,9 +194,7 @@
     var qty = $(details).find('#qty').val();
     var price = $(details).find('#price_web').val()
     current_user.always(function(){
-      var method = 'store_edit_item_qty';
-      var payload = {'cart_item':id,'qty':qty};
-      remoteCall(method,payload,false).done(function(){
+      apiCall('store','edit_item_qty',{'cart_item':id,'qty':qty}).done(function(){
         $(details).find('#price').text(formatCurrency(price*qty,'mxn'));
         }).fail(function(){
           messageAlert('Upps... algo no esta bien.');
@@ -216,11 +209,9 @@
     if (cart_item.files_json) {
       var filenames = []
       for (var e = 0; e < cart_item.files_json.length; e++) {
-        console.log(cart_item.files_json[e]['filename']);
         filenames.push(cart_item.files_json[e]['filename']);
       }
       json_info['Archivos'] = filenames;
-
     }
     return JSON.stringify(json_info, null, '  ').replace('[\n', '').replace(']', '').replace(/"/g, '').replace('_json', '').replace(/,/g, '').replace(/,/g, '').replace(/{/g, '').replace(/}/g, '');
   }

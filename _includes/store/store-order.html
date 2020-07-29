@@ -2,9 +2,7 @@
   var order_response = $.Deferred();
   var order_id = getCookie('active_order');
   current_user.always(function(){
-    var method = 'store_order';
-    var payload = {'order_id':order_id,'action':'consult'}
-    remoteCall(method,payload,false).done(function(response){
+    apiCall('store','order',{'order_id':order_id,'action':'consult'}).done(function(response){
       console.log(response);
       order_response.resolve(response.order).promise();
     }).fail(function(){
@@ -13,10 +11,10 @@
   });
 </script>
 
-<!-- ---------includes--------- -->
+<!-- includes -->
 {% include utils/messages.html %}
 {% include store/form-store.html method='store_edit_order' %}
-<!-- ---------includes--------- -->
+<!-- includes -->
 
 <style>
   .delete-item {
@@ -686,9 +684,7 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
     var order_id = $('#oid').val();
     var log_entry = $('#log-entry').val();
     current_user.always(function(){
-      var method = 'store_order_log';
-      var payload = {'order_id':order_id,'entry':log_entry};
-        remoteCall(method,payload,false).done(function(response){
+        apiCall('store','order_log',{'order_id':order_id,'entry':log_entry}).done(function(response){
           $('#log-entry').val('');
           $('#order_log').text(log_to_txt(response.order.log_json));
           messageInfo('¡Bitácora actualizada!');
@@ -700,10 +696,8 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
   function send_mail(mail_type){
     var order_id = $('#oid').val();
     current_user.always(function(){
-      var method = 'store_send_mail';
-      var payload = {'order_id':order_id,'mail_type':mail_type};
       showOkCancelDialog('Enviar '+ mail_type,'Revisa que el estado de la orden coincida con el tipo de correo a mandar y que no esté ya registrado en la bitacora.').done(function(){
-        remoteCall(method,payload,false).done(function(response){
+        apiCall('store','send_mail',{'order_id':order_id,'mail_type':mail_type}).done(function(response){
           $('#order_log').text(log_to_txt(response.order.log_json));
           messageInfo('¡Corre enviado!');
         }).fail(function(){
@@ -715,10 +709,8 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
   function approve_payment(payment_method){
     var order_id = $('#oid').val();
     current_user.always(function(){
-      var method = 'store_approve_payment';
-      var payload = {'order_id':order_id,'payment_method':payment_method};
       showOkCancelDialog('Aprobar pago','Metodo: ' + payment_method).done(function(){
-        remoteCall(method,payload,false).done(function(response){
+        apiCall('store','approve_payment',{'order_id':order_id,'payment_method':payment_method}).done(function(response){
           location.reload();
         }).fail(function(){
           messageAlert('Upps... algo no esta bien.');
@@ -748,10 +740,8 @@ Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De s
     event.preventDefault();
     var order_id = $('#oid').val();
     current_user.always(function(){
-      var method = 'store_delete_order';
-      var payload = {'order_id':order_id};
       showOkCancelDialog('Eliminar orden','La orden se eliminará de forma permanente.').done(function(){
-        remoteCall(method,payload,false).done(function(response){
+        apiCall('store','delete_order',{'order_id':order_id}).done(function(response){
           // details.remove();
           location.replace('/orders');
         })

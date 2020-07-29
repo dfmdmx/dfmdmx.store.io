@@ -1,6 +1,6 @@
-<!-- ---------includes--------- -->
+<!-- includes -->
 {% include utils/dialogs.html %}
-<!-- ---------includes--------- -->
+<!-- includes -->
 
 <style>
   .delete-item {
@@ -304,9 +304,7 @@
   $(document).ready(function () {
     set_data_json_dummy();
     current_user.always(function(){
-      var method = 'store_products';
-      var payload = false
-      remoteCall(method,payload,false).done(function(response){
+      apiCall('store','products',{}).done(function(response){
         cart_items = response.products;
         var cart_item;
         for (var i = 0; i < cart_items.length; i++) {
@@ -357,10 +355,8 @@
     details = element.closest('details');
     id = $(details).prop('id');
     current_user.always(function(){
-      var method = 'store_product_delete';
-      var payload = {'product_id':id};
       showOkCancelDialog('Borrar elemento','Se elimiará de forma permanente.').done(function(){
-        remoteCall(method,payload,false).done(function(response){
+        apiCall('store','product_delete',{'product_id':id}).done(function(response){
           details.remove();
         });
       });
@@ -397,8 +393,7 @@
         'package_json': package_json,
       }
 
-      var method = 'store_product_new';
-      remoteCall(method,payload,false).done(function(response){
+      apiCall('store','product_new',payload).done(function(response){
         update_cart_item(response.product);
         $('#new_product_form').trigger('reset');
         set_data_json_dummy();
@@ -435,8 +430,7 @@
         'package_json': package_json,
       }
 
-      var method = 'store_product_edit';
-      remoteCall(method,payload,false).done(function(response){
+      apiCall('store','product_edit',payload).done(function(response){
         update_cart_item(response.product,false);
         $('#message_'+id).text('Producto actualizado con éxito');
       }).fail(function(){

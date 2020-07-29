@@ -39,7 +39,7 @@
     <p class='title-link'><a href='/lineamientos-dibujo'>Lineamientos para preparar tu dibujo CAD <i class="fas fa-drafting-compass"></i></a></p>
       <div class="upload-container pure-button button-upload">
           <span>Seleccionar archivos <i class="fas fa-file-upload"></i></span>
-          <input class='upload' id='upload-file' name="file" type="file" multiple />
+          <input class='upload' id='upload-file' name="f" type="file" multiple />
       </div>
       <span class='delete-button'><a id='delete-files' class="pure-button button-transparent" href="#">Borrar <i class="fas fa-trash"></i></a></span>
       <p id='file-name-container'></p>
@@ -48,7 +48,6 @@
 <script>
 
   var allowed_extensions = [];
-
   var upload_files = [];
   var upload_files_string = '';
 
@@ -62,6 +61,7 @@
         var e = upload_file.name.split('.');
         var ext = e[e.length-1];
         console.log(upload_file.name);
+        // Cambiar a True para que sirva
         if (allowed_extensions.includes(ext) == false){
           upload_files.push(upload_file)
           var filename = '&nbsp; ~/' + upload_file.name + '<br>';

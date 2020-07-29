@@ -13,12 +13,12 @@ layout: default
   <div class="post-content e-content" itemprop="articleBody">
     {% include store/message-service.html %}
     {{ content }}
-
-    <!-- {% include utils/image-gallery.html name='fotos' %} -->
-    Automated Google Image Gallery
-    
-    {%- capture form-file -%}store_services/{{ page.title | slugify }}.html{%- endcapture -%}
-    {%- include {{form-file}} -%}
+    {%- include store/form-store.html method='store_add_cart_item' -%}
+    {%- include store/input-general-info.html -%}
+    {%- include store/input-upload-files.html -%}
+    {%- assign filename = page.path | split: '/' | last | replace: '.md', '.form.html' -%}
+    {%- include_relative {{filename}} -%}
+    {%- include store/input-submit.html -%}
   </div>
 
   {%- if page.comments -%}

@@ -12,6 +12,11 @@ layout: default
 
   <div class="post-content e-content" itemprop="articleBody">
     {{ content }}
+    {%- assign filename = page.path | split: '/' | last | replace: '.md', '.form.html' -%}
+    {%- include store/form-store.html method='store_add_cart_item' -%}
+    {%- include_relative {{filename}} -%}
+    {%- include store/input-submit.html -%}
+
   </div>
 
   {%- if page.comments -%}
