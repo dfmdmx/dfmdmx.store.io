@@ -18,8 +18,8 @@ Cuenta BBVA: **0443928284**
 CLABE  BBVA: **0121800044392828401**  
 
 Usa tu número de orden como referencia.  
-Envía tu comprobante junto con tu número de orden a:  [hmx@hangarmx.com](mailto:hmx@hangarmx.com)
+Envía tu comprobante junto con tu número de orden a:  [admin@hangarmx.com](mailto:admin@hangarmx.com)
 
 No dudes en ponerte en contacto con nosotros.
 **Equipo HMX**  
-[hmx@hangarmx.com](mailto:hmx@hangarmx.com)
+[admin@hangarmx.com](mailto:admin@hangarmx.com)

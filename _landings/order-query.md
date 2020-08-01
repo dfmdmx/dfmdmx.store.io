@@ -10,4 +10,4 @@ permalink: /order-query/
 
 No dudes en ponerte en contacto con nosotros.  
 **Equipo HMX**  
-[hmx@hangarmx.com](mailto:hmx@hangarmx.com)
+[admin@hangarmx.com](mailto:admin@hangarmx.com)

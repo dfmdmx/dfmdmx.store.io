@@ -9,4 +9,4 @@ Gracias por realizar tu compra con nosotros. En breve te enviaremos un correo de
 
 No dudes en ponerte en contacto con nosotros.  
 **Equipo HMX**  
-[hmx@hangarmx.com](mailto:hmx@hangarmx.com)
+[admin@hangarmx.com](mailto:admin@hangarmx.com)
