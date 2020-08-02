@@ -37,7 +37,7 @@ $(document).ready(function () {
       }else{
         if (method != 'edit_order')  {
           messageHTML('¡Agregado! <a class="pure-button go-cart-button" href="/order-create"> Continuar a Crear Orden <i class="fas fa-shopping-cart"></i> </a> ');
-          $(this).trigger('reset');
+          $( "#form-store" ).trigger('reset');
           if (files && files.length != 0){
             reset_files();
           }

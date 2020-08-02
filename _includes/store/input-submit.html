@@ -68,7 +68,6 @@ function update_product(){
     set_product_info(response.product);
     product.resolve(response.product).promise();
   }).fail(function(){
-    console.log('satetilite malfunction');
     product.reject(false).promise();
   });
 }

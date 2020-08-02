@@ -107,26 +107,30 @@
   $(document).ready(function () {
     if (session_token != '') {
       apiCall('user','currentUser',{'session_token':session_token}).done(function(response){
-        current_user.resolve(response.user).promise();
-        var username = $('#apiuser');
-        username.text(response.user.name.split(' ')[0]);
-        username.attr("href","/edit-user");
-        login_button = $('#login-button');
-        login_button.html('<i class="fas fa-user-minus"></i>');
-        login_button.attr("href","#");
-        login_button.click(function () {
-          logout();
-          $('#orders-button').css('display','none');
-        });
+        if ( response ) {
+          current_user.resolve(response.user).promise();
+          var username = $('#apiuser');
+          username.text(response.user.name.split(' ')[0]);
+          username.attr("href","/edit-user");
+          login_button = $('#login-button');
+          login_button.html('<i class="fas fa-user-minus"></i>');
+          login_button.attr("href","#");
+          login_button.click(function () {
+            logout();
+            $('#orders-button').css('display','none');
+          });
 
-        $('#orders-button').css('display','unset');
-        if (response.user.admin) {
-          $('#products-button').css('display','unset');
-          $('.group-admin').each(function(i,obj){
-            $(obj).css('display','unset');
-          })
+          $('#orders-button').css('display','unset');
+          if (response.user.admin) {
+            $('#products-button').css('display','unset');
+            $('.group-admin').each(function(i,obj){
+              $(obj).css('display','unset');
+            })
+          }
+        } else {
+          current_user.reject(false).promise();
+          setCookie('session_token','',-1000);
         }
-
       }).fail(function(){
         current_user.reject(false).promise();
         setCookie('session_token','',-1000);
