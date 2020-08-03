@@ -107,7 +107,8 @@
   $(document).ready(function () {
     if (session_token != '') {
       apiCall('user','currentUser',{'session_token':session_token}).done(function(response){
-        if ( response ) {
+        if ( response.user ) {
+          console.log('response user',response);
           current_user.resolve(response.user).promise();
           var username = $('#apiuser');
           username.text(response.user.name.split(' ')[0]);
@@ -128,10 +129,12 @@
             })
           }
         } else {
+          console.log('response user',response);
           current_user.reject(false).promise();
           setCookie('session_token','',-1000);
         }
       }).fail(function(){
+        console.log('response user connection error');
         current_user.reject(false).promise();
         setCookie('session_token','',-1000);
       });
