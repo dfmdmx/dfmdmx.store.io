@@ -154,6 +154,18 @@
     font-size: 12px;
     float: right;
   }
+  .button-warning {
+    background: rgb(223, 117, 20); /* this is an orange */
+    margin-top:4px;
+    margin-left: 10px;
+    font-size: 12px;
+    float: right;
+  }
+  .button-pay {
+    background: rgb(209, 0, 20); /* this is an orange */
+    margin-top:15px;
+    font-size: 12px;
+  }
   .admin-form {
     display: none;
     margin-bottom: 40px;
@@ -315,7 +327,7 @@
               Eliminar
             </summary>
             <div class="pure-u-1 admin-link">
-              <button onclick="delete_order();" class="pure-button pure-button-primary edit-button ">Eliminar <i class="fas fa-trash"></i></button>
+              <button onclick="delete_order();" class="pure-button pure-button-primary button-warning ">Eliminar <i class="fas fa-trash"></i></button>
             </div>
           </details>
           <details>
@@ -381,7 +393,7 @@
       </div>
       <div class="pure-u-1">
         <label><i class="fas fa-credit-card"></i> Pago</label>
-        <a class='payment' id='mp-button' href="/"><button class="pure-button pure-button-primary"><img class='mp-image' src="/assets/images/mp_horizontal_blanco.png"> Realizar pago</button></a>
+        <a class='payment' id='mp-button' href="/"><button class="pure-button pure-button-primary button-pay"><img class='mp-image' src="/assets/images/mp_horizontal_blanco.png"> Realizar pago</button></a>
         <span id='payment-status' class='payment-status'></span>
       </div>
     </div>

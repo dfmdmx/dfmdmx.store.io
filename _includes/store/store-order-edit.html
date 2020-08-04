@@ -39,7 +39,7 @@
   }
   .comment-input {
     margin-top: 3px;
-    height: 3em;
+    height: 3em;+
   }
   .summary {
     height: auto;
@@ -136,21 +136,27 @@
     font-family: 'Inconsolata', monospace;
     font-size:13px;
   }
+  .save{
+   float:right;}
 
 </style>
 
-<div class="pure-form pure-form-stacked">
-<div class="pure-g">
-  <div class="pure-u-1">
-    <fieldset class="pure-group">
 
-      ID: <span id ='order_webid' class="pure-input-1"></span>
-      <a  onclick="location.replace(document.location.href.replace('order-edit','order'));" class='link-button'><i class="fas fa-chevron-left"></i> Regresar </a>
-      <a  onclick="window.scrollTo(0,document.body.scrollHeight);" class='link-button'><i class="fas fa-chevron-down"></i> Guardar </a>
-    </fieldset>
-
+<div class="pure-form">
+  <legend>ID: <span id ='order_webid' class="pure-input-1"></span></legend>
+  <div class="pure-g">
+    <div class="pure-u-1-4 save">
+      <button onclick="location.replace(document.location.href.replace('order-edit','order'));" class="pure-button  return"><i class="fas fa-backward"></i> Regresar</button>
+    </div>
+    <div class="pure-u-1-4 save">
+    </div>
+    <div class="pure-u-1-2 save">
+      <button form='form-store' type="submit" class="pure-button send-button pure-button-primary">Guardar <i class="fas fa-save"></i></button>
+    </div>
+    <div class="pure-u-1">
+      <p id="message-text"></p>
+    </div>
   </div>
-</div>
 </div>
 
 <div class="pure-form pure-form-stacked">
@@ -341,18 +347,6 @@
         </fieldset>
       </div>
     </div>
-</div>
-
-<div class="pure-form">
-  <legend>Todo listo</legend>
-  <div class="pure-g">
-    <div class="pure-u-1 pure-u-md-1-2">
-      <button form='form-store' type="submit" class="pure-button send-button pure-button-primary">Guardar <i class="fas fa-save"></i></button>
-    </div>
-    <div class="pure-u-1">
-      <p id="message-text"></p>
-    </div>
-  </div>
 </div>
 
 <input id='oid' form='form-store' type='hidden' value='' name='oid'>
