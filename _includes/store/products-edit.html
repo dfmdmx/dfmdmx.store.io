@@ -80,7 +80,7 @@
   }
   .header-container{
     float:right;
-    height: 2.25em;
+    height: 8px;
     font-size: 13px;
     margin-bottom:16px;
     text-align:middle;
@@ -88,7 +88,13 @@
   .header-container-edit{
     float:right;
     font-size: 13px;
+    margin-top: 10px;
     text-align:middle;
+  }
+  .header-container-notes{
+    font-size: 11px;
+    margin-bottom: 1px;
+    margin-top: 5px;
   }
   .view-container-title{
     float:right;
@@ -164,7 +170,7 @@
   }
   .edit-buttons-container{
     margin-top: 3px;
-    margin-bottom: 120px;
+    margin-bottom: 60px;
     height:2em;
   }
   .input-container{
@@ -211,6 +217,11 @@
         </summary>
         <form id='new_product_form'>
           <div class="pure-u-1">
+            <div class='header-container-notes'>
+              Solo es útil para cotizaciones. El producto se agregará unicamente a la base de datos.
+            </div>
+          </div>
+          <div class="pure-u-1">
             <div class='header-container-edit'>
               <span class='cantidad'> stock </span>
               <span class='total-header'> total </span>
@@ -227,12 +238,27 @@
             </div>
           </div>
           <div class="pure-u-1">
+            <div class='header-container-notes'>
+              Departamento
+            </div>
+          </div>
+          <div class="pure-u-1">
             <div class='input-container'>
               <input id='layout' class='product-details' type='text' name='layout' placeholder='layout'><span class='product-slash'>/</span>
               <input id='group' class='product-details' type='text' name='group' placeholder='group'><span class='product-slash'>/</span>
               <input id='type' class='product-details' type='text' name='type' placeholder='type'>
             </div>
+            <div class="pure-u-1">
+              <div class='header-container-notes'>
+                Propiedades del producto
+              </div>
+            </div>
             <textarea id='edit_data_json' name="edit_data_json" class="pure-input-1 comment-input" placeholder="Product data"></textarea>
+            <div class="pure-u-1">
+              <div class='header-container-notes'>
+                Información de paquetería
+              </div>
+            </div>
             <textarea id='edit_package_json' name="edit_package_json" class="pure-input-1 comment-input" placeholder="Package data"></textarea>
           </div>
           <div class="pure-u-1">
@@ -279,15 +305,28 @@
             <div id='text_path' class='path-container'></div>
             <pre id='item_data' class="pure-input-1 data-input"></pre>
           </summary>
+          <div class="pure-u-1">
+            <div class='header-container-notes'>
+              Departamento
+            </div>
+          </div>
           <div class='input-container'>
             <input id='layout' class='product-details' type='text' name='layout'><span class='product-slash'>/</span>
             <input id='group' class='product-details' type='text' name='group'><span class='product-slash'>/</span>
             <input id='type' class='product-details' type='text' name='type'>
           </div>
-
+          <div class="pure-u-1">
+            <div class='header-container-notes'>
+              Propiedades del producto | Editar unicamente en conjunto con el archivo .html correspondiente
+            </div>
+          </div>
           <textarea id='edit_data_json' name="edit_data_json" class="pure-input-1 comment-input" placeholder="Product data"></textarea>
+          <div class="pure-u-1">
+            <div class='header-container-notes'>
+              Información de paquetería
+            </div>
+          </div>
           <textarea id='edit_package_json' name="edit_package_json" class="pure-input-1 comment-input" placeholder="Package data"></textarea>
-
           <div class='edit-buttons-container'>
             <button onclick='edit_product(this)' class="pure-button pure-button-primary edit-button">Guardar <i class="fas fa-save"></i></button>
             <button onclick='remove_product(this)' class="pure-button delete-button">Borrar <i class="fas fa-trash"></i></button>

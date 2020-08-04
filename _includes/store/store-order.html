@@ -3,7 +3,6 @@
   var order_id = getCookie('active_order');
   current_user.always(function(){
     apiCall('store','order',{'order_id':order_id,'action':'consult'}).done(function(response){
-      console.log(response);
       order_response.resolve(response.order).promise();
     }).fail(function(){
       order_response.reject(false).promise();
@@ -31,7 +30,6 @@
     display: none;
   }
   .send-button {
-    margin-left: 5px;
     line-height: 1em;
   }
   .item-total {
@@ -44,8 +42,8 @@
     margin-top: 3px;
     margin-bottom: 6px;
     padding:0px;
-    height: auto;
-    font:400 14px "Montserrat", sans-serif;
+    height: 12ox;
+    font:400 12px "Montserrat", sans-serif;
     background: transparent;
     border: 0px;
     width:auto;
@@ -71,9 +69,9 @@
     margin-bottom: 1px;
     white-space: pre-wrap;
   }
-  .summary {
-    height: auto;
-    margin-bottom:25px;
+  details summary {
+    margin-bottom:6px;
+    margin-top:6px;
   }
   .button-add {
       background: transparent;
@@ -83,7 +81,7 @@
     background: transparent;
     border: 0px;
     margin-bottom:5px;
-    font:400 14px/1.5 "Montserrat", sans-serif
+    font:400 12px/1.5 "Montserrat", sans-serif
   }
   .logo {
     margin-left: 20px;
@@ -95,7 +93,10 @@
     font-size: 12px;
     float:right;
   }
-  .logo-header{
+  .order-id {
+    color: #4b4b4b;
+  }
+  .logo-header {
     float:right;
     color: #4b4b4b;
   }
@@ -139,9 +140,18 @@
   .admin-button a {
     margin-right:18px;
   }
+  .admin-link {
+    margin-top:4px;
+    margin-bottom:8px;
+  }
+  .admin-link a {
+    margin-right:18px;
+    font-size:10px;
+  }
   .edit-button {
     margin-top:4px;
-    font-size: 14px;
+    margin-left: 10px;
+    font-size: 12px;
     float: right;
   }
   .admin-form {
@@ -153,6 +163,8 @@
     background-color:#fdfdfd;
     font-size: 11px;
     white-space: pre-wrap;
+    margin-bottom: 3px;
+    margin-top:5px;
   }
   .info-state {
     background-color:#fdfdfd;
@@ -161,13 +173,13 @@
     margin-bottom:3px;
   }
   .log-entry {
-    height: 2em;
+    height: 3em;
   }
-  .view-container{
+  .view-container {
     float:right;
     font-size: 12px;
   }
-  .view-container-title{
+  .view-container-title {
     float:right;
     font-size: 12px;
     margin-bottom:18px;
@@ -209,7 +221,7 @@
     margin-right:.5em;
   }
   .webuser-info{
-    margin-bottom:30px;
+    margin-bottom:5px;
   }
   .freight-img{
     width: 24px;
@@ -245,54 +257,72 @@
   .tabla-totales tr:nth-child(odd){
     background-color:white;
   }
+  .hide-arrow summary::-webkit-details-marker {
+  display:none;
+}
 
 </style>
 
 <div id='admin_form' class='admin-form'>
   <div class="pure-form pure-form-stacked">
     <fieldset>
-      <legend>Servicio al cliente</legend>
+      <legend>Administración</legend>
       <div class="pure-g">
-        <div class="pure-u-1 admin-button">
-          <small>
-          <a onclick="send_mail('orden_recibida');" ><i class="fas fa-at"></i> Orden recibida </a>
-          <a onclick="send_mail('orden_activa');" ><i class="fas fa-at"></i> Orden activa </a>
-          <a onclick="send_mail('acuse_pago');" ><i class="fas fa-at"></i> Acuse pago </a>
-          <a onclick="send_mail('aviso_recolecion');" ><i class="fas fa-at"></i> Aviso recoleción </a>
-          <a onclick="send_mail('aviso_envio');" ><i class="fas fa-at"></i> Aviso envio </a>
-          <a onclick="print_order();" > <i class="fas fa-print"></i> Imprimir </a>
-          </small>
-          <br>
-          <small>
-          <a onclick="approve_payment('banktransfer');" ><i class="fas fa-check-square"></i> Aprobar pago con transferencia </a>
-          <a onclick="approve_payment('cash');" ><i class="fas fa-check-square"></i> Aprobar pago en efectivo </a>
-          </small>
-          <br>
-          <small>
-          <a onclick="delete_order();" ><i class="fas fa-trash"></i> Eliminar </a>
-          </small>
-          <button onclick="goto_edit_order();" class="pure-button pure-button-primary edit-button ">Editar <i class="fas fa-print"></i></button>
+        <div class="pure-u-1">
+          <button onclick="goto_edit_order();" class="pure-button pure-button-primary edit-button ">Editar <i class="fas fa-edit"></i></button>
+          <button onclick="print_order();" class="pure-button pure-button-primary edit-button ">Imprimir <i class="fas fa-print"></i></button>
         </div>
         <div class="pure-u-1">
+          <details>
+            <summary>
+              Enviar correos
+            </summary>
+            <small>
+              <div class="pure-u-1 admin-link">
+                <a onclick="send_mail('orden_recibida');" ><i class="fas fa-at"></i> Orden recibida </a>
+                <a onclick="send_mail('orden_activa');" ><i class="fas fa-at"></i> Orden activa </a>
+                <a onclick="send_mail('acuse_pago');" ><i class="fas fa-at"></i> Acuse pago </a>
+                <a onclick="send_mail('aviso_recolecion');" ><i class="fas fa-at"></i> Aviso recoleción </a>
+                <a onclick="send_mail('aviso_envio');" ><i class="fas fa-at"></i> Aviso envio </a>
+              </div>
+            </small>
+          </details>
+          <details>
+            <summary>
+              Aprobar pago
+            </summary>
+            <small>
+              <div class="pure-u-1 admin-link">
+                <a onclick="approve_payment('banktransfer');" ><i class="fas fa-check-square"></i> Transferencia </a>
+                <a onclick="approve_payment('cash');" ><i class="fas fa-check-square"></i> Efectivo </a>
+              </div>
+            </small>
+          </details>
+          <details>
+            <summary>
+              Bitácora interna
+            </summary>
+            <pre id='order_log' class='log-info'></pre>
+            <div class="pure-u-1">
+              <fieldset class="pure-group">
+                <input id='log-entry' name="title" type="text" class="pure-input-1 log-entry" placeholder="Entrada manual">
+                <button onclick="order_log();" class="pure-button pure-button-primary ">Registrar <i class="fas fa-stream"></i></button>
+              </fieldset>
+            </div>
+          </details>
+          <details>
+            <summary>
+              Eliminar
+            </summary>
+            <div class="pure-u-1 admin-link">
+              <button onclick="delete_order();" class="pure-button pure-button-primary edit-button ">Eliminar <i class="fas fa-trash"></i></button>
+            </div>
+          </details>
           <details>
             <summary>
               Orden JSON
             </summary>
             <pre id='order_json' class='log-info'></pre>
-          </details>
-          <details open>
-            <summary>
-              Bitácora interna
-            </summary>
-            <div class="pure-u-3-4">
-              <fieldset class="pure-group">
-                <input id='log-entry' name="title" type="text" class="pure-input-1 log-entry" placeholder="Entrada manual">
-              </fieldset>
-            </div>
-            <div class="pure-u-1-5">
-              <button onclick='order_log()' class="pure-button send-button transparent">Registrar <i class="fas fa-stream"></i></button>
-            </div>
-            <pre id='order_log' class='log-info'></pre>
           </details>
         </div>
         <div class="pure-u-1">
@@ -300,21 +330,26 @@
         </div>
       </div>
     </fieldset>
+    <fieldset>
+      <legend>Vista usuario</legend>
+    </fieldset>
   </div>
 </div>
 
 <div class='webuser-info' id='webuser_info'>
   {% include store/message-orders.html %}
-  <pre id='info_state' class='info-state'></pre>
 </div>
-
+<p id='info_state' class='info-state'></p>
 <div class="pure-form pure-form-stacked">
   <div class="pure-g">
     <div class="pure-u-1">
+      <div class="order-id">
+        ID: <span id ='order_webid' class="pure-input-1"></span>
         <div class="logo-header">
           <img src="/assets/images/logo_hangarmx_black.svg"><br>
-          ID: <span id ='order_webid' class="pure-input-1"></span>
+          www.hangarmx.com
         </div>
+      </div>
     </div>
     <div class="pure-u-1 payment-container">
     </div>
@@ -408,12 +443,12 @@
         </legend>
       </div>
       <div class="pure-u-1">
-        <details id='pid-1' class='cart-item'>
+        <details id='pid-1' class='cart-item hide-arrow'>
           <input type='hidden' id='qty' class='qty-input' >
           <input type='hidden' id='price_supplement' class='qty-input'>
           <input type='hidden' id='price' class='qty-input'>
           <input type='hidden' id='price_factor' class='qty-input'>
-          <summary class='summary'>
+          <summary class='summary hide'>
             <h id='header_text'><b>Servicio</b>Nombre del articulo</h>
             <div class='view-container'>
               <div id='view_price' class='precio'></div>
@@ -485,6 +520,7 @@
       <div class="pure-u-1">
         <label><i class="fas fa-receipt"></i> Notas</label>
         <pre id='notes' class="pure-input-1 notes"></pre>
+        <br>
         <pre class="pure-input-1 notes">
 Para compras en línea que contienen solo productos, los árticulos normalmente se entregan en un lapso de 3 a 5 días, si contiene servicios el tiempo de entrega puede varíar de 5 a 15 días dependiendo el servicio.
         </pre>
@@ -540,7 +576,6 @@ Envíanos el comprobante junto con el número de orden a: admin@hangarmx.com. De
       $('#address_data').text(json_address(response.address_json));
       update_form(response.contact_json);
       update_form(response.invoice_json);
-
       update_shipping(response.shipping);
       $('#date_created').text(response.date_created);
       $('#date_delivery').text(response.date_delivery);
@@ -724,6 +759,7 @@ Envíanos el comprobante junto con el número de orden a: admin@hangarmx.com. De
     $('#admin_form').css('display','none');
     $('#script-mercadopago').css('display','none');
     $('footer').css('display','none');
+    $('#info_state').css('display','none');
     $('.site-header').css('display','none');
     $('.pure-button-primary').css('background-color','#b0b0b0');
     $('div').each(function(){
