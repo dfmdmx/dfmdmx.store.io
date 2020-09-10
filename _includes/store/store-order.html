@@ -68,6 +68,8 @@
     width:auto;
     margin-bottom: 1px;
     white-space: pre-wrap;
+    text-align: justify;
+    text-justify: inter-word;
   }
   details summary {
     margin-bottom:6px;
@@ -271,7 +273,12 @@
   }
   .hide-arrow summary::-webkit-details-marker {
   display:none;
-}
+  }
+  .title-description pre {
+    white-space: pre-wrap;
+    text-align: justify;
+    text-justify: inter-word;
+  }
 
 </style>
 
@@ -365,11 +372,9 @@
     </div>
     <div class="pure-u-1 payment-container">
     </div>
-    <div class="pure-u-1">
-      <fieldset class="pure-group">
-        <h4 id ='title' class="pure-input-1"></h4>
-        <pre id='description' class="pure-input-1 transparent"></pre>
-      </fieldset>
+    <div class="pure-u-1 title-description">
+        <h4 id ='title'></h4>
+        <pre id='description' class="transparent"></pre>
     </div>
   </div>
 </div>
@@ -381,19 +386,21 @@
       <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-receipt"></i> Datos</label>
         Solicita: <b><span id ='addressed_to' class="pure-input-1"></span></b><br>
-        Correo: <span id ='user_email' class="pure-input-1"></span><br>
         Razón social: <span id ='razon_social' class="pure-input-1"></span><br>
         RFC: <span id ='rfc' class="pure-input-1"></span><br>
+        <!-- Correo: <span id ='user_email' class="pure-input-1"></span><br> -->
       </div>
       <div class="pure-u-1 pure-u-md-1-2">
-        <label><i class="fas fa-list-ul"></i> Estado</label>
+        <label><i class="fas fa-list-ul"></i> Información</label>
         Estado: <b><span id ='status' class="pure-input-1"></span></b><br>
         Fecha:  <span id ='date_created' class="pure-input-1"></span><br>
         Fecha entrega: <span id ='date_delivery' class="pure-input-1"></span><br>
       </div>
-      <div class="pure-u-1">
+      <div class="pure-u-1 online-payment">
         <label><i class="fas fa-credit-card"></i> Pago</label>
-        <a class='payment' id='mp-button' href="/"><button class="pure-button pure-button-primary button-pay"><img class='mp-image' src="/assets/images/mp_horizontal_blanco.png"> Realizar pago</button></a>
+        <!-- <a class='payment' id='mp-button' href="/"><button class="pure-button pure-button-primary button-pay"><img class='mp-image' src="/assets/images/mp_horizontal_blanco.png"> Realizar pago</button></a> -->
+        <a class='payment' id='mp-button' href="/"><button class="pure-button pure-button-primary button-pay">Realizar pago</button></a>
+
         <span id='payment-status' class='payment-status'></span>
       </div>
     </div>
@@ -515,7 +522,7 @@
         <label><i class="fas fa-dolly"></i> Envío</label>
         <span class='light-font'>
           <input disabled form='form-store' type="radio" name="shipping" id="workshop" value="workshop"><span class='freight-img'><i class="fas fa-map-marker-alt"></i></span> Recoger en planta<br>
-          <input disabled form='form-store' type="radio" name="shipping" id="delivery" value="delivery" checked><span class='freight-img'><i class="fas fa-truck"></i></span> Envío a domicilio <strong>FedEx</strong><br>
+          <input disabled form='form-store' type="radio" name="shipping" id="delivery" value="delivery" checked><span class='freight-img'><i class="fas fa-truck"></i></span> Envío a domicilio<br>
         </span>
         <br>
         <pre id='shippment_data' class="pure-input-1 notes"></pre>
@@ -534,7 +541,6 @@
         <pre id='notes' class="pure-input-1 notes"></pre>
         <br>
         <pre class="pure-input-1 notes">
-Para compras en línea que contienen solo productos, los árticulos normalmente se entregan en un lapso de 3 a 5 días, si contiene servicios el tiempo de entrega puede varíar de 5 a 15 días dependiendo el servicio.
         </pre>
       </div>
     </div>
@@ -773,6 +779,7 @@ Envíanos el comprobante junto con el número de orden a: admin@hangarmx.com. De
     $('footer').css('display','none');
     $('#info_state').css('display','none');
     $('.site-header').css('display','none');
+    $('.online-payment').css('display','none');
     $('.pure-button-primary').css('background-color','#b0b0b0');
     $('div').each(function(){
       if ($(this).hasClass('pure-u-md-1-2')){

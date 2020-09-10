@@ -1,8 +1,8 @@
 ---
 layout: service
 group: corte-cnc
-publish: false
+publish: true
 comments: true
 ---
 
-### Maquinado CNC de tableros melaminicos de biruta de madera.
+### Maquinado CNC de tableros de viruta de madera.
