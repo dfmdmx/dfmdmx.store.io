@@ -46,7 +46,8 @@
     font:400 12px "Montserrat", sans-serif;
     background: transparent;
     border: 0px;
-    width:auto;
+    white-space: pre-wrap;
+    text-align: justify;
   }
   .data-input {
     margin-top: 0px;
@@ -196,7 +197,6 @@
   .view-container-title {
     float:right;
     font-size: 12px;
-    margin-bottom:18px;
   }
   .suplemento {
     height: 1.8em;
@@ -279,6 +279,9 @@
     text-align: justify;
     text-justify: inter-word;
   }
+  .float-right{
+    float: right;
+   }
 
 </style>
 
@@ -415,9 +418,11 @@
       <div class="pure-u-1">
         <legend>Servicios
           <div class='view-container-title'>
+            <small>
             <div class='precio'>x &nbsp;&nbsp;&nbsp;&nbsp; precio)</div>
             <div class='cantidad'>(cantidad</div>
             <div class='suplemento'>servicio  &nbsp;&nbsp;  + </div>
+            </small>
           </div>
         </legend>
       </div>
@@ -430,9 +435,9 @@
           <summary class='summary'>
             <h id='header_text'><b>Servicio</b>Nombre del articulo</h>
             <div class='view-container'>
-              <div id='view_price' class='precio'></div>
-              <div id='view_qty' class='cantidad'></div>
-              <div id='view_supplement' class='suplemento'></div>
+              <div class='precio'><small>p. unit.</small><div id='view_price'></div></div>
+              <div class='cantidad'><small>cant.</small><div id='view_qty'></div></div>
+              <div class='suplemento'><small>sup.</small><div id='view_supplement'></div></div>
             </div>
             <div class='float-container'>
               <div id='text_path' class='path-container'></div>
@@ -468,16 +473,21 @@
           <input type='hidden' id='price' class='qty-input'>
           <input type='hidden' id='price_factor' class='qty-input'>
           <summary class='summary hide'>
+            <legend>
+              <div class='view-container-title'>
+              </div>
+            </legend>
+            <br>
             <h id='header_text'><b>Servicio</b>Nombre del articulo</h>
             <div class='view-container'>
-              <div id='view_price' class='precio'></div>
-              <div id='view_qty' class='cantidad'></div>
-              <div id='view_supplement' class='suplemento'></div>
+              <div class='precio '><small>p. unit.</small><div id='view_price' class='float-right'></div></div>
+              <div class='cantidad'><small>cant.</small><div id='view_qty' class='float-right'></div></div>
+              <div class='suplemento'><small>sup.</small><div id='view_supplement' class='float-right'></div></div>
             </div>
+            <pre id='item_comment' class="pure-input-1 comment-input"></pre>
             <div class='float-container'>
               <div id='text_path' class='path-container'></div>
             </div>
-            <pre id='item_comment' class="pure-input-1 comment-input"></pre>
             <pre id='item_data' class="pure-input-1 data-input"></pre>
             <span  class='pure-input-1 item-total'><div id='item_total' class='move-right'></div></span>
           </summary>
