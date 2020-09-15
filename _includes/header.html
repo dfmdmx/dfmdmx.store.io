@@ -88,7 +88,7 @@
         </ul>
     </div>
   </div>
-  
+
   {%- include utils/covid-banner.html -%}
 
 </header>
@@ -144,7 +144,7 @@
     session_token = getCookie('session_token');
   	if (session_token == '') { return };
   	apiCall('user','logOut',{'session_token':session_token}).always(function(){
-      if ( _environment == 'production') {
+      if ( '{{jekyll.environment}}' == 'production') {
   			gapi.load('auth2', function() {
   				var auth2 = gapi.auth2.getAuthInstance();
   				auth2.signOut().then(function (){
