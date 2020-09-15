@@ -36,16 +36,19 @@
 
   <!-- Google login -->
   {%- if jekyll.environment == 'production' -%}
-    <meta name="google-signin-client_id" content="599160321889-1c4ntq3pmtsh8eur9krqjh6i03jd32cq.apps.googleusercontent.com">
     <script  src="https://apis.google.com/js/platform.js?onload=googleinit" async defer></script>
+    <meta name="google-signin-client_id" content="599160321889-1c4ntq3pmtsh8eur9krqjh6i03jd32cq.apps.googleusercontent.com">
     <script>
       function googleinit() {
-        console.log('google init');
-        gapi.load('auth2', function() {
-          gapi.auth2.init({
-            client_id: '599160321889-1c4ntq3pmtsh8eur9krqjh6i03jd32cq.apps.googleusercontent.com'
-          });
-        });
+        current_user.done(function(user){
+          if (current_user) {
+            gapi.load('auth2', function() {
+              gapi.auth2.init({
+                client_id: '599160321889-1c4ntq3pmtsh8eur9krqjh6i03jd32cq.apps.googleusercontent.com'
+              });
+            });
+          }
+        }
       }
     </script>
   {% endif %}
