@@ -6,18 +6,35 @@
   <link rel="shortcut icon" href="/favicon.png?" type="image/png">
   <link rel="icon" href="/favicon.png?" type="image/png">
   {%- seo -%}
+
+  <!-- Local css -->
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
-  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/grids-responsive-min.css">
   {%- feed_meta -%}
+
+  <!-- Google analytics -->
+  {%- if jekyll.environment == 'production' and site.google_analytics -%}
+    {%- include google-analytics.html -%}
+  {%- endif -%}
+
+  <!-- Client servive chat -->
+  {%- if jekyll.environment == 'production' and site.tawk -%}
+    {%- include utils/tawk.html -%}
+  {%- endif -%}
+
+  <!-- Frontend and icons -->
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/grids-responsive-min.css">
+  <script src="https://kit.fontawesome.com/1556327ac3.js"></script>
+
+  <!-- jquery and recaptcha -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src="https://kit.fontawesome.com/1556327ac3.js"></script>
   <script src="https://www.google.com/recaptcha/api.js?render=6LcXOMQUAAAAAFhM-Na7FgXm72TNI5FZvtIDPHj-"></script>
+
+  <!-- remote library dfmd -->
   <script src="https://api.dfmd.mx/static/js/utils.js"> </script>
   <script src="https://api.dfmd.mx/static/js/apicall.js"> </script>
-  <script>
-    var _environment = "{{jekyll.environment}}";
-  </script>
+
+  <!-- Google login -->
   {%- if jekyll.environment == 'production' -%}
     <meta name="google-signin-client_id" content="599160321889-1c4ntq3pmtsh8eur9krqjh6i03jd32cq.apps.googleusercontent.com">
     <script  src="https://apis.google.com/js/platform.js?onload=googleinit" async defer></script>
@@ -32,10 +49,4 @@
       }
     </script>
   {% endif %}
-  {%- if jekyll.environment == 'production' and site.google_analytics -%}
-    {%- include google-analytics.html -%}
-  {%- endif -%}
-  {%- if site.tawk -%}
-    {%- include utils/tawk.html -%}
-  {%- endif -%}
 </head>

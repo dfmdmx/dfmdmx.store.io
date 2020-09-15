@@ -50,10 +50,6 @@
 
   <div class="wrapper">
 
-    <!-- Not used minima theme default index
-    {%- assign default_paths = site.pages | map: "path" -%}
-    {%- assign page_paths = site.header_pages | default: default_paths -%} -->
-
     <div class="title-header">
       <a href="/"><img id="logo-image" class="logo-image" src="/assets/images/logo_hangarmx_white.svg"></a>
       <a class="checkout-button pure-button button-transparent" id="login-button" href="/login"><i class="fas fa-user-plus"></i></a>
@@ -61,7 +57,6 @@
       <a class="checkout-button pure-button button-transparent dontshow" id='products-button' href="/products-edit"><i class="fas fa-warehouse"></i></a>
       <a class="checkout-button pure-button button-transparent dontshow" id='orders-button' href="/orders"><i class="fas fa-receipt"></i></a>
       <a class="checkout-button pure-button button-transparent" href="/order-create"><i class="fas fa-shopping-cart"></i></a>
-
     </div>
 
     <div class="pure-menu pure-menu-horizontal custom-menu">
@@ -93,7 +88,9 @@
         </ul>
     </div>
   </div>
+  
   {%- include utils/covid-banner.html -%}
+
 </header>
 
 
