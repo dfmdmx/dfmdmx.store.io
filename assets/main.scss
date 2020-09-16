@@ -5,16 +5,10 @@ $base-font-family: 'Montserrat', sans-serif;
 $base-font-size:   12px !default;
 $background-color: #fff !default;
 $brand-color:      #2a7ae2 !default;
-
+//
 @import "minima";
-@import url('https://fonts.googleapis.com/css?family=Inconsolata|Montserrat&display=swap');
-@import url("https://unpkg.com/purecss@1.0.1/build/pure-min.css");
-@import url("https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css");
+@import url('https://api.dfmd.mx/static/css/main.css');
 
-// Generral settings
-h1, h2, h3, h4 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-}
 blockquote {
   color: #828282;
   font-family: 'Inconsolata', monospace;
@@ -28,10 +22,7 @@ blockquote {
 .page-content a:hover {
   text-decoration: none;
 }
-// Site menu header
-.site-header {
-  min-height: unset;
-}
+
 .site-header a {
   color: #282828;
   text-decoration: none;
@@ -40,17 +31,7 @@ blockquote {
 .pure-form a:visited {
   color: #fff;
 }
-// Footer
-.footer-col-wrapper {
-  font-size: 12px;
-  font-family:  -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-}
-// Comments
-#disqus_thread {
-  filter: grayscale(1) opacity(1);
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
+
 // Services shadow
 .upload-shadow {
   padding-left:10px;
@@ -63,8 +44,7 @@ blockquote {
   -moz-box-shadow: 2px 3px 16px -7px rgba(0,0,0,0.0);
   box-shadow: 2px 3px 16px -7px rgba(0,0,0,0.0);
 }
-// reCAPTCHA
-.grecaptcha-badge { visibility: hidden; }
+
 
 // links pero que siempre estan negros
 .title-link{
