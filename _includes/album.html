@@ -1,0 +1,48 @@
+{% if include.string %}
+  {% assign images = include.images | strip | split: "," %}
+{% else %}
+  {% assign images = include.images %}
+{% endif %}
+
+{% if include.cols %}
+  {% assign cols = include.cols %}
+{% else %}
+  {% assign cols = 2 %}
+{% endif %}
+
+{% if include.max_rows %}
+  {% assign max_images = cols | times: include.max_rows %}
+  {% assign images = images | slice: 0,max_images %}
+{% endif %}
+
+{% if include.grayscale %}
+  {% assign grayscale = 100 %}
+{% else %}
+  {% assign grayscale = 0 %}
+{% endif %}
+
+{% assign margin-top = include.margin-top | default: 0 %}
+{% assign margin-bottom = include.margin-bottom | default: 0 %}
+
+<div class='pure-g mx-album' style='margin-top:{{margin-top}}px; margin-bottom:{{margin-bottom}}px;'>
+{% for image in images %}
+  {% assign style = 'border-radius:0px;-webkit-filter:grayscale({{grayscale}}%); filter:grayscale({{grayscale}}%);' %}
+  {% if include.height %}{% capture fixed-height %}height:{{include.height}}px;{% endcapture %}{% assign style = style | append: fixed-height %}{% endif %}
+  <div class="pure-u-1-{{cols}} pure-img fixed-height">
+    {% if forloop.first == true %}
+      {% assign style = style | append: 'border-top-left-radius:3px;' %}
+    {% endif %}
+    {% if forloop.index == cols or forloop.index == images.size and forloop.last == true %}
+      {% assign style = style | append: 'border-top-right-radius:3px;' %}
+    {% endif %}
+    {% assign lastrowbottom = images.size | minus: cols | plus: 1 %}
+    {% if forloop.index == lastrowbottom or lastrowbottom <= 0 and forloop.first == true %}
+      {% assign style = style | append: 'border-bottom-left-radius:3px;' %}
+    {% endif %}
+    {% if forloop.last == true %}
+      {% assign style = style | append: 'border-bottom-right-radius:3px;' %}
+    {% endif %}
+    <img style="{{style}}" src="{{image}}" alt="dfmdimage" />
+  </div>
+{% endfor %}
+</div>
