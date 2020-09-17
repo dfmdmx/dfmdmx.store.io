@@ -3,7 +3,7 @@ layout: product
 group: herramientas-cnc
 publish: true
 comments: false
-image: https://lh3.googleusercontent.com/pw/ACtC-3f4PGh39YPqlU0KaVQkR5AYt57XiEjn88O8n5zDGSmPdpEgUTvsLFjLhVb27xa0oBdfENxQAWLLGy9n0R4gzeRPnwE7YLOkr1lUJzFdVo8A_23PH5gaZI96PnCu3VW2E0M-bb-s-X_j48J8omZJw0KHlg=s893-no?authuser=0
+cover-image: https://lh3.googleusercontent.com/pw/ACtC-3f4PGh39YPqlU0KaVQkR5AYt57XiEjn88O8n5zDGSmPdpEgUTvsLFjLhVb27xa0oBdfENxQAWLLGy9n0R4gzeRPnwE7YLOkr1lUJzFdVo8A_23PH5gaZI96PnCu3VW2E0M-bb-s-X_j48J8omZJw0KHlg=s893-no?authuser=0
 ---
 
 ## 101 c-beam CNC MACHINE

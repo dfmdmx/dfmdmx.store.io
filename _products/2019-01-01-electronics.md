@@ -3,7 +3,7 @@ layout: product
 group: herramientas-cnc
 publish: true
 comments: false
-image: https://lh3.googleusercontent.com/pw/ACtC-3dp73TvPy3Xvz14ec1VxMkj_VGz6PMm3HfJp57l5M4Hhdy8NaY2ZgEI3AvGVkzald3kdUBUpJAMHawF3qG64X_u6YyL-nRAcASXPSyKxcCU8baQnX8GNUL8ZOEAlDqlV0ZuTxu2gKr9wNA55aAbk3i2_w=s608-no?authuser=0
+cover-image: https://lh3.googleusercontent.com/pw/ACtC-3dp73TvPy3Xvz14ec1VxMkj_VGz6PMm3HfJp57l5M4Hhdy8NaY2ZgEI3AvGVkzald3kdUBUpJAMHawF3qG64X_u6YyL-nRAcASXPSyKxcCU8baQnX8GNUL8ZOEAlDqlV0ZuTxu2gKr9wNA55aAbk3i2_w=s608-no?authuser=0
 ---
 
 ## The Ultimate CNC Electronics Power Pack
