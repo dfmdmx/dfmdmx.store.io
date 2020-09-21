@@ -3,7 +3,15 @@ layout: product
 group: herramientas-cnc
 publish: true
 comments: false
-cover-image: https://lh3.googleusercontent.com/pw/ACtC-3f4PGh39YPqlU0KaVQkR5AYt57XiEjn88O8n5zDGSmPdpEgUTvsLFjLhVb27xa0oBdfENxQAWLLGy9n0R4gzeRPnwE7YLOkr1lUJzFdVo8A_23PH5gaZI96PnCu3VW2E0M-bb-s-X_j48J8omZJw0KHlg=s893-no?authuser=0
+cover-image: https://lh3.googleusercontent.com/pw/ACtC-3e-Hl9B1gSGVadvPCOxtWOeBsZKWrNs324tD9GIkvIUlznMK7cFerH5Z0Zb9gV41Muxjgc1MIn1N5RCiysPDZoq4wX6tKBpYDyu_mCgSpcwPkTcP3nhT_te33CMvfvHbPYAzBuft9NV5RVcFZKuHcNYUA=w1695-h953-no?authuser=0
+albums:
+  album1:
+    images:
+      - https://lh3.googleusercontent.com/pw/ACtC-3e-Hl9B1gSGVadvPCOxtWOeBsZKWrNs324tD9GIkvIUlznMK7cFerH5Z0Zb9gV41Muxjgc1MIn1N5RCiysPDZoq4wX6tKBpYDyu_mCgSpcwPkTcP3nhT_te33CMvfvHbPYAzBuft9NV5RVcFZKuHcNYUA=w1695-h953-no?authuser=0
+      - https://lh3.googleusercontent.com/pw/ACtC-3fL-AaXyZvyFrH-yHFeLtoIhaF8zWeTxuPsP0yYYivQ3ym15fN4RMIhhIgL9zIZTMjVLGchBQCTW5qx_PiWnfuOenHOgEkhVLiQ6GcUVJ4yzwvKUzMNRDI5Q3vR6bb6PpHjqAPaLlf1F6sOxtNaEWg1jA=w1621-h907-no?authuser=1
+      - https://lh3.googleusercontent.com/pw/ACtC-3eamKNwuQioZOtp324nN5tm4jzL9glAqhWb5nT4BUewjvexOtJT5Hs6I_PkNhILW7gfB44p3YYM1GG6e4-okztTvYqFeiLigrFimeD6Jsns2iwqVhD3Hu_Is3Kg6z2pOS3dGWmufnoqgPokABn6Rz2LIQ=s1280-no?authuser=1
+      - https://lh3.googleusercontent.com/pw/ACtC-3fq_OibmHAWO8nM2nRqBPcfD0z88fDYARhN8MZx61Fa_wq6RAQFtHvKmFSl5KOrzSKT-7XoR-ZExRBQBtLMDU2YNnVEdLtCSY9wHBJWtOYwVyZaoVUpcrFmJrvrGE86Oys-OdYu9G19quhmGoegfcXhEw=s953-no?authuser=0
+
 ---
 
 ## 101 c-beam CNC MACHINE
@@ -12,10 +20,7 @@ cover-image: https://lh3.googleusercontent.com/pw/ACtC-3f4PGh39YPqlU0KaVQkR5AYt5
 
 It gains its strength by incorporating a combination of C-Beam Linear Rail with multiple uses of the full size Xtreme Solid V wheels. It's a great machine and we're sure you will love it!
 
-{% include gallery.html images="https://lh3.googleusercontent.com/pw/ACtC-3f4PGh39YPqlU0KaVQkR5AYt57XiEjn88O8n5zDGSmPdpEgUTvsLFjLhVb27xa0oBdfENxQAWLLGy9n0R4gzeRPnwE7YLOkr1lUJzFdVo8A_23PH5gaZI96PnCu3VW2E0M-bb-s-X_j48J8omZJw0KHlg=s893-no?authuser=0, https://lh3.googleusercontent.com/pw/ACtC-3fq_OibmHAWO8nM2nRqBPcfD0z88fDYARhN8MZx61Fa_wq6RAQFtHvKmFSl5KOrzSKT-7XoR-ZExRBQBtLMDU2YNnVEdLtCSY9wHBJWtOYwVyZaoVUpcrFmJrvrGE86Oys-OdYu9G19quhmGoegfcXhEw=s893-no?authuser=0" %}
-
-![parts](https://lh3.googleusercontent.com/pw/ACtC-3eBBcB4v79Hq4IZCdTPyLj3l3a-8mgiJctM8JQtZOzlp_oLqKBiD8njvSYXg5ZIuGtlSA0xzcgSxKe_daeMbQU6Pr-bVcK_yKLzPm_bxyi7ajx49YEDjGo5vEo3FeVMYxcZ_NdqzRots9sDks-yJBVHMA=w893-h580-no?authuser=0)
-
+{% include album.html images=page.albums.album1.images %}
 
 ### Specifications:
 
