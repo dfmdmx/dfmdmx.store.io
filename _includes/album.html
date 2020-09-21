@@ -26,7 +26,7 @@
 
 <div class='pure-g mx-album' style='margin-top:{{margin-top}}px; margin-bottom:{{margin-bottom}}px;'>
 {% for image in images %}
-  {% assign style = 'border-radius:0px;-webkit-filter:grayscale({{grayscale}}%); filter:grayscale({{grayscale}}%);' %}
+  {% capture style %} border-radius:0px;-webkit-filter:grayscale({{grayscale}}%);filter:grayscale({{grayscale}}%); {% endcapture %}
   {% if include.height %}{% capture fixed-height %}height:{{include.height}}px;{% endcapture %}{% assign style = style | append: fixed-height %}{% endif %}
   <div class="pure-u-1-{{cols}} pure-img fixed-height">
     {% if forloop.first == true %}
