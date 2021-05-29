@@ -1,0 +1,339 @@
+
+/* Remote */
+
+@import url('https://fonts.googleapis.com/css?family=Inconsolata|Montserrat&display=swap');
+@import url("https://unpkg.com/purecss@1.0.1/build/pure-min.css");
+@import url("https://unpkg.com/purecss@1.0.1/build/grids-responsive-min.css");
+@import url("https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css");
+
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+$base-font-family: 'Montserrat', sans-serif;
+$base-font-size:   12px !default;
+$background-color: #fff !default;
+$brand-color:      #2a7ae2 !default;
+
+@import "minima";
+
+
+ /* Es para que no se vea un movimiento de la animacion del indice modal */
+body {
+  overflow: overlay;
+}
+
+ /* se usa para forzar un cambio de pagina cuando se imprime  */
+div.print-page-brake{
+  page-break-after: always;
+  page-break-inside: avoid;
+}
+
+ /* sepa la bola */
+.site-header a {
+  color: #282828;
+  text-decoration: none;
+}
+.gallery-content {
+  margin-top: 99px;
+}
+
+ /* sepa la bola */
+.pure-form a:visited {
+  color: #fff;
+}
+
+ /* sepa la bola */
+.title-link{
+  font:400 11px "Montserrat", sans-serif;
+  height:1.5em;
+  margin-bottom:5px;
+}
+.title-link a {
+  color: #111;
+}
+.title-link a:visited{
+  color: #111;
+}
+
+/* page-content */
+.page-content h1, h2, h3, h4 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  text-align: justify;
+  text-justify: inter-word;
+  page-break-inside: avoid;
+}
+.page-content li > ul {
+  padding-bottom: 1em;
+  page-break-inside: avoid;
+}
+.page-content blockquote {
+  color: #333333;
+  font-family: 'Inconsolata', monospace;
+  font-size: 13px;
+  letter-spacing: normal;
+  font-style: normal;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  border-color: #555;
+}
+.page-content .task-list-item-checkbox {
+  margin-right: .5em;
+  margin-bottom: 2px;
+  vertical-align: middle;
+}
+
+.page-content p {
+  text-align: justify;
+  text-justify: inter-word;
+  page-break-inside: avoid;
+}
+/* se usa para poner los pies de imagen */
+.page-content del {
+  text-decoration: none;
+  color: #333333;
+  font-family: 'Inconsolata', monospace;
+  font-size: 12px;
+  letter-spacing: normal;
+  font-style: normal;
+}
+
+.page-content i {
+  opacity: 0.2;
+}
+.page-content img {
+  border-radius: 3px;
+}
+.page-content h2 {
+  margin-top: 160px;
+}
+.page-content .home .post-list {
+  margin-top: 99px;
+}
+.page-content hr {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin-bottom: 5px;
+}
+.page-content a:hover {
+  text-decoration: none;
+}
+
+/* mx-footer */
+.mx-footer .contact-button {
+  font-size: 12px;
+}
+.mx-footer .no-hover a:hover  {
+  text-decoration: unset;
+}
+.mx-footer .copyright {
+  font-size: 12px;
+  color: #828282;
+}
+.mx-footer .footer-nav-heading {
+  height: 20px;
+  margin-bottom: 12px;
+  margin-top: 0px;
+  text-align: right;
+}
+.mx-footer .footer-just {
+  text-align: justify;
+}
+.mx-footer .footer-col-3 {
+  font-size: 11px;
+}
+.mx-footer .nav-tools{
+  max-width: calc(800px - (30px * 2));
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+.mx-footer .footer-col-wrapper {
+  font-size: 12px;
+  font-family:  -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+}
+
+/* mx-social Social minima template image size for svg  */
+.mx-social .svg-icon-img{
+  height:16px;
+  width: 16px;
+  padding-right: 5px;
+  opacity: 0.6;
+  vertical-align: text-top;
+}
+.mx-social{
+  font-family: 'Inconsolata', monospace;
+  font-size: 12px;
+}
+
+/* Single Image */
+
+.mx-image-container {
+  position: relative;
+  text-align: right;
+  color: black;
+}
+
+.mx-image-alt {
+  font-family: 'Inconsolata', monospace;
+  position: absolute;
+  bottom: 4px;
+  right: 0px;
+}
+.mx-image-title {
+  padding-right: 4px;
+  padding-left: 4px;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Album */
+.mx-album {
+  overflow: hidden;
+}
+.mx-album img {
+  object-fit: cover;
+  min-height: 100%;
+}
+.mx-album .unround {
+   !important;
+}
+.mx-album .unround-right {
+  border-top-right-radius:0px;
+  border-bottom-right-radius:0px;
+}
+.mx-album .unround-left {
+  border-top-left-radius:0px;
+  border-bottom-left-radius:0px;
+}
+
+/* Video Album */
+.mx-video-album .video-container {
+  position: relative;
+  margin-top: 14px;
+  margin-bottom: 0px;
+  padding-bottom: 56.25%;
+  padding-top: 30px; height: 0; overflow: hidden;
+  width: 100%;
+}
+.mx-video-album .left-image{
+  border-top-left-radius:3px;
+  border-bottom-left-radius:3px;
+}
+.mx-video-album .right-image{
+  border-top-right-radius:3px;
+  border-bottom-right-radius:3px;
+ }
+.mx-video-album .video-container iframe,
+.mx-video-album .video-container object,
+.mx-video-album .video-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Download file */
+.mx-file .file-binder  {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  margin-left: 40px;
+}
+.mx-file .file-binder .caption {
+  color: #383838;
+  font-size: 12px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.mx-file .file-binder .footer {
+  font-size: 10px;
+  margin-top: 8px;
+}
+
+/* Terminal webpage*/
+.mx-terminal-body{
+  background-color:rgba(255,255,255,0);
+  color:rgb(0,0,0);
+  overflow: overlay;
+}
+.mx-terminal {
+  color:rgb(0,0,0);
+  font-family: 'Inconsolata', monospace;
+  border-radius: 3px;
+}
+.mx-terminal a {
+  color:rgb(0,0,0);
+}
+.mx-terminal p {
+  padding: 8px;
+
+}
+.mx-terminal pre {
+  margin-top: 0px;
+  background-color:transparent;
+  margin-bottom: 2px;
+}
+
+.mx-terminal .premarquee {
+  border-width: 0px;
+  font-size: 6px;
+  margin-bottom: 0px;
+  margin-top: 12px;
+  padding: 0px;
+  background-color:transparent;
+}
+
+/* // reCAPTCHA */
+.grecaptcha-badge { visibility: hidden; }
+
+/* Disqus chat */
+#disqus_thread {
+ filter: grayscale(1) opacity(1);;
+ margin-top: 100px;
+ margin-bottom: 20px;
+}
+
+/* hmx-header */
+.hmx-header .checkout-button {
+   float: right;
+   margin-top:6px;
+   font-size: 12px;
+}
+.hmx-header .title-header {
+ padding:4px;
+ padding-left: 12px;
+ padding-bottom: 8px;
+ border-bottom-left-radius:3px;
+ border-bottom-right-radius:3px;
+ font-family: 'Inconsolata', monospace;
+ font-size: 18px;
+ background: #424242;
+}
+.hmx-header .title-header a {
+ color: #e4e4e4;
+}
+.hmx-header .button-transparent {
+ background: transparent;
+}
+.hmx-header .apiuser {
+ float: right;
+ font-size: 14px;
+ color: #9c9c9c;
+ margin-right: 4px;
+ margin-left: 4px;
+ padding-top: 9px;
+}
+.hmx-header .custom-menu {
+   white-space: normal;
+}
+.hmx-header .logo-image {
+ height: 25px;
+}
+.hmx-header .return-link  {
+ font-size: 12px;
+ font-family: 'Inconsolata', monospace;
+ color: #fff;
+}
+.hmx-header .dontshow {
+ display: none;
+}
