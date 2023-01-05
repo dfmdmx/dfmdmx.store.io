@@ -2,4 +2,4 @@
 *.log
 desktop.ini
 _site/*
-.ipynb_checkpoints/*
+*.ipynb*
