@@ -1,6 +1,6 @@
 title: HMX
 author: dfmd
-email: admin@hangarmx.com
+email: hmx@hangarmx.com
 description: > # this means to ignore newlines until "show_excerpts:"
   Tienda en línea de productos maquinados en CNC,
   servicio de corte con router de control numérico e impresión 3D.
@@ -33,10 +33,10 @@ disqus:
 tawk: true
 
 # social links
-email_username: admin@hangarmx.com
+email_username: hmx@hangarmx.com
 twitter_username: _hangarmx
 whatsapp_username: 'pending'
-facebook_username: hangarmx
+# facebook_username: hangarmx
 instagram_username: _hangarmx
 # flickr_username: jekyll
 # github_username:  dfmdmx
