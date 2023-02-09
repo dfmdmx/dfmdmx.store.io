@@ -1,4 +1,4 @@
 D:
-cd D:\GoogleDrive\github\dfmdmx.store.io
+cd C:\Users\danie\GitHub\dfmdmx.store.io
 bundle exec jekyll serve --drafts
 PAUSE
