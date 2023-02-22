@@ -17,7 +17,7 @@
     font-family: 'Inconsolata', monospace;
   }
   .product-price{
-    margin-top:.7em;
+    margin-top:.25em;
     float:right;
     font-family: 'Inconsolata', monospace;
     font-size:19px;
@@ -57,7 +57,7 @@ var is_product = false;
 function set_product_info(item){
   var qty = $('#qty').val()
   if (item.price_web > 0) {
-    $('#price').text(formatCurrency((item.price_web * qty),'mxn'));
+    $('#price').text(formatCurrency((item.price_web * qty),'eur'));
   }
   $('#md5_pid').text('/ ' + item.md5);
   $('#item_pid').val(item.md5);
@@ -66,6 +66,7 @@ function set_product_info(item){
 function update_product(){
   apiCall('store','product_query',$('#form-store').serializeFormJSON()).done(function(response){
     set_product_info(response.product);
+    console.log(response.product);
     product.resolve(response.product).promise();
   }).fail(function(){
     product.reject(false).promise();

@@ -19,8 +19,8 @@
           <input required form='form-store' name="user_email" type="email" class="pure-input-1" placeholder="Correo electrónico">
         </fieldset>
         <fieldset class="somespace">
-          <input onchange='check_address(this)' form='form-store' type="radio" name="shipping" value="delivery" checked><span class='freight-img'><i class="fas fa-truck"></i></span> Envío a domicilio <strong>FedEx</strong><br>
-          <input onchange='check_address(this)' form='form-store' type="radio" name="shipping" value="workshop"><span class='freight-img'><i class="fas fa-map-marker-alt"></i></span> Recoger en planta
+          <input onchange='check_address(this)' form='form-store' type="radio" name="shipping" value="delivery" disabled><span class='freight-img'><i class="fas fa-truck"></i></span> Envío a domicilio <strong>FedEx</strong><br>
+          <input onchange='check_address(this)' form='form-store' type="radio" name="shipping" value="workshop" checked><span class='freight-img'><i class="fas fa-map-marker-alt"></i></span> Recoger en planta
         </fieldset>
       </div>
       <div id='address' class="pure-u-1 pure-u-md-1-2">
@@ -41,6 +41,10 @@
 
 <script>
   $(document).ready(function () {
+    $('.address').each(function(i){
+        $(this).prop('required',false);
+        $('#address').hide();
+    })
     current_user.done(function(current_user){
       $('input[name=user_name]').val(current_user.name);
       $('input[name=user_email]').val(current_user.email);
@@ -50,6 +54,7 @@
           $('input[name='+key+']').val(current_user.address[key]);
         });
       }
+
     });
   });
   function check_address(element){

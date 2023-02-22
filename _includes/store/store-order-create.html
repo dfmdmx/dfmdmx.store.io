@@ -129,7 +129,7 @@
   <legend>Todo listo</legend>
   <div class="pure-g">
     <div class="pure-u-1 pure-u-md-1-2">
-      <button form='form-store' type="submit" class="pure-button send-button pure-button-primary">Calcular orden <i class="fas fa-receipt"></i></button>
+      <button id='order-button' form='form-store' type="submit" class="pure-button send-button pure-button-primary">Calcular orden <i class="fas fa-receipt"></i></button>
     </div>
     <div class="pure-u-1">
       <p id="message-text"></p>
@@ -151,7 +151,7 @@
       new_cart_item.find('#qty').val(cart_item.qty);
       new_cart_item.find('#price_web').val(cart_item.price_web);
       if (cart_item.price_web > 0) {
-        new_cart_item.find('#price').text(formatCurrency(cart_item.price_web*cart_item.qty,'mxn'));
+        new_cart_item.find('#price').text(formatCurrency(cart_item.price_web*cart_item.qty,'eur'));
       }
       new_cart_item.css('display','block');
       new_cart_item.find('#item_data').text(json_dumps(cart_item.data_json));
@@ -195,7 +195,7 @@
     var price = $(details).find('#price_web').val()
     current_user.always(function(){
       apiCall('store','edit_item_qty',{'cart_item':id,'qty':qty}).done(function(){
-        $(details).find('#price').text(formatCurrency(price*qty,'mxn'));
+        $(details).find('#price').text(formatCurrency(price*qty,'eur'));
         }).fail(function(){
           messageAlert('Upps... algo no esta bien.');
         })

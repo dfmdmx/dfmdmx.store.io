@@ -21,36 +21,58 @@
 {% capture binderPath %}/assets/binder/{{ page.date | date: "%Y-%m-%d" }}-{{ page.title | slugify }}/{% endcapture %}
 {% assign group = page.title | slugify %}
 
-<div class='pure-g'>
+{% assign subgroups = '' %}
 {% for product in site.products %}
   {% if product.publish %}
     {% if product.group == group %}
-      {% capture filename %}/assets/binder/{{ product.date | date: "%Y-%m-%d" }}-{{ product.title | slugify }}/fotos/main{% endcapture %}
-      {% for file in site.static_files %}
-        {% if file.path contains filename %}
-          {% assign filepath = file.path %}
-          {% break %}
-        {% endif %}
-      {% endfor %}
-      <div class="pure-u-1-4">
-        <a href="{{ product.url }}">
-          <div class="product-box">
-            {{ product.title }}
-            <div class="thumb">
-              <img  src="{{ product.cover-image }}" alt="{{ filepath }}" title="{{ filepath }}" />
-            </div>
-          </div>
-        </a>
-      </div>
+        {% unless subgroups contains product.subgroup %}
+            {% if product.subgroup != false %}
+                {% assign subgroups = subgroups | append: product.subgroup | append: ',' %}
+            {% endif %}
+        {% endunless %}
     {% endif %}
-    {% if row_count == 5 %}
-      {% assign row_count = 1 %}
-      </div>
-      <div class='pure-g'>
-    {% endif %}
-
-    {% assign img_count =  1 %}
-    {% assign row_count =  1 %}
   {% endif %}
 {% endfor %}
-</div>
+{% assign subgroups = subgroups | append: product.subgroup | append: ' ' %}
+{% assign subgroups = subgroups | split: ',' %}
+
+
+
+{% assign products = site.products %}
+{% for subgroup in subgroups %}
+    <h2> {{ subgroup }} </h2>
+    <div class='pure-g'>
+    {% for product in products %}
+      {% if product.publish %}
+        {% if (product.group == group and product.subgroup == subgroup) or (product.group == group and product.subgroup == false and subgroup == ' ' ) %}
+          {% capture filename %}/assets/binder/{{ product.date | date: "%Y-%m-%d" }}-{{ product.title | slugify }}/fotos/main{% endcapture %}
+          {% for file in site.static_files %}
+            {% if file.path contains filename %}
+              {% assign filepath = file.path %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+          <div class="pure-u-1-4">
+            <a href="{{ product.url }}">
+              <div class="product-box">
+                {{ product.title }}
+                <div class="thumb">
+                  <img  src="{{ product.cover-image }}" alt="{{ filepath }}" title="{{ filepath }}" />
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endif %}
+        {% if row_count == 5 %}
+          {% assign row_count = 1 %}
+          </div>
+          <div class='pure-g'>
+        {% endif %}
+
+        {% assign img_count =  1 %}
+        {% assign row_count =  1 %}
+      {% endif %}
+    {% endfor %}
+    </div>
+{% endfor %}
+

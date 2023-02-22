@@ -389,8 +389,8 @@
       <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-receipt"></i> Datos</label>
         Solicita: <b><span id ='addressed_to' class="pure-input-1"></span></b><br>
-        Razón social: <span id ='razon_social' class="pure-input-1"></span><br>
-        RFC: <span id ='rfc' class="pure-input-1"></span><br>
+        Empresa: <span id ='razon_social' class="pure-input-1"></span><br>
+        DNI/NIF: <span id ='rfc' class="pure-input-1"></span><br>
         <!-- Correo: <span id ='user_email' class="pure-input-1"></span><br> -->
       </div>
       <div class="pure-u-1 pure-u-md-1-2">
@@ -507,7 +507,7 @@
             <tr id='text_subtotal'><td class='move-right'>Subtotal:</td><td><span id='subtotal'></span></td></tr>
             <tr id='text_descuento'><td class='move-right' id='text_descuento_percent'>Descuento:</td><td><span id='total_descuento'></span></td></tr>
             <tr id='text_envio'><td class='move-right'>Envío:</td><td><span id='total_envio'></span></td></tr>
-            <tr id='text_iva'><td class='move-right'>IVA 16%:</td><td><span id='total_iva'></span></td></tr>
+            <tr id='text_iva'><td class='move-right'>IVA 21%:</td><td><span id='total_iva'></span></td></tr>
             <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
             <tr id='text_total'><td class='move-right'>Total:</td><td><span id='total'></span></td></tr>
           </table>
@@ -564,22 +564,18 @@
       <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-receipt"></i> Empresa</label>
           <pre class="pure-input-1 notes">
-Harco Mexicana S.A.
-HME7607197Y1
-
-Lago Tláhuac 33, Anáhuac,
-Miguel Hidalgo, CDMX, 11320.
-admin@hangarmx.com
+HangarMX 
+hmx@hangarmx.com
           </pre>
       </div>
       <div class="pure-u-1 pure-u-md-1-2">
         <label><i class="fas fa-list-ul"></i> Transferencia</label>
         <pre class="pure-input-1 notes">
-Harco Mexicana S.A.
-Cuenta BBVA: 0443928284
-CLABE  BBVA: 012180004439282840
+HangarMX
+Cuenta BBVA: 
+Bizum:
 
-Envíanos el comprobante junto con el número de orden a: admin@hangarmx.com. De ser posible utiliza ese número como referencia de la transacción.
+Envíanos el comprobante junto con el número de orden a: hmx@hangarmx.com. De ser posible utiliza ese número como referencia de la transacción.
         </pre>
       </div>
 
@@ -629,13 +625,13 @@ Envíanos el comprobante junto con el número de orden a: admin@hangarmx.com. De
       }
 
       var mp_active = false;
-      if (response.status == 'Activa' && response.mp_json.preference && response.payment_json.status != 'approved'  && !response.shippment_json.error ){
-        console.log(response.mp_json.preference);
-        // $('#mp-button').attr("href",response.mp_json.preference.sandbox_init_point);
-        $('#mp-button').attr("href",response.mp_json.preference.init_point);
-        $('#mp-button').css('display','unset');
-        mp_active = true;
-      }
+      // if (response.status == 'Activa' && response.mp_json.preference && response.payment_json.status != 'approved'  && !response.shippment_json.error ){
+      //   console.log(response.mp_json.preference);
+      //   // $('#mp-button').attr("href",response.mp_json.preference.sandbox_init_point);
+      //   $('#mp-button').attr("href",response.mp_json.preference.init_point);
+      //   $('#mp-button').css('display','unset');
+      //   mp_active = true;
+      // }
 
       var status = '';
       if (response.payment_json.status == 'approved'){
@@ -843,7 +839,7 @@ Envíanos el comprobante junto con el número de orden a: admin@hangarmx.com. De
     }
 
     var total = 0;
-    var iva = .16;
+    var iva = .21;
     var total_discount = 0;
     var total_iva = 0;
     var subtotal = 0;
@@ -865,7 +861,7 @@ Envíanos el comprobante junto con el número de orden a: admin@hangarmx.com. De
 
     $("#subtotal").text(formatCurrency(subtotal));
     $("#total_iva").text(formatCurrency(total_iva));
-    $("#total").text(formatCurrency(total,'MXN'));
+    $("#total").text(formatCurrency(total,'EUR'));
     if (discount) {
       $("#total_descuento").html(formatCurrency(total_discount)+'<br>');
       $("#total_descuento_text").html('Descuento ' + discount + '%:<br>' );
